@@ -1,0 +1,160 @@
+{
+    "Map/SizeTest": {
+        "height": 4300,
+        "width": 2
+    },
+    "activeFile": "main map.tmx",
+    "expandedProjectPaths": [
+        "."
+    ],
+    "exportAsImage.useCurrentScale": false,
+    "exportAsImage.visibleLayersOnly": true,
+    "file.lastUsedOpenFilter": "All Files (*)",
+    "fileStates": {
+        "C:/NEA/graphics/water/waterImg.tmx": {
+            "scale": 0.1813,
+            "selectedLayer": 0,
+            "viewCenter": {
+                "x": 2242.1400992829563,
+                "y": 1282.4048538334252
+            }
+        },
+        "D:/NEA/graphics/my_world/Bridge.tsx": {
+            "scaleInDock": 1
+        },
+        "D:/NEA/graphics/my_world/Collision.tsx": {
+            "scaleInDock": 1
+        },
+        "D:/NEA/graphics/my_world/Fences.tsx": {
+            "scaleInDock": 1
+        },
+        "D:/NEA/graphics/my_world/Grass.tsx": {
+            "scaleInDock": 1
+        },
+        "D:/NEA/graphics/my_world/Hills.tsx": {
+            "scaleInDock": 1
+        },
+        "D:/NEA/graphics/my_world/House Decoration.tsx": {
+            "scaleInDock": 1
+        },
+        "D:/NEA/graphics/my_world/House.tsx": {
+            "scaleInDock": 1
+        },
+        "D:/NEA/graphics/my_world/Paths.tsx": {
+            "scaleInDock": 1
+        },
+        "D:/NEA/graphics/my_world/Plant Decoration.tsx": {
+            "scaleInDock": 1
+        },
+        "D:/NEA/graphics/my_world/Water Decoration.tsx": {
+            "scaleInDock": 1
+        },
+        "D:/NEA/graphics/my_world/Water.tsx": {
+            "scaleInDock": 1
+        },
+        "D:/NEA/graphics/my_world/main map.tmx": {
+            "scale": 0.5146,
+            "selectedLayer": 11,
+            "viewCenter": {
+                "x": 3091.7217256121257,
+                "y": 1493.3929265448894
+            }
+        },
+        "D:/NEA/graphics/my_world/merchant.tsx": {
+            "scaleInDock": 1
+        },
+        "D:/NEA/graphics/my_world/sunflower.tsx": {
+            "scaleInDock": 1
+        },
+        "D:/NEA/graphics/tileset experiment/Bridge.tsx": {
+            "scaleInDock": 1
+        },
+        "D:/NEA/graphics/tileset experiment/Collision.tsx": {
+            "scaleInDock": 1
+        },
+        "D:/NEA/graphics/tileset experiment/Fences.tsx": {
+            "scaleInDock": 1
+        },
+        "D:/NEA/graphics/tileset experiment/Grass.tsx": {
+            "scaleInDock": 1
+        },
+        "D:/NEA/graphics/tileset experiment/Hills.tsx": {
+            "scaleInDock": 1
+        },
+        "D:/NEA/graphics/tileset experiment/House Decoration.tsx": {
+            "scaleInDock": 1
+        },
+        "D:/NEA/graphics/tileset experiment/House.tsx": {
+            "scaleInDock": 1
+        },
+        "D:/NEA/graphics/tileset experiment/Paths.tsx": {
+            "scaleInDock": 1
+        },
+        "D:/NEA/graphics/tileset experiment/Plant Decoration.tsx": {
+            "scaleInDock": 1
+        },
+        "D:/NEA/graphics/tileset experiment/Water Decoration.tsx": {
+            "scaleInDock": 1
+        },
+        "D:/NEA/graphics/tileset experiment/Water.tsx": {
+            "scaleInDock": 1
+        },
+        "D:/NEA/graphics/tileset experiment/merchant.tsx": {
+            "scaleInDock": 1
+        },
+        "D:/NEA/graphics/tileset experiment/sunflower.tsx": {
+            "scaleInDock": 1
+        },
+        "Grass.tsx": {
+            "scaleInDock": 1,
+            "scaleInEditor": 1
+        },
+        "House Decoration.tsx": {
+            "scaleInDock": 1,
+            "scaleInEditor": 1
+        },
+        "House.tsx": {
+            "scaleInDock": 1,
+            "scaleInEditor": 1
+        },
+        "Water.tsx": {
+            "scaleInDock": 1,
+            "scaleInEditor": 1
+        },
+        "main map.tmx": {
+            "scale": 0.1972,
+            "selectedLayer": 0,
+            "viewCenter": {
+                "x": 2822.0081135902637,
+                "y": 1863.5902636916835
+            }
+        }
+    },
+    "last.exportedFilePath": "C:/NEA",
+    "last.imagePath": "C:/NEA/graphics/environment",
+    "map.height": 40,
+    "map.lastUsedExportFilter": "JSON map files (*.tmj *.json)",
+    "map.lastUsedFormat": "tmx",
+    "map.tileHeight": 64,
+    "map.tileWidth": 64,
+    "map.width": 70,
+    "openFiles": [
+        "main map.tmx",
+        "main map.tmx"
+    ],
+    "project": "waterImg.tiled-project",
+    "recentFiles": [
+        "main map.tmx",
+        "D:/NEA/graphics/my_world/main map.tmx",
+        "Grass.tsx",
+        "House Decoration.tsx",
+        "House.tsx",
+        "Water.tsx",
+        "C:/NEA/graphics/water/waterImg.tmx"
+    ],
+    "resizeMap.removeObjects": false,
+    "tileset.tileSize": {
+        "height": 64,
+        "width": 64
+    }
+}

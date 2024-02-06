@@ -1,0 +1,88 @@
+<style>
+    @font-face {
+    font-family: 'LycheeSoda'; /*a name to be used later*/
+    src: url(./data/font/LycheeSoda.ttf)}
+    @font-face {
+    font-family: 'joystix'; /*a name to be used later*/
+    src: url(./data/font/joystix\ monospace.otf)}
+    /* Container needed to position the button. Adjust the width as needed */
+    .container {
+    position: absolute;
+    top: 8px;
+    left: 8px;
+    width: 100%;
+    width: 1280px;
+    height: 720px;
+    }
+
+    /* Make the image responsive */
+    .container img {
+    width: 100%;
+    height: 100%;
+    }
+
+    /* Style the button and place it in the middle of the container/image */
+    .container .btn {
+    position: absolute;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background-color: #706031b9;
+    color: rgb(255, 237, 203);
+    font-size: 40px;
+    font-family: LycheeSoda;
+    padding: 0px 0px;
+    width: 250px;
+    height: 60px;
+    border: none;
+    cursor: pointer;
+    border-radius: 5px;
+    }
+
+    .btn.active {
+    background-color: brown; /* Change to the desired color for active buttons */
+    color: white; /* Change to the desired text color for active buttons */
+    }
+
+    #scoresButton {
+        top: calc(50% + 100px);
+    }
+
+    #playButton {
+        top: 50%;
+    }
+
+    #quitButton {
+        top: calc(50% - 100px);
+    }
+
+    #menuSettingsButton {
+        top: 50px;
+        left: calc(100% - 50px);
+        width: 70px;
+        height: 70px;
+    }
+
+    #instructionsButton {
+        top: 50px;
+        left: calc(50px);
+        width: 70px;
+        height: 70px;
+        font-size: 50px;
+    }
+
+    .container .btn:hover {
+    background-color: rgb(30, 112, 108);
+}
+
+</style>
+<canvas></canvas>
+<div class="container">
+    <img src="./graphics/water/waterImg.png" alt="Water">
+    <button id="playButton" class="btn">Play</button>
+    <button id="scoresButton" class="btn">Scores</button>
+    <button id="quitButton" class="btn">Quit</button>
+    <button id="menuSettingsButton" class="btn">⚙</button>
+    <button id="instructionsButton" class="btn">i</button>
+</div>
+<script src="data/collisions.js"></script>
+<script type="module" src="index.js"></script>

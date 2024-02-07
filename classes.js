@@ -95,6 +95,68 @@ export class Player extends Sprite {
         }
 }
 
+export class Chicken extends Sprite {
+    constructor({ pos, image, status, player }) {
+        super({ pos, image, status });
+        this.player = player;
+        this.speed = 4; // Adjust the speed as needed
+    }
+
+    update(collisions) {
+        // Calculate distance between chicken and player
+        const dx = (this.player.pos.x + this.player.image.width / 2) - (this.pos.x + this.image.width / 2);
+        const dy = (this.player.pos.y + this.player.image.height / 2) - (this.pos.y + this.image.height / 2);
+        const distance = Math.sqrt(dx * dx + dy * dy);
+
+        // If distance is greater than 100 pixels, move towards the player
+        if (distance > 100) {
+            const angle = Math.atan2(dy, dx);
+            const nextX = this.pos.x + this.speed * Math.cos(angle);
+            const nextY = this.pos.y + this.speed * Math.sin(angle);
+
+            // Check for collisions with boundaries in the x direction
+            let collidingX = false;
+            for (const boundary of collisions) {
+                if (this.isCollidingWithBoundary(nextX, this.pos.y, boundary)) {
+                    collidingX = true;
+                    break;
+                }
+            }
+
+            // Only move in the x direction if not colliding in the x direction
+            if (!collidingX) {
+                this.pos.x = nextX;
+            }
+
+            // Check for collisions with boundaries in the y direction
+            let collidingY = false;
+            for (const boundary of collisions) {
+                if (this.isCollidingWithBoundary(this.pos.x, nextY, boundary)) {
+                    collidingY = true;
+                    break;
+                }
+            }
+
+            // Only move in the y direction if not colliding in the y direction
+            if (!collidingY) {
+                this.pos.y = nextY;
+            }
+        }
+    }
+
+    // Method to check if the chicken collides with a boundary
+    isCollidingWithBoundary(nextX, nextY, boundary) {
+        return (
+            nextX < boundary.pos.x + boundary.width &&
+            nextX + this.image.width > boundary.pos.x &&
+            nextY < boundary.pos.y + boundary.height &&
+            nextY + this.image.height > boundary.pos.y
+        );
+    }
+}
+
+
+
 export class Boundary {
     constructor({pos, width, height}) {
         this.pos = pos

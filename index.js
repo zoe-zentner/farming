@@ -490,6 +490,9 @@ function startGame() {
     const playerImage = new Image();
     playerImage.src = './graphics/character/down_idle/0.png';
 
+    const chickenImage = new Image();
+    chickenImage.src = './graphics/chicken/idle/0.png'
+
     const foregroundImage = new Image();
     foregroundImage.src = './graphics/world/foreground.png';
 
@@ -502,14 +505,28 @@ function startGame() {
         status: 'down_idle'
     });
 
+    const chicken = new classes.Chicken({
+        pos: {
+            x: canvas.width / 2 - 186,
+            y: canvas.height / 2 - 162
+        },
+        image: chickenImage, // Provide the image for the chicken
+        status: 'idle',
+        player: player, // Pass the player instance to the chicken
+        boundaries: boundaries
+    });
+
     // Clone the player's rect object
-    const playerHitbox = {
-        x: player.pos.x + 63,
-        y: player.pos.y + 55,
-        width: playerImage.width - 126,
-        height: playerImage.height - 80
+    playerImage.onload = function() {
+        // This code will execute once the player image has loaded
+        const playerHitbox = {
+            x: player.pos.x + 63,
+            y: player.pos.y + 55,
+            width: playerImage.width - 126,
+            height: playerImage.height - 80
+        };
+        player.hitbox = playerHitbox;
     };
-    player.hitbox = playerHitbox;
 
     const background = new classes.Sprite({
         pos: {
@@ -542,7 +559,7 @@ function startGame() {
         }
     };
 
-    const moveables = [...boundaries, background, foreground];
+    const moveables = [...boundaries, background, chicken, foreground];
 
     function rectangularCollision({ rectangle1, rectangle2 }) {
         return (
@@ -752,6 +769,8 @@ function startGame() {
         c.drawImage(mapImage, background.pos.x, background.pos.y);
 
         move();
+
+        chicken.update(boundaries)
         
         moveables.forEach(moveable => {
             moveable.draw();

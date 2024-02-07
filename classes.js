@@ -33,6 +33,13 @@ export class Sprite {
     }
 }
 
+export class Map extends Sprite {
+    constructor({ pos, image }) {
+        super({ pos, image });
+    }
+
+}
+
 export class Player extends Sprite {
     constructor({ pos, image, status}) {
         super({ pos, image, status});

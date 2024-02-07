@@ -528,7 +528,7 @@ function startGame() {
         player.hitbox = playerHitbox;
     };
 
-    const background = new classes.Sprite({
+    const background = new classes.Map({
         pos: {
             x: offset.x,
             y: offset.y
@@ -536,7 +536,7 @@ function startGame() {
         image: mapImage
     });
 
-    const foreground = new classes.Sprite({
+    const foreground = new classes.Map({
         pos: {
             x: offset.x,
             y: offset.y

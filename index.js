@@ -496,6 +496,12 @@ function startGame() {
     const foregroundImage = new Image();
     foregroundImage.src = './graphics/world/foreground.png';
 
+    const toolImage = new Image();
+    toolImage.src = './graphics/overlay/axe.png';
+
+    const seedImage = new Image();
+    seedImage.src = './graphics/overlay/corn.png';
+
     const player = new classes.Player({
         pos: {
             x: canvas.width / 2 - 86,
@@ -543,6 +549,22 @@ function startGame() {
         },
         image: foregroundImage
     });
+
+    const tool = new classes.Sprite({
+        pos: {
+            x: 10,
+            y: canvas.height - 150,
+        },
+        image: toolImage
+    })
+
+    const seed = new classes.Sprite({
+        pos: {
+            x: 70,
+            y: canvas.height - 140,
+        },
+        image: seedImage
+    })
 
     const keys = {
         d: {
@@ -779,6 +801,10 @@ function startGame() {
         // Draw the player last
         player.draw();
         foreground.draw();
+
+        //overlay
+        c.drawImage(toolImage, tool.pos.x, tool.pos.y)
+        c.drawImage(seedImage, seed.pos.x, seed.pos.y)
         
         // Check collisions inside the setTimeout callback
         requestAnimationFrame((timestamp) => {

@@ -79,7 +79,6 @@ export class Player extends Sprite {
         const animationFolderPath = './graphics/character';
         const imagesPerAnimation = 1; // Number of images per animation key
 
-
         for (let animation in this.animations) {
             for (let i = 0; i <= imagesPerAnimation; i++) {
                 const filename = `${animation}/${i}.png`; // Assuming PNG format
@@ -99,6 +98,13 @@ export class Player extends Sprite {
                 this.animations[animationKey].push(image);
             };
             image.src = url;
+        }
+        
+        display_tool(){
+            if (this.timers['tool use'].active) {
+                var statusParts = this.status.split('_');
+                this.status = statusParts[0] + '_' + self.selected_tool;
+            }
         }
 }
 
@@ -204,29 +210,3 @@ class Timer {
       }
     }
   }
-  
-  // To stop the timer prematurely, call deactivate():
-  // myTimer.deactivate();
-  
-
-// export class Player {
-//     constructor({pos}) {
-//         this.pos = pos
-//         this.status = 'down_idle'
-//         this.frame_index = 0
-
-//     }
-
-//     import_assets() {
-//         this.animations = {'up': [], 'down': [], 'left': [], 'right': [],
-//         'right_idle':[],'left_idle':[],'up_idle':[],'down_idle':[],
-//         'right_hoe': [], 'left_hoe': [], 'up_hoe': [], 'down_hoe': [],
-//         'right_axe':[],'left_axe':[],'up_axe':[],'down_axe':[],
-//         'right_water':[],'left_water':[],'up_water':[],'down_water':[]}
-//     }
-
-//         this.animations.keys().forEach((animation) {
-//                 const full_path ='./graphics/character/' + animation
-//                 this.animations[animation] = import_folder(full_path)
-//             })
-// }

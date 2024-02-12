@@ -122,11 +122,11 @@
             "scaleInEditor": 1
         },
         "main map.tmx": {
-            "scale": 0.1972,
+            "scale": 0.6478,
             "selectedLayer": 0,
             "viewCenter": {
-                "x": 2822.0081135902637,
-                "y": 1863.5902636916835
+                "x": 2676.7520839765357,
+                "y": 1603.1182463723371
             }
         }
     },
@@ -139,7 +139,6 @@
     "map.tileWidth": 64,
     "map.width": 70,
     "openFiles": [
-        "main map.tmx",
         "main map.tmx"
     ],
     "project": "waterImg.tiled-project",

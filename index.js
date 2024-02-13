@@ -204,17 +204,20 @@ window.onbeforeunload = function() {
 
 // Check if music was playing before the page was reloaded and resume playback
 window.onload = function() {
+    const musicButton = document.getElementById('musicButton');
     const musicState = localStorage.getItem('musicState');
-    if (musicState === 'playing') {
+    try{
+        if (musicState === 'playing') {
         const playbackPosition = localStorage.getItem('playbackPosition');
         if (playbackPosition) {
             audio.currentTime = parseFloat(playbackPosition);
         }
         audio.play();
-        document.getElementById('musicButton').classList.add('active');
+        musicButton.classList.add('active')
     } else {
-        document.getElementById('musicButton').classList.remove('active');
-    }
+        musicButton.classList.remove('active');
+    }}
+    catch {}
 };
 
 //button responses
@@ -584,13 +587,6 @@ function startGame() {
         }
     };
 
-    //overlay
-    function updateOverlay(){
-        if (keys.q.pressed) {
-
-        }
-    }
-
     const moveables = [...boundaries, background, chicken, foreground];
 
     function rectangularCollision({ rectangle1, rectangle2 }) {
@@ -606,27 +602,30 @@ function startGame() {
 
     let lastFrameTime = 0;
     function animatePlayer(timestamp) {
-        // Calculate the time difference since the last frame
         const deltaTime = timestamp - lastFrameTime;
-
-        // Update the frame index every second
-        if (deltaTime > 250) { // 1000 milliseconds = 1 second
-            player.frameIndex += 1;
-            if (player.status.endsWith('idle')) {
-                if (player.frameIndex > 1) {
-                    player.frameIndex = 0;
-                }
-            } else if (player.frameIndex > 3) {
-                player.frameIndex = 0;
-            }
+    
+        if (player.timers['tool use'].active) {
+            // Set the player's status to include direction and tool in use
+            player.status = player.direction + "_" + player.tools[player.tool_index];
+        }
+    
+        // Update the frame index based on deltaTime
+        const frameRate = 250; // Adjust frame rate as needed
+        if (deltaTime > frameRate) {
+            const framesToAdvance = Math.floor(deltaTime / frameRate);
+            player.frameIndex += framesToAdvance;
+    
+            // Handle frame index limit
+        player.frameIndex %= 4; 
+    
             lastFrameTime = timestamp;
         }
-
+    
+        // Update player image source and continue animation loop
         playerImage.src = './graphics/character/' + player.status + '/' + player.frameIndex + '.png';
-
-        // Continue the animation loop
         requestAnimationFrame(animatePlayer);
     }
+    
 
     function checkUpCollision(boundary) {
         return (
@@ -667,6 +666,7 @@ function startGame() {
     function move() {
         let moving = true;
         if (keys.w.pressed) {
+            player.direction = 'up';
             player.status = 'up';
             for (let i = 0; i < boundaries.length; i++) {
                 const boundary = boundaries[i];
@@ -685,6 +685,7 @@ function startGame() {
         }
 
         if (keys.s.pressed) {
+            player.direction = 'down';
             player.status = 'down';
             for (let i = 0; i < boundaries.length; i++) {
                 const boundary = boundaries[i];
@@ -703,6 +704,7 @@ function startGame() {
         }
 
         if (keys.d.pressed) {
+            player.direction = 'right';
             player.status = 'right';
             for (let i = 0; i < boundaries.length; i++) {
                 const boundary = boundaries[i];
@@ -721,6 +723,7 @@ function startGame() {
         }
 
         if (keys.a.pressed) {
+            player.direction = 'left';
             player.status = 'left';
             for (let i = 0; i < boundaries.length; i++) {
                 const boundary = boundaries[i];
@@ -743,7 +746,7 @@ function startGame() {
             keys.s.pressed === false &&
             keys.d.pressed === false &&
             player.status.endsWith('_idle') === false) {
-            player.status += '_idle';
+            player.status = player.direction + '_idle';
             player.frameIndex = 0;
         }
         
@@ -779,9 +782,20 @@ function startGame() {
                         player.seed_index = (player.seed_index + 1) % player.seeds.length;
                         seedImage.src = './graphics/overlay/' + player.seeds[player.seed_index] + '.png';
                         player.timers['seed switch'].activate();
+                    break;
                     }
-                case '#':
-                    if (!player.timers['tool use'].active){}
+                case 'p':
+                    if (!player.timers['tool use'].active){
+                        console.log("tool use")
+                        player.timers['tool use'].activate();
+                    }
+                    break;
+                case 'o':
+                    if (!player.timers['seed use'].active){
+                        console.log("seed use")
+                        player.timers['seed use'].activate();
+                    }
+                    break;
             }
         });
 

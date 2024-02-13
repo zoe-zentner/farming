@@ -8,6 +8,7 @@ export class Sprite {
 
     constructor({pos, image, status}) {
         this.pos = pos
+        this.direction = "down"
         this.image = image
         this.image.onload = () => {
             this.width = this.image.width

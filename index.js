@@ -500,7 +500,7 @@ function startGame() {
     foregroundImage.src = './graphics/world/foreground.png';
 
     const toolImage = new Image();
-    toolImage.src = './graphics/overlay/axe.png';
+    toolImage.src = './graphics/overlay/hoe.png';
 
     const seedImage = new Image();
     seedImage.src = './graphics/overlay/corn.png';
@@ -788,6 +788,7 @@ function startGame() {
                     if (!player.timers['tool use'].active){
                         console.log("tool use")
                         player.timers['tool use'].activate();
+                        player.frameIndex = 0
                     }
                     break;
                 case 'o':

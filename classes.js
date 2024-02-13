@@ -1,8 +1,5 @@
-import * as support from './support.js'
 const canvas = document.querySelector('canvas')
 const c = canvas.getContext('2d')
-
-// import * as support from './support.js'
 
 export class Sprite {
 

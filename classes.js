@@ -49,9 +49,9 @@ export class Player extends Sprite {
         this.direction = "down"
         this.moving = false
         this.timers = {
-            'tool use': new Timer(350,this.use_tool),
+            'tool use': new Timer(350),
             'tool switch': new Timer(200),
-            'seed use': new Timer(350,this.use_seed),
+            'seed use': new Timer(350),
             'seed switch': new Timer(200)
         }
         //tools

@@ -782,8 +782,8 @@ function startGame() {
                         player.seed_index = (player.seed_index + 1) % player.seeds.length;
                         seedImage.src = './graphics/overlay/' + player.seeds[player.seed_index] + '.png';
                         player.timers['seed switch'].activate();
-                    break;
                     }
+                    break
                 case 'p':
                     if (!player.timers['tool use'].active){
                         console.log("tool use")

@@ -99,13 +99,6 @@ export class Player extends Sprite {
             };
             image.src = url;
         }
-        
-        display_tool(){
-            if (this.timers['tool use'].active) {
-                var statusParts = this.status.split('_');
-                this.status = statusParts[0] + '_' + self.selected_tool;
-            }
-        }
 }
 
 export class Chicken extends Sprite {

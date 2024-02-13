@@ -514,7 +514,7 @@ function startGame() {
     const chicken = new classes.Chicken({
         pos: {
             x: canvas.width / 2 - 186,
-            y: canvas.height / 2 - 162
+            y: canvas.height / 2 - 182
         },
         image: chickenImage, // Provide the image for the chicken
         status: 'idle',
@@ -578,8 +578,18 @@ function startGame() {
         },
         s: {
             pressed: false
+        },
+        q: {
+            pressed: false
         }
     };
+
+    //overlay
+    function updateOverlay(){
+        if (keys.q.pressed) {
+
+        }
+    }
 
     const moveables = [...boundaries, background, chicken, foreground];
 
@@ -757,6 +767,21 @@ function startGame() {
                 case 's':
                     keys.s.pressed = true;
                     break;
+                case 'q':
+                    if (!player.timers['tool switch'].active) {
+                        player.tool_index = (player.tool_index + 1) % player.tools.length;
+                        toolImage.src = './graphics/overlay/' + player.tools[player.tool_index] + '.png'
+                        player.timers['tool switch'].activate();
+                    }
+                    break;
+                case 'e':
+                    if (!player.timers['seed switch'].active) {
+                        player.seed_index = (player.seed_index + 1) % player.seeds.length;
+                        seedImage.src = './graphics/overlay/' + player.seeds[player.seed_index] + '.png';
+                        player.timers['seed switch'].activate();
+                    }
+                case '#':
+                    if (!player.timers['tool use'].active){}
             }
         });
 

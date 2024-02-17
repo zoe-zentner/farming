@@ -5,7 +5,6 @@ export class Sprite {
 
     constructor({pos, image, status}) {
         this.pos = pos
-        this.direction = "down"
         this.image = image
         this.image.onload = () => {
             this.width = this.image.width
@@ -66,13 +65,13 @@ export class Player extends Sprite {
             'corn':   0,
             'tomato': 0
         }
-        this.animations = {
-            'up': [], 'down': [], 'left': [], 'right': [],
-            'right_idle': [], 'left_idle': [], 'up_idle': [], 'down_idle': [],
-            'right_hoe': [], 'left_hoe': [], 'up_hoe': [], 'down_hoe': [],
-            'right_axe': [], 'left_axe': [], 'up_axe': [], 'down_axe': [],
-            'right_water': [], 'left_water': [], 'up_water': [], 'down_water': []
-          };
+        // this.animations = {
+        //     'up': [], 'down': [], 'left': [], 'right': [],
+        //     'right_idle': [], 'left_idle': [], 'up_idle': [], 'down_idle': [],
+        //     'right_hoe': [], 'left_hoe': [], 'up_hoe': [], 'down_hoe': [],
+        //     'right_axe': [], 'left_axe': [], 'up_axe': [], 'down_axe': [],
+        //     'right_water': [], 'left_water': [], 'up_water': [], 'down_water': []
+        //   };
 
         const animationFolderPath = './graphics/character';
         const imagesPerAnimation = 1; // Number of images per animation key
@@ -201,3 +200,39 @@ class Timer {
       }
     }
   }
+
+export class SoilTile {
+    constructor(pos) {
+        this.pos = pos
+        this.image = new Image();
+        this.image.src = './graphics/soil/x.png';
+    }
+
+    drawSoil() {
+        // Draw the soil tile on the canvas
+        c.drawImage(this.image, this.pos.x, this.pos.y);
+    }
+}
+
+export class SoilLayer {
+    constructor() {}
+    createSoilGrid() {
+        var ground = new Image();
+        ground.onload = function() {
+            var hTiles = Math.floor(ground.width / TILE_SIZE);
+            var vTiles = Math.floor(ground.height / TILE_SIZE);
+            var grid = new Array(vTiles).fill(null).map(() => new Array(hTiles).fill([]));
+    
+            // Assuming load_pygame function is defined elsewhere
+            load_pygame('Animations/data/map.tmx').get_layer_by_name('Farmable').tiles().forEach(tile => {
+                var [x, y, _] = tile;
+                grid[y][x].push('F');
+            });
+    
+            // Now you have your grid populated
+            console.log(grid);
+        };
+        ground.src = 'Animations/graphics/world/ground.png';
+    }
+    
+}

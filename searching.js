@@ -1,6 +1,6 @@
-export function search(chickenPos, playerPos, boundaries) {
-    const cols = 60; // columns in the grid
-    const rows = 90; // rows in the grid
+export function search(chickenPos, playerPos) {
+    const cols = 90; // columns in the grid
+    const rows = 60; // rows in the grid
     const gridSize = 64; // grid size
 
     let grid = new Array(cols); // array of all the grid points
@@ -55,25 +55,13 @@ export function search(chickenPos, playerPos, boundaries) {
 
         for (let i = 0; i < cols; i++) {
             for (let j = 0; j < rows; j++) {
-                // Check if the grid point is within any boundary
-                let isCollision = boundaries.some(boundary => {
-                    return i >= boundary.pos.x && i < boundary.pos.x + boundary.width &&
-                           j >= boundary.pos.y && j < boundary.pos.y + boundary.height;
-                });
-
-                if (isCollision) {
-                    grid[i][j] = null; // Mark as collision
-                } else {
-                    grid[i][j] = new GridPoint(i, j);
-                }
+                grid[i][j] = new GridPoint(i, j);
             }
         }
 
         for (let i = 0; i < cols; i++) {
             for (let j = 0; j < rows; j++) {
-                if (grid[i][j]) {
-                    grid[i][j].updateNeighbors(grid);
-                }
+                grid[i][j].updateNeighbors(grid);
             }
         }
 
@@ -113,7 +101,7 @@ export function search(chickenPos, playerPos, boundaries) {
         for (let i = 0; i < neighbors.length; i++) {
             let neighbor = neighbors[i];
 
-            if (!closedSet.includes(neighbor) && neighbor) {
+            if (!closedSet.includes(neighbor)) {
                 let possibleG = current.g + 1;
 
                 if (!openSet.includes(neighbor)) {

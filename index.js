@@ -824,44 +824,43 @@ function startGame() {
 
     function update(timestamp) {
         input();
-
+    
         // Clear the canvas
         c.clearRect(0, 0, canvas.width, canvas.height);
-
+    
         // Draw the background (map) first
         c.drawImage(mapImage, background.pos.x, background.pos.y);
-
+    
         move();
-
-        chicken.update(boundaries)
+    
+        chicken.update(boundaries);
         
         moveables.forEach(moveable => {
             moveable.draw();
         });
-
+    
         // Draw the player last
         player.draw();
         foreground.draw();
-
+    
         //overlay
-        c.drawImage(toolImage, tool.pos.x, tool.pos.y)
-        c.drawImage(seedImage, seed.pos.x, seed.pos.y)
-
-
-        let chickenPos = { x: Math.floor(chicken.pos.x/64) , y: Math.floor(chicken.pos.y/64) }; // Example position of the chicken
-        let playerPos = { x: Math.floor(player.pos.x/64), y: Math.floor(player.pos.y/64) }; // Example position of the player
-        let shortestPath = searching.search(chickenPos, playerPos, boundaries);
-        console.log(shortestPath);
-
-
-        
+        c.drawImage(toolImage, tool.pos.x, tool.pos.y);
+        c.drawImage(seedImage, seed.pos.x, seed.pos.y);
+    
+        // Find the shortest path using A* algorithm
+        let chickenPos = { x: Math.floor(chicken.pos.x / 64), y: Math.floor(chicken.pos.y / 64) };
+        let playerPos = { x: Math.floor(player.pos.x / 64), y: Math.floor(player.pos.y / 64) };
+        try{let shortestPath = searching.search(chickenPos, playerPos);
+        console.log(shortestPath)}
+        catch{}
+    
         // Check collisions inside the setTimeout callback
         requestAnimationFrame((timestamp) => {
             update(timestamp);
             animatePlayer(timestamp);
         });
     }
-
+    
     // Use requestAnimationFrame to start the game loop
     requestAnimationFrame(update);
 };

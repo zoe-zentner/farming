@@ -404,6 +404,55 @@ function endGame() {
     });
 }
 
+function chanceOfRain() {
+    let raining = false
+    let number = Math.floor(Math.random() * 100) + 1;
+    if(number >= 70){
+        raining = true
+        console.log("raining")
+    }
+    else{
+        raining = false
+        console.log("not raining")
+    }
+    return raining
+}
+
+function animateRain() {
+    var c, ctx, rain
+    class Rain{
+        constructor(x,y,l,v){
+            this.x = x
+            this.y = y
+            this.l = l
+            this.vy = v
+        }
+        show(){
+            ctx.beginPath();
+            ctx.strokeStyle = "White"
+            ctx.moveTo(this.x, this.y, )
+            ctx.lineTo(this.x, this.y+this.l)
+            ctx.stroke()
+        }
+
+        fall(){
+            this.y+=this.vy
+        }
+    }
+
+    function setup(){
+        c = document.getElementById("canvas")
+        ctx = c.getContext("2d")
+
+        rain - new Rain(10, 10, 10, 6)
+        setInterval(animateRain, 10)
+    }
+
+    function animateRain(){
+        rain.show()
+        rain.fall()
+    }
+}
 
 function startGame() {
     const container = this.parentElement;
@@ -423,6 +472,11 @@ function startGame() {
     displayScore()
 
     document.getElementById('endGameButton').addEventListener('click', endGame)
+
+    let raining = chanceOfRain()
+    if(raining){
+        animateRain()
+    }
 
     const collisionsMap = [];
     for (let i = 0; i < collisions.length; i += 90) {
@@ -848,11 +902,14 @@ function startGame() {
         c.drawImage(seedImage, seed.pos.x, seed.pos.y);
     
         // Find the shortest path using A* algorithm
-        let chickenPos = { x: Math.floor(chicken.pos.x / 64), y: Math.floor(chicken.pos.y / 64) };
-        let playerPos = { x: Math.floor(player.pos.x / 64), y: Math.floor(player.pos.y / 64) };
-        try{let shortestPath = searching.search(chickenPos, playerPos);
-        console.log(shortestPath)}
-        catch{}
+        // let chickenPos = { x: Math.floor(chicken.pos.x / 64), y: Math.floor(chicken.pos.y / 64) };
+        // let playerPos = { x: Math.floor(player.pos.x / 64), y: Math.floor(player.pos.y / 64) };
+        // // try{let shortestPath = searching.search(chickenPos, playerPos);
+        // console.log(shortestPath)}
+        // catch{}
+        if(raining){
+            animateRain()
+        }
     
         // Check collisions inside the setTimeout callback
         requestAnimationFrame((timestamp) => {

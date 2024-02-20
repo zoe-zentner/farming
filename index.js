@@ -404,56 +404,6 @@ function endGame() {
     });
 }
 
-function chanceOfRain() {
-    let raining = false
-    let number = Math.floor(Math.random() * 100) + 1;
-    if(number >= 70){
-        raining = true
-        console.log("raining")
-    }
-    else{
-        raining = false
-        console.log("not raining")
-    }
-    return raining
-}
-
-function animateRain() {
-    var c, ctx, rain
-    class Rain{
-        constructor(x,y,l,v){
-            this.x = x
-            this.y = y
-            this.l = l
-            this.vy = v
-        }
-        show(){
-            ctx.beginPath();
-            ctx.strokeStyle = "White"
-            ctx.moveTo(this.x, this.y, )
-            ctx.lineTo(this.x, this.y+this.l)
-            ctx.stroke()
-        }
-
-        fall(){
-            this.y+=this.vy
-        }
-    }
-
-    function setup(){
-        c = document.getElementById("canvas")
-        ctx = c.getContext("2d")
-
-        rain - new Rain(10, 10, 10, 6)
-        setInterval(animateRain, 10)
-    }
-
-    function animateRain(){
-        rain.show()
-        rain.fall()
-    }
-}
-
 function startGame() {
     const container = this.parentElement;
     container.remove();
@@ -473,10 +423,73 @@ function startGame() {
 
     document.getElementById('endGameButton').addEventListener('click', endGame)
 
-    let raining = chanceOfRain()
-    if(raining){
-        animateRain()
+        // R A I N functions
+    function chanceOfRain() {
+        let raining = false;
+        let number = Math.floor(Math.random() * 100) + 1;
+        if (number >= 70) {
+            raining = true;
+            console.log("raining");
+        } else {
+            raining = true
+            console.log("not raining");
+        }
+        return raining;
     }
+
+    var vRain;
+
+    function loop() {
+        c.clearRect(0, 0, canvas.width, canvas.height);
+        for (var i = 0; i < vRain.length; i++) {
+            vRain[i].show(canvas, c);
+            vRain[i].fall(canvas, c);
+        }
+    }
+
+    class Rain {
+        constructor(x, y, l, v) {
+            this.x = x;
+            this.y = y;
+            this.vy = v;
+            this.l = l;
+        }
+        show() {
+            c.beginPath();
+            c.strokeStyle = "black";
+            c.moveTo(this.x, this.y);
+            c.lineTo(this.x, this.y + this.l);
+            c.stroke();
+        }
+
+        fall() {
+            this.y += this.vy;
+            if (this.y > canvas.height) {
+                this.x = Math.floor(Math.random() * canvas.width) + 5;
+                this.y = Math.floor(Math.random() * 100) - 100;
+                this.l = Math.floor(Math.random() * 30) + 1;
+                this.vy = Math.floor(Math.random() * 12) + 4;
+            }
+        }
+    }
+
+    function animateRain() {
+        vRain = [];
+        for (var i = 0; i < 60; i++) {
+            vRain[i] = new Rain(
+                Math.floor(Math.random() * canvas.width) + 5,
+                Math.floor(Math.random() * 100) - 100,
+                Math.floor(Math.random() * 30) + 1,
+                Math.floor(Math.random() * 12) - 4
+            );
+        }
+        setInterval(function() {
+            loop();
+        }, 10);
+    }
+
+    let raining = chanceOfRain();
+
 
     const collisionsMap = [];
     for (let i = 0; i < collisions.length; i += 90) {
@@ -876,22 +889,19 @@ function startGame() {
         });
     }
 
-    function update(timestamp) {
+    function update() {
         input();
     
         // Clear the canvas
-        c.clearRect(0, 0, canvas.width, canvas.height);
-    
-        // Draw the background (map) first
-        c.drawImage(mapImage, background.pos.x, background.pos.y);
+        // c.clearRect(0, 0, canvas.width, canvas.height);
     
         move();
     
         chicken.update(boundaries);
         
-        moveables.forEach(moveable => {
-            moveable.draw();
-        });
+        // moveables.forEach(moveable => {
+        //     moveable.draw();
+        // });
     
         // Draw the player last
         player.draw();

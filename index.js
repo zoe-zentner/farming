@@ -439,11 +439,11 @@ function startGame() {
 
     var vRain;
 
-    function loop() {
+    function loop(deltaTime) {
         c.clearRect(0, 0, canvas.width, canvas.height);
         for (var i = 0; i < vRain.length; i++) {
-            vRain[i].show(canvas, c);
-            vRain[i].fall(canvas, c);
+            vRain[i].show();
+            vRain[i].fall(deltaTime);
         }
     }
 
@@ -462,8 +462,8 @@ function startGame() {
             c.stroke();
         }
 
-        fall() {
-            this.y += this.vy;
+        fall(deltaTime) {
+            this.y += this.vy*(deltaTime);
             if (this.y > canvas.height) {
                 this.x = Math.floor(Math.random() * canvas.width) + 5;
                 this.y = Math.floor(Math.random() * 100) - 100;
@@ -473,7 +473,8 @@ function startGame() {
         }
     }
 
-    function animateRain() {
+    function animateRain(timestamp) {
+        var deltaTime = timestamp - lastFrameTime
         vRain = [];
         for (var i = 0; i < 60; i++) {
             vRain[i] = new Rain(
@@ -484,7 +485,7 @@ function startGame() {
             );
         }
         setInterval(function() {
-            loop();
+            loop(deltaTime);
         }, 10);
     }
 
@@ -917,14 +918,14 @@ function startGame() {
         // // try{let shortestPath = searching.search(chickenPos, playerPos);
         // console.log(shortestPath)}
         // catch{}
-        if(raining){
-            animateRain()
-        }
     
         // Check collisions inside the setTimeout callback
         requestAnimationFrame((timestamp) => {
             update(timestamp);
             animatePlayer(timestamp);
+            if(raining){
+                animateRain(timestamp)
+            }
         });
     }
     

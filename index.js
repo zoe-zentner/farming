@@ -429,18 +429,17 @@ function startGame() {
         let number = Math.floor(Math.random() * 100) + 1;
         if (number >= 70) {
             raining = true;
-            console.log("raining");
         } else {
             raining = true
-            console.log("not raining");
+            raining = false
         }
         return raining;
     }
 
     var vRain;
 
-    function loop() {
-        c.clearRect(0, 0, canvas.width, canvas.height);
+    function updateRain() {
+        // c.clearRect(0, 0, canvas.width, canvas.height);
         for (var i = 0; i < vRain.length; i++) {
             vRain[i].show(canvas, c);
             vRain[i].fall(canvas, c);
@@ -456,7 +455,7 @@ function startGame() {
         }
         show() {
             c.beginPath();
-            c.strokeStyle = "black";
+            c.strokeStyle = "white";
             c.moveTo(this.x, this.y);
             c.lineTo(this.x, this.y + this.l);
             c.stroke();
@@ -473,7 +472,7 @@ function startGame() {
         }
     }
 
-    function animateRain() {
+    function createRain() {
         vRain = [];
         for (var i = 0; i < 60; i++) {
             vRain[i] = new Rain(
@@ -484,13 +483,13 @@ function startGame() {
             );
         }
         setInterval(function() {
-            loop();
+            updateRain();
         }, 10);
     }
     
     let raining = chanceOfRain();
     if(raining){
-        animateRain()
+        createRain()
     }
 
     const collisionsMap = [];
@@ -895,19 +894,22 @@ function startGame() {
         input();
     
         // Clear the canvas
-        // c.clearRect(0, 0, canvas.width, canvas.height);
+        c.clearRect(0, 0, canvas.width, canvas.height);
     
         move();
     
         chicken.update(boundaries);
         
-        // moveables.forEach(moveable => {
-        //     moveable.draw();
-        // });
+        moveables.forEach(moveable => {
+            moveable.draw();
+        });
     
         // Draw the player last
         player.draw();
         foreground.draw();
+
+        //draw rain if its raining
+        if(raining){updateRain()}
     
         //overlay
         c.drawImage(toolImage, tool.pos.x, tool.pos.y);

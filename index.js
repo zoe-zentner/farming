@@ -502,6 +502,7 @@ function startGame() {
         y: -1300
     };
 
+    const soilTiles = [];
     const boundaries = [];
 
     collisionsMap.forEach((row, i) => {
@@ -573,6 +574,17 @@ function startGame() {
 
     const seedImage = new Image();
     seedImage.src = './graphics/overlay/corn.png';
+
+    const soilImage = new Image();
+    soilImage.src = './graphics/soil/x.png';
+
+    const soil1 = new classes.SoilTile({
+        pos: {
+            x: 100,
+            y: 100
+        },
+        image: soilImage
+    })
 
     const player = new classes.Player({
         pos: {
@@ -656,7 +668,7 @@ function startGame() {
         }
     };
 
-    const moveables = [...boundaries, background, chicken, foreground];
+    const moveables = [...boundaries, background, chicken, ...soilTiles, foreground, soil1];
 
     function rectangularCollision({ rectangle1, rectangle2 }) {
         return (

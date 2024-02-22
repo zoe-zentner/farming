@@ -201,16 +201,9 @@ class Timer {
     }
   }
 
-export class SoilTile {
-    constructor(pos) {
-        this.pos = pos
-        this.image = new Image();
-        this.image.src = './graphics/soil/x.png';
-    }
-
-    drawSoil() {
-        // Draw the soil tile on the canvas
-        c.drawImage(this.image, this.pos.x, this.pos.y);
+export class SoilTile extends Sprite{
+    constructor({ pos, image}) {
+    super({ pos, image})
     }
 }
 

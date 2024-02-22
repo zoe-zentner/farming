@@ -423,7 +423,7 @@ function startGame() {
 
     document.getElementById('endGameButton').addEventListener('click', endGame)
 
-        // R A I N functions
+    // R A I N functions
     function chanceOfRain() {
         let raining = false;
         let number = Math.floor(Math.random() * 100) + 1;
@@ -439,11 +439,11 @@ function startGame() {
 
     var vRain;
 
-    function loop(deltaTime) {
+    function loop() {
         c.clearRect(0, 0, canvas.width, canvas.height);
         for (var i = 0; i < vRain.length; i++) {
-            vRain[i].show();
-            vRain[i].fall(deltaTime);
+            vRain[i].show(canvas, c);
+            vRain[i].fall(canvas, c);
         }
     }
 
@@ -462,8 +462,8 @@ function startGame() {
             c.stroke();
         }
 
-        fall(deltaTime) {
-            this.y += this.vy*(deltaTime);
+        fall() {
+            this.y += this.vy;
             if (this.y > canvas.height) {
                 this.x = Math.floor(Math.random() * canvas.width) + 5;
                 this.y = Math.floor(Math.random() * 100) - 100;
@@ -473,24 +473,25 @@ function startGame() {
         }
     }
 
-    function animateRain(timestamp) {
-        var deltaTime = timestamp - lastFrameTime
+    function animateRain() {
         vRain = [];
         for (var i = 0; i < 60; i++) {
             vRain[i] = new Rain(
                 Math.floor(Math.random() * canvas.width) + 5,
                 Math.floor(Math.random() * 100) - 100,
                 Math.floor(Math.random() * 30) + 1,
-                Math.floor(Math.random() * 12) - 4
+                Math.floor(Math.random() * 12) + 4
             );
         }
         setInterval(function() {
-            loop(deltaTime);
+            loop();
         }, 10);
     }
-
+    
     let raining = chanceOfRain();
-
+    if(raining){
+        animateRain()
+    }
 
     const collisionsMap = [];
     for (let i = 0; i < collisions.length; i += 90) {
@@ -923,9 +924,7 @@ function startGame() {
         requestAnimationFrame((timestamp) => {
             update(timestamp);
             animatePlayer(timestamp);
-            if(raining){
-                animateRain(timestamp)
-            }
+            
         });
     }
     

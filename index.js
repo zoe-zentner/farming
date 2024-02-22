@@ -502,7 +502,6 @@ function startGame() {
         y: -1300
     };
 
-    const soilTiles = [];
     const boundaries = [];
 
     collisionsMap.forEach((row, i) => {
@@ -586,6 +585,8 @@ function startGame() {
         image: soilImage
     })
 
+    const soilTiles = [soil1];
+
     const player = new classes.Player({
         pos: {
             x: canvas.width / 2 - 86,
@@ -668,7 +669,7 @@ function startGame() {
         }
     };
 
-    const moveables = [...boundaries, background, chicken, ...soilTiles, foreground, soil1];
+    const moveables = [...boundaries, background, chicken, ...soilTiles, foreground, ...soilTiles];
 
     function rectangularCollision({ rectangle1, rectangle2 }) {
         return (

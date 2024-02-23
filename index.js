@@ -898,13 +898,19 @@ function startGame() {
         });
     }
 
+    let highestSoil = 0
+    let lowestSoil = 3840
+    let soilFurthestToRight = 0
+    let soilFurthestToLeft = 5760
     function createNewSoilTile() {
-        const toolOffset = {'left': {x: -50, y:40},
-        'right': {x: 50, y:40},
-        'up': {x: 0, y:-10},
-        'down': {x: 0, y:50}}
-        const roundedX = player.pos.x + background.pos.x%64 
-        const roundedY = player.pos.y + background.pos.y%64 + 64
+        const toolOffset = {'left': {x: 55, y:64},
+        'right': {x: 55, y:64},
+        'up': {x: 55, y:64},
+        'down': {x: 55, y:128}}
+        console.log(toolOffset[player.direction].x, toolOffset[player.direction].y)
+        const roundedX = player.pos.x + toolOffset[player.direction].x+ background.pos.x%64
+        const roundedY = player.pos.y + toolOffset[player.direction].y + background.pos.y%64
+        const soilPosOnMap = roundedY - background.pos.y
         soilTiles.push(new classes.SoilTile({
             pos: {
                 x: roundedX,
@@ -912,6 +918,19 @@ function startGame() {
             },
             image: soilImage
         }));
+        if (soilPosOnMap > highestSoil){
+            highestSoil = soilPosOnMap
+        }
+        if (soilPosOnMap < lowestSoil){
+            lowestSoil = soilPosOnMap
+        }
+        if (roundedX - background.pos.x > soilFurthestToRight){
+            soilFurthestToRight = roundedX - background.pos.x
+        }
+        if (roundedX - background.pos.x < soilFurthestToLeft){
+            soilFurthestToLeft = roundedX - background.pos.x
+        }
+        console.log(highestSoil, lowestSoil, soilFurthestToLeft, soilFurthestToRight)
     }
     
 

@@ -577,15 +577,7 @@ function startGame() {
     const soilImage = new Image();
     soilImage.src = './graphics/soil/x.png';
 
-    const soil1 = new classes.SoilTile({
-        pos: {
-            x: 100,
-            y: 100
-        },
-        image: soilImage
-    })
-
-    const soilTiles = [soil1];
+    let soilTiles = [];
 
     const player = new classes.Player({
         pos: {
@@ -669,7 +661,7 @@ function startGame() {
         }
     };
 
-    const moveables = [...boundaries, background, chicken, ...soilTiles, foreground, ...soilTiles];
+    let moveables = [...boundaries, background, chicken, ...soilTiles, foreground];
 
     function rectangularCollision({ rectangle1, rectangle2 }) {
         return (
@@ -871,6 +863,9 @@ function startGame() {
                         console.log("tool use")
                         player.timers['tool use'].activate();
                         player.frameIndex = 0
+                        createNewSoilTile()
+                        console.log(soilTiles)
+                        moveables = [...boundaries, background, chicken, ...soilTiles, foreground];
                     }
                     break;
                 case 'o':
@@ -902,6 +897,23 @@ function startGame() {
             }
         });
     }
+
+    function createNewSoilTile() {
+        const toolOffset = {'left': {x: -50, y:40},
+        'right': {x: 50, y:40},
+        'up': {x: 0, y:-10},
+        'down': {x: 0, y:50}}
+        const roundedX = player.pos.x + background.pos.x%64 
+        const roundedY = player.pos.y + background.pos.y%64 + 64
+        soilTiles.push(new classes.SoilTile({
+            pos: {
+                x: roundedX,
+                y: roundedY
+            },
+            image: soilImage
+        }));
+    }
+    
 
     function update() {
         input();

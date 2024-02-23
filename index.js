@@ -918,19 +918,39 @@ function startGame() {
             },
             image: soilImage
         }));
-        if (soilPosOnMap > highestSoil){
-            highestSoil = soilPosOnMap
+        const neighborTiles = {
+            left: null,
+            right: null,
+            up: null,
+            down: null
+        };
+
+        for (const tile of soilTiles) {
+            if (tile.pos.x === roundedX - 64 && tile.pos.y === roundedY) {
+                neighborTiles.left = tile;
+            } else if (tile.pos.x === roundedX + 64 && tile.pos.y === roundedY) {
+                neighborTiles.right = tile;
+            } else if (tile.pos.x === roundedX && tile.pos.y === roundedY - 64) {
+                neighborTiles.up = tile;
+            } else if (tile.pos.x === roundedX && tile.pos.y === roundedY + 64) {
+                neighborTiles.down = tile;
+            }
+            console.log(neighborTiles)
         }
-        if (soilPosOnMap < lowestSoil){
-            lowestSoil = soilPosOnMap
-        }
-        if (roundedX - background.pos.x > soilFurthestToRight){
-            soilFurthestToRight = roundedX - background.pos.x
-        }
-        if (roundedX - background.pos.x < soilFurthestToLeft){
-            soilFurthestToLeft = roundedX - background.pos.x
-        }
-        console.log(highestSoil, lowestSoil, soilFurthestToLeft, soilFurthestToRight)
+
+        // if (soilPosOnMap > highestSoil){
+        //     highestSoil = soilPosOnMap
+        // }
+        // if (soilPosOnMap < lowestSoil){
+        //     lowestSoil = soilPosOnMap
+        // }
+        // if (roundedX - background.pos.x > soilFurthestToRight){
+        //     soilFurthestToRight = roundedX - background.pos.x
+        // }
+        // if (roundedX - background.pos.x < soilFurthestToLeft){
+        //     soilFurthestToLeft = roundedX - background.pos.x
+        // }
+        // console.log(highestSoil, lowestSoil, soilFurthestToLeft, soilFurthestToRight)
     }
     
 

@@ -202,8 +202,8 @@ class Timer {
   }
 
 export class SoilTile extends Sprite{
-    constructor({ pos, image, status}) {
-    super({ pos, image, status})
+    constructor({ pos, image}) {
+    super({ pos, image})
     this.status = "X"
     }
 }

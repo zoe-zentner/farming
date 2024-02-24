@@ -574,8 +574,51 @@ function startGame() {
     const seedImage = new Image();
     seedImage.src = './graphics/overlay/corn.png';
 
+    const bImage = new Image();
+    bImage.src = "./graphics/soil/b.png";
+    const blImage = new Image();
+    blImage.src = "./graphics/soil/bl.png"
+    const bmImage = new Image();
+    bmImage.src = "./graphics/soil/bm.png"
+    const brImage = new Image();
+    brImage.src = "./graphics/soil/br.png"
+    const lImage = new Image();
+    lImage.src = "./graphics/soil/l.png"
+    const lmImage = new Image();
+    lmImage.src = "./graphics/soil/lm.png"
+    const lrImage = new Image();
+    lrImage.src = "./graphics/soil/lr.png"
+    const lrbImage = new Image();
+    lrbImage.src = "./graphics/soil/lrb.png"
+    const lrtImage = new Image();
+    lrtImage.src = "./graphics/soil/lrt.png"
+    const oImage = new Image();
+    oImage.src = "./graphics/soil/o.png"
+    const rImage = new Image();
+    rImage.src = "./graphics/soil/r.png"
+    const rmImage = new Image();
+    rmImage.src = "./graphics/soil/rm.png"
     const soilImage = new Image();
-    soilImage.src = './graphics/soil/x.png';
+    soilImage.src = "./graphics/soil/soil.png"
+    const tImage = new Image();
+    tImage.src = "./graphics/soil/t.png"
+    const tbImage = new Image();
+    tbImage.src = "./graphics/soil/tb.png"
+    const tblImage = new Image();
+    tblImage.src = "./graphics/soil/tbl.png"
+    const tbrImage = new Image();
+    tbrImage.src = "./graphics/soil/tbr.png"
+    const tlImage = new Image();
+    tlImage.src = "./graphics/soil/tl.png"
+    const tmImage = new Image();
+    tmImage.src = "./graphics/soil/tm.png"
+    const trImage = new Image();
+    trImage.src = "./graphics/soil/tr.png"
+    const xImage = new Image();
+    xImage.src = "./graphics/soil/x.png"
+
+    // const soilImage = new Image();
+    // soilImage.src = './graphics/soil/x.png';
 
     let soilTiles = [];
 
@@ -864,7 +907,7 @@ function startGame() {
                         player.timers['tool use'].activate();
                         player.frameIndex = 0
                         createNewSoilTile()
-                        console.log(soilTiles)
+                        // console.log(soilTiles)
                         moveables = [...boundaries, background, chicken, ...soilTiles, foreground];
                     }
                     break;
@@ -898,45 +941,103 @@ function startGame() {
         });
     }
 
-    let highestSoil = 0
-    let lowestSoil = 3840
-    let soilFurthestToRight = 0
-    let soilFurthestToLeft = 5760
+// S O I L functions
+    function doesSoilTileExist(x, y) {
+        for (const soilTile of soilTiles) {
+            if (soilTile.pos.x === x && soilTile.pos.y === y) {
+                return true; // Soil tile exists at this position
+            }
+        }
+        return false; // Soil tile does not exist at this position
+    }
+
+    function getNeighborTiles(x, y) {
+        const t = doesSoilTileExist(x, y - 64);
+        const r = doesSoilTileExist(x + 64, y);
+        const b = doesSoilTileExist(x, y + 64);
+        const l = doesSoilTileExist(x - 64, y);
+        return {t, r, b, l};
+    }
+
+    function changeSoilImage(t, b, l, r) {
+            let soilTileImage = ''
+            // all sides
+            if (t && r && b && l) soilTileImage = xImage;
+
+            // horizontal tiles only
+            if (l && !t && !r && !b) soilTileImage = rImage;
+            if (r && !t && !l && !b) soilTileImage = lImage;
+            if (r && l && !t && !b) soilTileImage = lrImage;
+    
+            // vertical only
+            if (t && !r && !l && !b) soilTileImage = bImage;
+            if (b && !r && !l && !t) soilTileImage = tImage;
+            if (b && t && !r && !l) soilTileImage = tbImage;
+    
+            // corners
+            if (l && b && !t && !r) soilTileImage = trImage;
+            if (r && b && !t && !l) soilTileImage = tlImage;
+            if (l && t && !b && !r) soilTileImage = brImage;
+            if (r && t && !b && !l) soilTileImage = blImage;
+    
+            // T shapes
+            if (t && b && r && !l) soilTileImage = tbrImage;
+            if (t && b && l && !r) soilTileImage = tblImage;
+            if (l && r && t && !b) soilTileImage = lrbImage;
+            if (l && r && b && !t) soilTileImage = lrtImage;
+
+            // alone
+            if (!l && !r && !b && !t) soilTileImage = soilImage;
+            return soilTileImage
+    }
+
     function createNewSoilTile() {
         const toolOffset = {'left': {x: 55, y:64},
         'right': {x: 55, y:64},
         'up': {x: 55, y:64},
         'down': {x: 55, y:128}}
-        console.log(toolOffset[player.direction].x, toolOffset[player.direction].y)
+        // console.log(toolOffset[player.direction].x, toolOffset[player.direction].y)
         const roundedX = player.pos.x + toolOffset[player.direction].x+ background.pos.x%64
         const roundedY = player.pos.y + toolOffset[player.direction].y + background.pos.y%64
-        const soilPosOnMap = roundedY - background.pos.y
-        soilTiles.push(new classes.SoilTile({
-            pos: {
-                x: roundedX,
-                y: roundedY
-            },
-            image: soilImage
-        }));
-        const neighborTiles = {
-            left: null,
-            right: null,
-            up: null,
-            down: null
-        };
-
-        for (const tile of soilTiles) {
-            if (tile.pos.x === roundedX - 64 && tile.pos.y === roundedY) {
-                neighborTiles.left = tile;
-            } else if (tile.pos.x === roundedX + 64 && tile.pos.y === roundedY) {
-                neighborTiles.right = tile;
-            } else if (tile.pos.x === roundedX && tile.pos.y === roundedY - 64) {
-                neighborTiles.up = tile;
-            } else if (tile.pos.x === roundedX && tile.pos.y === roundedY + 64) {
-                neighborTiles.down = tile;
+        // const soilPosOnMap = roundedY - background.pos.y
+        const alreadyExists = doesSoilTileExist(roundedX, roundedY)
+        if (!alreadyExists){
+            soilTiles.push(new classes.SoilTile({
+                pos: {
+                    x: roundedX,
+                    y: roundedY
+                },
+                image: soilImage
+            }));
+            // const {t, r, b, l} = getNeighborTiles(roundedX, roundedY)
+            // console.log(t,r,b,l)
+            for (const soilTile of soilTiles) {
+                const {t, r, b, l} = getNeighborTiles(roundedX, roundedY)
+                console.log(t,r,b,l)
+                soilTile.image = changeSoilImage(t,b,l,r)
             }
-            console.log(neighborTiles)
-        }
+            // const neighborTiles = {
+            //     left: null,
+            //     right: null,
+            //     up: null,
+            //     down: null
+            // };
+
+            // for (const soilTile of soilTiles) {
+            //     if (soilTile.pos.x === roundedX - 64 && soilTile.pos.y === roundedY) {
+            //         neighborTiles.left = soilTile;
+            //         soilTile.status = "soil"
+            //     } else if (soilTile.pos.x === roundedX + 64 && soilTile.pos.y === roundedY) {
+            //         neighborTiles.right = soilTile;
+            //     } else if (soilTile.pos.x === roundedX && soilTile.pos.y === roundedY - 64) {
+            //         neighborTiles.up = soilTile;
+            //     } else if (soilTile.pos.x === roundedX && soilTile.pos.y === roundedY + 64) {
+            //         neighborTiles.down = soilTile;
+            //     }
+            //     console.log(soilTile.status)
+            //     // soilImage = './graphics/soil/' + soilTile.status + '.png'
+            // }
+    }
 
         // if (soilPosOnMap > highestSoil){
         //     highestSoil = soilPosOnMap

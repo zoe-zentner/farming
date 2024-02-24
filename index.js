@@ -807,7 +807,6 @@ function startGame() {
             for (let i = 0; i < boundaries.length; i++) {
                 const boundary = boundaries[i];
                 if (checkUpCollision(boundary)) {
-                    console.log("colliding");
                     moving = false;
                     break;
                 }
@@ -826,7 +825,6 @@ function startGame() {
             for (let i = 0; i < boundaries.length; i++) {
                 const boundary = boundaries[i];
                 if (checkDownCollision(boundary)) {
-                    console.log("colliding");
                     moving = false;
                     break;
                 }
@@ -845,7 +843,6 @@ function startGame() {
             for (let i = 0; i < boundaries.length; i++) {
                 const boundary = boundaries[i];
                 if (checkRightCollision(boundary)) {
-                    console.log("colliding");
                     moving = false;
                     break;
                 }
@@ -864,7 +861,6 @@ function startGame() {
             for (let i = 0; i < boundaries.length; i++) {
                 const boundary = boundaries[i];
                 if (checkLeftCollision(boundary)) {
-                    console.log("colliding");
                     moving = false;
                     break;
                 }
@@ -922,7 +918,6 @@ function startGame() {
                     break
                 case 'p':
                     if (!player.timers['tool use'].active){
-                        console.log("tool use")
                         player.timers['tool use'].activate();
                         player.frameIndex = 0
                         if(player.tools[player.tool_index] == "hoe"){
@@ -1087,10 +1082,9 @@ function startGame() {
                         soilTile.seedType = player.seeds[player.seed_index]
                         soilTile.seedType = player.seeds[player.seed_index]
                         soilTile.SeedIndex = 0
-                        console.log(soilTile.seedType)}
+                    }
                     if(soilTile.status == "W" && !(soilTile.seedType == null)){
                         if(soilTile.lifeIndex<3){soilTile.lifeIndex = soilTile.lifeIndex +1}
-                        console.log(soilTile.lifeIndex)
                     }
                     break; // Once the status is updated, exit the loop
                 }
@@ -1120,7 +1114,7 @@ function startGame() {
                 if (soilTile.lifeIndex === 3) {
                     // Harvest the plant
                     soilTile.lifeIndex = 0; // Reset lifeIndex
-                    player.inventory[soilTile.seedType]++
+                    player.inventory[soilTile.seedType]++;
                     soilTile.seedType = null
                 }
             }

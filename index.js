@@ -619,6 +619,24 @@ function startGame() {
     const wateredSoil = new Image();
     wateredSoil.src = "./graphics/soil_water/0.png"
 
+    const cornImage0 = new Image();
+    cornImage0.src = './graphics/fruit/corn/0.png'
+    const cornImage1 = new Image();
+    cornImage1.src = './graphics/fruit/corn/1.png'
+    const cornImage2 = new Image();
+    cornImage2.src = './graphics/fruit/corn/2.png'
+    const cornImage3 = new Image();
+    cornImage3.src = './graphics/fruit/corn/3.png'
+
+    const tomatoImage0 = new Image();
+    tomatoImage0.src = './graphics/fruit/tomato/0.png'
+    const tomatoImage1 = new Image();
+    tomatoImage1.src = './graphics/fruit/tomato/1.png'
+    const tomatoImage2 = new Image();
+    tomatoImage2.src = './graphics/fruit/tomato/2.png'
+    const tomatoImage3 = new Image();
+    tomatoImage3.src = './graphics/fruit/tomato/3.png'
+
     let soilTiles = [];
 
     const player = new classes.Player({
@@ -909,7 +927,7 @@ function startGame() {
                             createNewSoilTile()
                             moveables = [...boundaries, background, chicken, ...soilTiles, foreground]};
                         if(player.tools[player.tool_index] == "water"){
-                            changeSoilTileStatus()
+                            changeSoilWaterStatus()
                             waterSoilTiles()
                         }
                     }
@@ -1024,7 +1042,7 @@ function startGame() {
         }
     }
 
-    function changeSoilTileStatus() {
+    function changeSoilWaterStatus() {
         const toolOffset = {
             'left': { x: 55, y: 64 },
             'right': { x: 55, y: 64 },
@@ -1065,6 +1083,7 @@ function startGame() {
                 if (soilTile.pos.x === roundedX && soilTile.pos.y === roundedY) {
                     if(soilTile.status == "W" && soilTile.seedType == null){
                         soilTile.seedType = player.seeds[player.seed_index]
+                        soilTile.seedType = player.seeds[player.seed_index]
                         soilTile.SeedIndex = 0
                         console.log(soilTile.seedType)}
                     break; // Once the status is updated, exit the loop
@@ -1073,7 +1092,13 @@ function startGame() {
         }
     }
     
-    
+    function displayPlants() {
+        for (const soilTile of soilTiles) {
+            if(soilTile.seedType == "corn"){c.drawImage(cornImage0, soilTile.pos.x+6, soilTile.pos.y+10)}
+            if(soilTile.seedType == "tomato"){c.drawImage(tomatoImage0, soilTile.pos.x, soilTile.pos.y)}
+        }
+    }
+
 
     function update() {
         input();
@@ -1090,6 +1115,7 @@ function startGame() {
         });
 
         waterSoilTiles()
+        displayPlants()
     
         // Draw the player last
         player.draw();

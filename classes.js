@@ -32,7 +32,7 @@ export class Sprite {
 
 export class Merchant extends Sprite {
     constructor({ pos, image}) {
-        super({ pos, image, width, height});
+        super({ pos, image});
     }
 }
 
@@ -70,14 +70,6 @@ export class Player extends Sprite {
             'apple':  0,
             'corn':   0,
             'tomato': 0
-        }
-
-        for (let animation in this.animations) {
-            for (let i = 0; i <= imagesPerAnimation; i++) {
-                const filename = `${animation}/${i}.png`; // Assuming PNG format
-                const imagePath = `${animationFolderPath}/${filename}`;
-                this.loadImage(imagePath, animation);
-            }
         }
     }
 }

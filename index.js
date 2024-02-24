@@ -644,9 +644,9 @@ function startGame() {
 
     let soilTiles = [];
 
-    const merchant = new classes.Player({
+    const merchant = new classes.Merchant({
         pos: {
-            x: canvas.width / 2 ,
+            x: canvas.width / 2 + 80,
             y: canvas.height / 2
         },
         image: merchantImage

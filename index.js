@@ -916,7 +916,7 @@ function startGame() {
                     break;
                 case 'o':
                     if (!player.timers['seed use'].active){
-                        console.log("seed use")
+                        plantSeed()
                         player.timers['seed use'].activate();
                     }
                     break;
@@ -1041,6 +1041,32 @@ function startGame() {
             for (const soilTile of soilTiles) {
                 if (soilTile.pos.x === roundedX && soilTile.pos.y === roundedY) {
                     soilTile.status = "W";
+                    break; // Once the status is updated, exit the loop
+                }
+            }
+        }
+    }
+
+    function plantSeed(){
+        const toolOffset = {
+            'left': { x: 55, y: 64 },
+            'right': { x: 55, y: 64 },
+            'up': { x: 55, y: 64 },
+            'down': { x: 55, y: 128 }
+        };
+        const roundedX = player.pos.x + toolOffset[player.direction].x + background.pos.x % 64;
+        const roundedY = player.pos.y + toolOffset[player.direction].y + background.pos.y % 64;
+        const soilTileExists = doesSoilTileExist(roundedX, roundedY);
+    
+        // Check if a soil tile exists at the calculated position
+        if (soilTileExists) {
+            // If a soil tile exists, change its status to "W" (watered)
+            for (const soilTile of soilTiles) {
+                if (soilTile.pos.x === roundedX && soilTile.pos.y === roundedY) {
+                    if(soilTile.status == "W" && soilTile.seedType == null){
+                        soilTile.seedType = player.seeds[player.seed_index]
+                        soilTile.SeedIndex = 0
+                        console.log(soilTile.seedType)}
                     break; // Once the status is updated, exit the loop
                 }
             }

@@ -996,10 +996,8 @@ function startGame() {
         'right': {x: 55, y:64},
         'up': {x: 55, y:64},
         'down': {x: 55, y:128}}
-        // console.log(toolOffset[player.direction].x, toolOffset[player.direction].y)
         const roundedX = player.pos.x + toolOffset[player.direction].x+ background.pos.x%64
         const roundedY = player.pos.y + toolOffset[player.direction].y + background.pos.y%64
-        // const soilPosOnMap = roundedY - background.pos.y
         const alreadyExists = doesSoilTileExist(roundedX, roundedY)
         if (!alreadyExists){
             soilTiles.push(new classes.SoilTile({
@@ -1009,49 +1007,11 @@ function startGame() {
                 },
                 image: soilImage
             }));
-            // const {t, r, b, l} = getNeighborTiles(roundedX, roundedY)
-            // console.log(t,r,b,l)
             for (const soilTile of soilTiles) {
-                const {t, r, b, l} = getNeighborTiles(roundedX, roundedY)
-                console.log(t,r,b,l)
+                const {t, r, b, l} = getNeighborTiles(soilTile.pos.x, soilTile.pos.y)
                 soilTile.image = changeSoilImage(t,b,l,r)
             }
-            // const neighborTiles = {
-            //     left: null,
-            //     right: null,
-            //     up: null,
-            //     down: null
-            // };
-
-            // for (const soilTile of soilTiles) {
-            //     if (soilTile.pos.x === roundedX - 64 && soilTile.pos.y === roundedY) {
-            //         neighborTiles.left = soilTile;
-            //         soilTile.status = "soil"
-            //     } else if (soilTile.pos.x === roundedX + 64 && soilTile.pos.y === roundedY) {
-            //         neighborTiles.right = soilTile;
-            //     } else if (soilTile.pos.x === roundedX && soilTile.pos.y === roundedY - 64) {
-            //         neighborTiles.up = soilTile;
-            //     } else if (soilTile.pos.x === roundedX && soilTile.pos.y === roundedY + 64) {
-            //         neighborTiles.down = soilTile;
-            //     }
-            //     console.log(soilTile.status)
-            //     // soilImage = './graphics/soil/' + soilTile.status + '.png'
-            // }
-    }
-
-        // if (soilPosOnMap > highestSoil){
-        //     highestSoil = soilPosOnMap
-        // }
-        // if (soilPosOnMap < lowestSoil){
-        //     lowestSoil = soilPosOnMap
-        // }
-        // if (roundedX - background.pos.x > soilFurthestToRight){
-        //     soilFurthestToRight = roundedX - background.pos.x
-        // }
-        // if (roundedX - background.pos.x < soilFurthestToLeft){
-        //     soilFurthestToLeft = roundedX - background.pos.x
-        // }
-        // console.log(highestSoil, lowestSoil, soilFurthestToLeft, soilFurthestToRight)
+        }
     }
     
 

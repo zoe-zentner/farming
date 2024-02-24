@@ -652,6 +652,10 @@ function startGame() {
         image: merchantImage
     })
 
+    function merchantInterraction(){
+        console.log("Merchant")
+    }
+
     canvas.addEventListener('click', function(event) {
         // Get the mouse position relative to the canvas
         const rect = canvas.getBoundingClientRect();
@@ -661,7 +665,7 @@ function startGame() {
         // Check if the mouse click occurred within the bounding box of the merchant
         if (mouseX >= merchant.pos.x && mouseX <= merchant.pos.x + merchantImage.width &&
             mouseY >= merchant.pos.y && mouseY <= merchant.pos.y + merchantImage.height) {
-            console.log("Merchant");
+            merchantInterraction();
         }
     });
 

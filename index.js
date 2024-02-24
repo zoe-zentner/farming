@@ -616,6 +616,8 @@ function startGame() {
     trImage.src = "./graphics/soil/tr.png"
     const xImage = new Image();
     xImage.src = "./graphics/soil/x.png"
+    const wateredSoil = new Image();
+    wateredSoil.src = "./graphics/soil_water/0.png"
 
     let soilTiles = [];
 
@@ -904,7 +906,6 @@ function startGame() {
                         player.timers['tool use'].activate();
                         player.frameIndex = 0
                         createNewSoilTile()
-                        // console.log(soilTiles)
                         moveables = [...boundaries, background, chicken, ...soilTiles, foreground];
                     }
                     break;
@@ -988,8 +989,10 @@ function startGame() {
             return soilTileImage
     }
 
-    function waterSoilTile() {
-        
+    function waterSoilTiles() {
+        for (const soilTile of soilTiles) {
+            if(soilTile.status == "W"){c.drawImage(wateredSoil, soilTile.pos.x, soilTile.pos.y)
+        }}
     }
 
     function createNewSoilTile() {
@@ -1030,6 +1033,8 @@ function startGame() {
         moveables.forEach(moveable => {
             moveable.draw();
         });
+
+        waterSoilTiles()
     
         // Draw the player last
         player.draw();

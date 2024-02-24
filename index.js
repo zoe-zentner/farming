@@ -652,9 +652,78 @@ function startGame() {
         image: merchantImage
     })
 
-    function merchantInterraction(){
-        console.log("Merchant")
+    function merchantInteraction() {
+        // Create a container element
+        const container = document.createElement('div');
+        container.className = 'inventory-container'; // Add a class name for easier reference
+        container.style.position = 'absolute';
+        container.style.top = '50%';
+        container.style.left = '50%';
+        container.style.transform = 'translate(-50%, -50%)';
+        container.style.padding = '50px 100px'; // Adjust padding to make it less tall and wider
+        container.style.width = '400px'; // Make the box wider
+        container.style.backgroundColor = '#f7f2d5';
+        container.style.border = '2px solid black';
+        container.style.fontFamily = 'LycheeSoda'; // Apply Lychee Soda font
+        container.style.textAlign = 'center'; // Center text
+        container.style.fontSize = '24px'; // Set font size
+    
+        // Populate the container with text displaying the player's inventory
+        const inventoryText = document.createElement('p');
+        inventoryText.textContent = 'Player Inventory:';
+        inventoryText.style.marginBottom = '20px'; // Add some space between inventory title and items
+        inventoryText.style.fontSize = '40px'; // Set font size for title
+        container.appendChild(inventoryText);
+    
+        // Loop through player's inventory and add items to the container
+        for (const [item, quantity] of Object.entries(player.inventory)) {
+            const itemText = document.createElement('p');
+            itemText.textContent = `${item}: ${quantity}`;
+            itemText.style.fontSize = '28px'; // Set font size for inventory items
+            container.appendChild(itemText);
+        }
+    
+        // Create a "Sell All" button
+        const sellAllButton = document.createElement('button');
+        sellAllButton.textContent = 'Sell All';
+        sellAllButton.style.marginTop = '40px'; // Add more space between inventory items and buttons
+        sellAllButton.style.fontSize = '20px';
+        sellAllButton.style.marginRight = '40px'; // Add more space between buttons
+        sellAllButton.style.fontFamily = 'LycheeSoda'; // Apply Lychee Soda font
+        sellAllButton.style.padding = '10px 20px'; // Increase button size
+        sellAllButton.addEventListener('click', sellAllItems); // Add event listener to handle selling all items
+        container.appendChild(sellAllButton);
+    
+        // Create a "Close Inventory" button
+        const closeInventoryButton = document.createElement('button');
+        closeInventoryButton.textContent = 'Close Inventory';
+        closeInventoryButton.style.fontSize = '20px';
+        closeInventoryButton.style.marginTop = '40px'; // Add more space between inventory items and buttons
+        closeInventoryButton.style.fontFamily = 'LycheeSoda'; // Apply Lychee Soda font
+        closeInventoryButton.style.padding = '10px 20px'; // Increase button size
+        closeInventoryButton.addEventListener('click', closeInventory); // Add event listener to handle closing inventory
+        container.appendChild(closeInventoryButton);
+    
+        // Append the container to the document body
+        document.body.appendChild(container);
     }
+    
+    
+    // Function to handle selling all items
+    function sellAllItems() {
+        // Your logic for selling all items goes here
+    }
+    
+    // Function to handle closing inventory
+    function closeInventory() {
+        // Remove the inventory container from the document body
+        document.body.removeChild(document.querySelector('.inventory-container'));
+    }
+    
+    
+    
+    
+    
 
     canvas.addEventListener('click', function(event) {
         // Get the mouse position relative to the canvas
@@ -665,7 +734,7 @@ function startGame() {
         // Check if the mouse click occurred within the bounding box of the merchant
         if (mouseX >= merchant.pos.x && mouseX <= merchant.pos.x + merchantImage.width &&
             mouseY >= merchant.pos.y && mouseY <= merchant.pos.y + merchantImage.height) {
-            merchantInterraction();
+            merchantInteraction();
         }
     });
 
@@ -1170,6 +1239,7 @@ function startGame() {
         displayPlants()
     
         // Draw the player last
+        merchant.draw()
         player.draw();
         foreground.draw();
 

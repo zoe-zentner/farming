@@ -908,6 +908,10 @@ function startGame() {
                         if(player.tools[player.tool_index] == "hoe"){
                             createNewSoilTile()
                             moveables = [...boundaries, background, chicken, ...soilTiles, foreground]};
+                        if(player.tools[player.tool_index] == "water"){
+                            changeSoilTileStatus()
+                            waterSoilTiles()
+                        }
                     }
                     break;
                 case 'o':
@@ -1003,8 +1007,8 @@ function startGame() {
         'down': {x: 55, y:128}}
         const roundedX = player.pos.x + toolOffset[player.direction].x+ background.pos.x%64
         const roundedY = player.pos.y + toolOffset[player.direction].y + background.pos.y%64
-        const alreadyExists = doesSoilTileExist(roundedX, roundedY)
-        if (!alreadyExists){
+        const soilTileExists = doesSoilTileExist(roundedX, roundedY)
+        if (!soilTileExists){
             soilTiles.push(new classes.SoilTile({
                 pos: {
                     x: roundedX,
@@ -1019,6 +1023,30 @@ function startGame() {
             }
         }
     }
+
+    function changeSoilTileStatus() {
+        const toolOffset = {
+            'left': { x: 55, y: 64 },
+            'right': { x: 55, y: 64 },
+            'up': { x: 55, y: 64 },
+            'down': { x: 55, y: 128 }
+        };
+        const roundedX = player.pos.x + toolOffset[player.direction].x + background.pos.x % 64;
+        const roundedY = player.pos.y + toolOffset[player.direction].y + background.pos.y % 64;
+        const soilTileExists = doesSoilTileExist(roundedX, roundedY);
+    
+        // Check if a soil tile exists at the calculated position
+        if (soilTileExists) {
+            // If a soil tile exists, change its status to "W" (watered)
+            for (const soilTile of soilTiles) {
+                if (soilTile.pos.x === roundedX && soilTile.pos.y === roundedY) {
+                    soilTile.status = "W";
+                    break; // Once the status is updated, exit the loop
+                }
+            }
+        }
+    }
+    
     
 
     function update() {

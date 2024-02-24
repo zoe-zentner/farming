@@ -905,8 +905,9 @@ function startGame() {
                         console.log("tool use")
                         player.timers['tool use'].activate();
                         player.frameIndex = 0
-                        createNewSoilTile()
-                        moveables = [...boundaries, background, chicken, ...soilTiles, foreground];
+                        if(player.tools[player.tool_index] == "hoe"){
+                            createNewSoilTile()
+                            moveables = [...boundaries, background, chicken, ...soilTiles, foreground]};
                     }
                     break;
                 case 'o':

@@ -627,6 +627,7 @@ function startGame() {
     cornImage2.src = './graphics/fruit/corn/2.png'
     const cornImage3 = new Image();
     cornImage3.src = './graphics/fruit/corn/3.png'
+    const cornImages = [cornImage0, cornImage1, cornImage2, cornImage3]
 
     const tomatoImage0 = new Image();
     tomatoImage0.src = './graphics/fruit/tomato/0.png'
@@ -636,6 +637,7 @@ function startGame() {
     tomatoImage2.src = './graphics/fruit/tomato/2.png'
     const tomatoImage3 = new Image();
     tomatoImage3.src = './graphics/fruit/tomato/3.png'
+    const tomatoImages = [tomatoImage0, tomatoImage1, tomatoImage2, tomatoImage3]
 
     let soilTiles = [];
 
@@ -1086,6 +1088,10 @@ function startGame() {
                         soilTile.seedType = player.seeds[player.seed_index]
                         soilTile.SeedIndex = 0
                         console.log(soilTile.seedType)}
+                    if(soilTile.status == "W" && !(soilTile.seedType == null)){
+                        if(soilTile.lifeIndex<3){soilTile.lifeIndex = soilTile.lifeIndex +1}
+                        console.log(soilTile.lifeIndex)
+                    }
                     break; // Once the status is updated, exit the loop
                 }
             }
@@ -1094,8 +1100,8 @@ function startGame() {
     
     function displayPlants() {
         for (const soilTile of soilTiles) {
-            if(soilTile.seedType == "corn"){c.drawImage(cornImage0, soilTile.pos.x+6, soilTile.pos.y+10)}
-            if(soilTile.seedType == "tomato"){c.drawImage(tomatoImage0, soilTile.pos.x, soilTile.pos.y)}
+            if(soilTile.seedType == "corn"){c.drawImage(cornImages[soilTile.lifeIndex], soilTile.pos.x, soilTile.pos.y)}
+            if(soilTile.seedType == "tomato"){c.drawImage(tomatoImages[soilTile.lifeIndex], soilTile.pos.x, soilTile.pos.y)}
         }
     }
 

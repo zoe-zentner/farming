@@ -202,31 +202,7 @@ class Timer {
   }
 
 export class SoilTile extends Sprite{
-    constructor({ pos, image}) {
-    super({ pos, image})
-    this.status = "X"
+    constructor({ pos, image, status}) {
+    super({ pos, image, status})
     }
-}
-
-export class SoilLayer {
-    constructor() {}
-    createSoilGrid() {
-        var ground = new Image();
-        ground.onload = function() {
-            var hTiles = Math.floor(ground.width / TILE_SIZE);
-            var vTiles = Math.floor(ground.height / TILE_SIZE);
-            var grid = new Array(vTiles).fill(null).map(() => new Array(hTiles).fill([]));
-    
-            // Assuming load_pygame function is defined elsewhere
-            load_pygame('Animations/data/map.tmx').get_layer_by_name('Farmable').tiles().forEach(tile => {
-                var [x, y, _] = tile;
-                grid[y][x].push('F');
-            });
-    
-            // Now you have your grid populated
-            console.log(grid);
-        };
-        ground.src = 'Animations/graphics/world/ground.png';
-    }
-    
 }

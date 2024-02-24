@@ -416,6 +416,7 @@ function startGame() {
 
     canvas.width = 1280;
     canvas.height = 720;
+    let initialSoilStatus = "X"
 
     const endGameButton = createEndGameButton();
     document.body.appendChild(endGameButton);
@@ -427,10 +428,9 @@ function startGame() {
     function chanceOfRain() {
         let raining = false;
         let number = Math.floor(Math.random() * 100) + 1;
-        if (number >= 70) {
+        if (number >= 30) {
             raining = true;
         } else {
-            raining = true
             raining = false
         }
         return raining;
@@ -490,7 +490,7 @@ function startGame() {
     let raining = chanceOfRain();
     if(raining){
         createRain()
-    }
+        initialSoilStatus = "W"}
 
     const collisionsMap = [];
     for (let i = 0; i < collisions.length; i += 90) {
@@ -616,9 +616,6 @@ function startGame() {
     trImage.src = "./graphics/soil/tr.png"
     const xImage = new Image();
     xImage.src = "./graphics/soil/x.png"
-
-    // const soilImage = new Image();
-    // soilImage.src = './graphics/soil/x.png';
 
     let soilTiles = [];
 
@@ -991,6 +988,10 @@ function startGame() {
             return soilTileImage
     }
 
+    function waterSoilTile() {
+        
+    }
+
     function createNewSoilTile() {
         const toolOffset = {'left': {x: 55, y:64},
         'right': {x: 55, y:64},
@@ -1005,7 +1006,8 @@ function startGame() {
                     x: roundedX,
                     y: roundedY
                 },
-                image: soilImage
+                image: soilImage,
+                status: initialSoilStatus
             }));
             for (const soilTile of soilTiles) {
                 const {t, r, b, l} = getNeighborTiles(soilTile.pos.x, soilTile.pos.y)

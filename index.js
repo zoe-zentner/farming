@@ -1120,8 +1120,8 @@ function startGame() {
                 if (soilTile.lifeIndex === 3) {
                     // Harvest the plant
                     soilTile.lifeIndex = 0; // Reset lifeIndex
-                    soilTile.seedType = null; // Remove seedType
-                    console.log("Plant harvested!");
+                    player.inventory[soilTile.seedType]++
+                    soilTile.seedType = null
                 }
             }
         }

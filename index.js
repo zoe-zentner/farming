@@ -562,6 +562,9 @@ function startGame() {
     const playerImage = new Image();
     playerImage.src = './graphics/character/down_idle/0.png';
 
+    const merchantImage = new Image();
+    merchantImage.src = './graphics/objects/merchant.png'
+
     const chickenImage = new Image();
     chickenImage.src = './graphics/chicken/idle/0.png'
 
@@ -640,6 +643,14 @@ function startGame() {
     const tomatoImages = [tomatoImage0, tomatoImage1, tomatoImage2, tomatoImage3]
 
     let soilTiles = [];
+
+    const merchant = new classes.Player({
+        pos: {
+            x: canvas.width / 2 ,
+            y: canvas.height / 2
+        },
+        image: merchantImage
+    })
 
     const player = new classes.Player({
         pos: {
@@ -723,7 +734,7 @@ function startGame() {
         }
     };
 
-    let moveables = [...boundaries, background, chicken, ...soilTiles, foreground];
+    let moveables = [...boundaries, background, ...soilTiles, chicken, merchant, foreground];
 
     function rectangularCollision({ rectangle1, rectangle2 }) {
         return (

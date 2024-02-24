@@ -30,6 +30,12 @@ export class Sprite {
     }
 }
 
+export class Merchant extends Sprite {
+    constructor({ pos, image}) {
+        super({ pos, image, width, height});
+    }
+}
+
 export class Map extends Sprite {
     constructor({ pos, image }) {
         super({ pos, image });
@@ -65,37 +71,15 @@ export class Player extends Sprite {
             'corn':   0,
             'tomato': 0
         }
-        // this.animations = {
-        //     'up': [], 'down': [], 'left': [], 'right': [],
-        //     'right_idle': [], 'left_idle': [], 'up_idle': [], 'down_idle': [],
-        //     'right_hoe': [], 'left_hoe': [], 'up_hoe': [], 'down_hoe': [],
-        //     'right_axe': [], 'left_axe': [], 'up_axe': [], 'down_axe': [],
-        //     'right_water': [], 'left_water': [], 'up_water': [], 'down_water': []
-        //   };
-
-        const animationFolderPath = './graphics/character';
-        const imagesPerAnimation = 1; // Number of images per animation key
 
         for (let animation in this.animations) {
             for (let i = 0; i <= imagesPerAnimation; i++) {
                 const filename = `${animation}/${i}.png`; // Assuming PNG format
                 const imagePath = `${animationFolderPath}/${filename}`;
                 this.loadImage(imagePath, animation);
-                }
-        }
-        
-            // Additional initialization
-            // ...
             }
-        
-            // Method to load image asynchronously
-            loadImage(url, animationKey) {
-            const image = new Image();
-            image.onload = () => {
-                this.animations[animationKey].push(image);
-            };
-            image.src = url;
         }
+    }
 }
 
 export class Chicken extends Sprite {

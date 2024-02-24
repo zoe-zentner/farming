@@ -331,9 +331,7 @@ function settingsfunction() {
 
 }
 
-function displayScore() {
-    let score = 0;
-
+function displayScore(score) {
     const scoreBox = document.createElement('div');
     scoreBox.style.fontFamily = 'LycheeSoda';
     scoreBox.style.backgroundColor = "beige"
@@ -405,6 +403,7 @@ function endGame() {
 }
 
 function startGame() {
+    let score = 0
     const container = this.parentElement;
     container.remove();
 
@@ -420,7 +419,7 @@ function startGame() {
 
     const endGameButton = createEndGameButton();
     document.body.appendChild(endGameButton);
-    displayScore()
+    displayScore(score)
 
     document.getElementById('endGameButton').addEventListener('click', endGame)
 
@@ -708,10 +707,30 @@ function startGame() {
         document.body.appendChild(container);
     }
     
-    
+    const SALE_PRICES = {
+        'wood': 4,
+        'apple': 2,
+        'corn': 10,
+        'tomato': 20
+    };    
     // Function to handle selling all items
     function sellAllItems() {
-        // Your logic for selling all items goes here
+        let totalSaleAmount = 0;
+        // Loop through player's inventory and sell each item
+        for (const [item, quantity] of Object.entries(player.inventory)) {
+            // Calculate sale amount for each item
+            const saleAmount = SALE_PRICES[item] * quantity;
+            totalSaleAmount += saleAmount;
+            // Remove sold items from inventory
+            player.inventory[item] = 0
+        }
+        // Set player inventory to 0
+
+        // Update player's score with total sale amount
+        score += totalSaleAmount;
+        // Update score display
+        displayScore(score);
+        updateDisplayedInventory();
     }
     
     // Function to handle closing inventory
@@ -720,7 +739,15 @@ function startGame() {
         document.body.removeChild(document.querySelector('.inventory-container'));
     }
     
-    
+    function updateDisplayedInventory() {
+        // Remove the existing inventory container
+        const existingInventoryContainer = document.querySelector('.inventory-container');
+        if (existingInventoryContainer) {
+            document.body.removeChild(existingInventoryContainer);
+        }
+        // Re-create the inventory display
+        merchantInteraction();
+    }
     
     
     
@@ -1019,7 +1046,7 @@ function startGame() {
                         player.frameIndex = 0
                         if(player.tools[player.tool_index] == "hoe"){
                             createNewSoilTile()
-                            moveables = [...boundaries, background, chicken, ...soilTiles, foreground]};
+                            moveables = [...boundaries, background, chicken, ...soilTiles, merchant, foreground]};
                         if(player.tools[player.tool_index] == "water"){
                             changeSoilWaterStatus()
                             waterSoilTiles()
@@ -1239,7 +1266,6 @@ function startGame() {
         displayPlants()
     
         // Draw the player last
-        merchant.draw()
         player.draw();
         foreground.draw();
 

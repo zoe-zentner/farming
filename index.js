@@ -1103,7 +1103,30 @@ function startGame() {
             if(soilTile.seedType == "corn"){c.drawImage(cornImages[soilTile.lifeIndex], soilTile.pos.x, soilTile.pos.y)}
             if(soilTile.seedType == "tomato"){c.drawImage(tomatoImages[soilTile.lifeIndex], soilTile.pos.x, soilTile.pos.y)}
         }
+    }                                                                                                                                                  
+
+    function harvestPlant() {
+        for (const soilTile of soilTiles) {
+            // Check if the player collides with a soil tile
+            if (rectangularCollision({
+                    rectangle1: player.hitbox,
+                    rectangle2: {
+                        pos: soilTile.pos,
+                        width: 64,
+                        height: 64
+                    }
+                })) {
+                // Check if the soil tile has a plant with lifeIndex 3
+                if (soilTile.lifeIndex === 3) {
+                    // Harvest the plant
+                    soilTile.lifeIndex = 0; // Reset lifeIndex
+                    soilTile.seedType = null; // Remove seedType
+                    console.log("Plant harvested!");
+                }
+            }
+        }
     }
+    
 
 
     function update() {
@@ -1121,6 +1144,7 @@ function startGame() {
         });
 
         waterSoilTiles()
+        harvestPlant()
         displayPlants()
     
         // Draw the player last

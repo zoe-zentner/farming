@@ -325,8 +325,8 @@ function startGame() {
         endGameButton.style.fontSize = '20px';
         endGameButton.style.color = '#522915';
         endGameButton.classList.add('btn');
-        endGameButton.style.position = 'absolute';
-        endGameButton.style.bottom = '10px';
+        endGameButton.style.position = 'relative';
+        endGameButton.style.bottom = '30px';
         endGameButton.style.right = '130px';
         endGameButton.id = "endGameButton";
         return endGameButton;
@@ -341,7 +341,7 @@ function startGame() {
         scoreBox.style.top = '20px';
         scoreBox.style.left = '20px';
         scoreBox.style.color = '#522915';
-        scoreBox.style.fontSize = '24px';
+        scoreBox.style.fontSize = '40px';
     
         document.body.appendChild(scoreBox);
     }
@@ -842,7 +842,7 @@ function startGame() {
     const tool = new classes.Sprite({
         pos: {
             x: 10,
-            y: canvas.height - 150,
+            y: canvas.height - 70,
         },
         image: toolImage
     })
@@ -850,7 +850,7 @@ function startGame() {
     const seed = new classes.Sprite({
         pos: {
             x: 70,
-            y: canvas.height - 140,
+            y: canvas.height - 70,
         },
         image: seedImage
     })

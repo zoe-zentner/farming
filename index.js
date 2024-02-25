@@ -662,30 +662,55 @@ function startGame() {
         container.style.padding = '50px 100px'; // Adjust padding to make it less tall and wider
         container.style.width = '400px'; // Make the box wider
         container.style.backgroundColor = '#f7f2d5';
+        container.style.maxHeight = '80%';
         container.style.border = '2px solid black';
         container.style.fontFamily = 'LycheeSoda'; // Apply Lychee Soda font
         container.style.textAlign = 'center'; // Center text
         container.style.fontSize = '24px'; // Set font size
+        container.style.color = '#522915';
     
         // Populate the container with text displaying the player's inventory
         const inventoryText = document.createElement('p');
         inventoryText.textContent = 'Player Inventory:';
         inventoryText.style.marginBottom = '20px'; // Add some space between inventory title and items
-        inventoryText.style.fontSize = '40px'; // Set font size for title
+        inventoryText.style.fontSize = '50px'; // Set font size for title
+        inventoryText.style.marginTop = '0'; 
         container.appendChild(inventoryText);
     
         // Loop through player's inventory and add items to the container
         for (const [item, quantity] of Object.entries(player.inventory)) {
+            const itemContainer = document.createElement('div');
+            itemContainer.style.display = 'flex'; // Display items in a row
+            itemContainer.style.justifyContent = 'space-between'; // Space out items and prices
+
+            // Create a paragraph element for item and quantity
             const itemText = document.createElement('p');
             itemText.textContent = `${item}: ${quantity}`;
-            itemText.style.fontSize = '28px'; // Set font size for inventory items
-            container.appendChild(itemText);
+            itemText.style.fontSize = '32px'; // Set font size for inventory items
+            itemText.style.textAlign = 'left';
+            itemText.style.paddingLeft = '25px';
+
+            // Create a paragraph element for price
+            const priceText = document.createElement('p');
+            priceText.textContent = `price: ${SALE_PRICES[item]}`;
+            priceText.style.textAlign = 'right';
+            priceText.style.fontSize = '32px'; // Set font size for inventory items
+            priceText.style.paddingRight = '25px';
+
+            // Append item and price to the item container
+            itemContainer.appendChild(itemText);
+            itemContainer.appendChild(priceText);
+
+            // Append the item container to the main container
+            container.appendChild(itemContainer);
         }
+
+
     
         // Create a "Sell All" button
         const sellAllButton = document.createElement('button');
         sellAllButton.textContent = 'Sell All';
-        sellAllButton.style.marginTop = '40px'; // Add more space between inventory items and buttons
+        sellAllButton.style.marginTop = '20px'; // Add more space between inventory items and buttons
         sellAllButton.style.fontSize = '20px';
         sellAllButton.style.marginRight = '40px'; // Add more space between buttons
         sellAllButton.style.fontFamily = 'LycheeSoda'; // Apply Lychee Soda font
@@ -697,7 +722,7 @@ function startGame() {
         const closeInventoryButton = document.createElement('button');
         closeInventoryButton.textContent = 'Close Inventory';
         closeInventoryButton.style.fontSize = '20px';
-        closeInventoryButton.style.marginTop = '40px'; // Add more space between inventory items and buttons
+        closeInventoryButton.style.marginTop = '20px'; // Add more space between inventory items and buttons
         closeInventoryButton.style.fontFamily = 'LycheeSoda'; // Apply Lychee Soda font
         closeInventoryButton.style.padding = '10px 20px'; // Increase button size
         closeInventoryButton.addEventListener('click', closeInventory); // Add event listener to handle closing inventory

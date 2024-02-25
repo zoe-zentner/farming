@@ -185,3 +185,15 @@ export class SoilTile extends Sprite{
     this.lifeIndex = 0
     }
 }
+
+export class Tree extends Sprite{
+    constructor({pos}){
+    super({pos})
+    this.health = 0
+
+    }
+    damage(){
+        this.health -= 1
+        console.log(this.health)
+    }
+}

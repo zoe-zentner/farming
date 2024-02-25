@@ -641,6 +641,9 @@ function startGame() {
     tomatoImage3.src = './graphics/fruit/tomato/3.png'
     const tomatoImages = [tomatoImage0, tomatoImage1, tomatoImage2, tomatoImage3]
 
+    const largeTreeImage = new Image()
+    largeTreeImage.src = './graphics/objects/tree_medium.png'
+
     let soilTiles = [];
 
     const merchant = new classes.Merchant({
@@ -854,6 +857,16 @@ function startGame() {
         image: seedImage
     })
 
+    const APPLE_POS = {
+        'Small': [(18,17), (30,37), (12,50), (30,45), (20,30), (30,10)],
+        'Large': [(30,24), (60,65), (50,50), (16,40), (45,50), (42,70)]
+    }
+
+    const tree1  = new classes.Sprite({
+        pos: {x:300, y:300},
+        image: largeTreeImage
+    })
+
     const keys = {
         d: {
             pressed: false
@@ -872,7 +885,7 @@ function startGame() {
         }
     };
 
-    let moveables = [...boundaries, background, ...soilTiles, chicken, merchant, foreground];
+    let moveables = [...boundaries, background, tree1, ...soilTiles, chicken, merchant, foreground];
 
     function rectangularCollision({ rectangle1, rectangle2 }) {
         return (

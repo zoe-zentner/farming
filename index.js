@@ -861,17 +861,27 @@ function startGame() {
         image: seedImage
     })
 
-    const APPLE_POS = {
-        'Small': [(18,17), (30,37), (12,50), (30,45), (20,30), (30,10)],
-        'Large': [(30,24), (60,65), (50,50), (16,40), (45,50), (42,70)]
-    }
-
     const tree1  = new classes.Tree({
         pos: {x:300, y:300},
         image: largeTreeImage,
         size: "large"
     })
     tree1.createApples()
+
+    const tree2  = new classes.Tree({
+        pos: {x:420, y:300},
+        image: largeTreeImage,
+        size: "large"
+    })
+    tree2.createApples()
+    let trees = [tree1, tree2]
+
+    let allApples = []
+    trees.forEach(function(tree){
+        tree.apples.forEach(function(apple){
+            allApples.push(apple)
+        })})
+
 
     const keys = {
         d: {
@@ -891,7 +901,7 @@ function startGame() {
         }
     };
 
-    let moveables = [...boundaries, background, tree1, ...tree1.apples, ...soilTiles, chicken, merchant, foreground];
+    let moveables = [...boundaries, background, ...trees, ...allApples, ...soilTiles, chicken, merchant, foreground];
 
     function rectangularCollision({ rectangle1, rectangle2 }) {
         return (

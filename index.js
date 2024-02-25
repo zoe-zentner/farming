@@ -972,6 +972,13 @@ function startGame() {
             })})
         moveables = [...boundaries, background, ...trees, ...allApples, ...soilTiles, chicken, merchant, foreground];
 
+        // grow any plants which have been watered
+        soilTiles.forEach(function(soilTile){
+            if(soilTile.status == "W" && !(soilTile.seedType == null)){
+                if(soilTile.lifeIndex<3){soilTile.lifeIndex = soilTile.lifeIndex +1}
+            }
+        })
+
         // chance of rain is recalculated
         raining = chanceOfRain()
         if(raining){
@@ -1219,7 +1226,6 @@ function startGame() {
                 case 'n':
                     if((background.pos.x > -1735 && background.pos.x < -1245)  && (background.pos.y < -950 && background.pos.y > -1205)){
                         startNewDay()
-                        console.log(soilTiles)
                         console.log("sleep")
                     }
             }
@@ -1365,13 +1371,10 @@ function startGame() {
             // If a soil tile exists, change its status to "W" (watered)
             for (const soilTile of soilTiles) {
                 if (soilTile.pos.x === roundedX && soilTile.pos.y === roundedY) {
-                    if(soilTile.status == "W" && soilTile.seedType == null){
+                    if(soilTile.seedType == null){
                         soilTile.seedType = player.seeds[player.seed_index]
                         soilTile.seedType = player.seeds[player.seed_index]
                         soilTile.SeedIndex = 0
-                    }
-                    if(soilTile.status == "W" && !(soilTile.seedType == null)){
-                        if(soilTile.lifeIndex<3){soilTile.lifeIndex = soilTile.lifeIndex +1}
                     }
                     break; // Once the status is updated, exit the loop
                 }

@@ -945,10 +945,14 @@ function startGame() {
                         console.log(tree.apples)
                     if (tree.health == 0){
                         if(tree.size == "small"){
+                            tree.pos.y += 75
+                            tree.pos.x += 10
                             tree.image = smallStumpImage
                         }
                         else if(tree.size == "large"){
-                            tree.image = smallStumpImage
+                            tree.pos.y += 75
+                            tree.pos.x += 30
+                            tree.image = largeStumpImage
                         }
                     }
                     break; // Exit the loop after logging the tree

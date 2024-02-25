@@ -1414,7 +1414,7 @@ function startGame() {
         });
         
         // Draw the top 1/2 of the player image
-        c.drawImage(player.image, 0, 0, player.image.width, player.image.height / 2, player.pos.x, player.pos.y, player.image.width, player.image.height / 2);
+        c.drawImage(player.image, 0, 0, player.image.width, player.image.height / 1.8, player.pos.x, player.pos.y, player.image.width, player.image.height / 1.8);
 
         //draw rain if its raining
         if(raining){updateRain()}

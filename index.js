@@ -934,6 +934,7 @@ function startGame() {
                     console.log(tree.health)
                     // remove apple if present
                     if (tree.apples.length > 0) {
+                        player.inventory['apple'] = (player.inventory['apple'] || 0) + 1;
                         const randomIndex = Math.floor(Math.random() * tree.apples.length);
                         const removedApple = tree.apples.splice(randomIndex, 1)[0];}
                         allApples = []
@@ -944,6 +945,7 @@ function startGame() {
                         moveables = [ background, ...trees, ...allApples, ...soilTiles, chicken, merchant, foreground, ...boundaries];
                         console.log(tree.apples)
                     if (tree.health == 0){
+                        player.inventory['wood'] = (player.inventory['wood'] || 0) + 1;
                         if(tree.size == "small"){
                             tree.pos.y += 75
                             tree.pos.x += 10

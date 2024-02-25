@@ -861,24 +861,11 @@ function startGame() {
         image: seedImage
     })
 
-    const tree1  = new classes.Tree({
-        pos: {x:300, y:300},
-        image: largeTreeImage,
-        size: "large"
-    })
-    tree1.createApples()
-
-    const tree2  = new classes.Tree({
-        pos: {x:420, y:300},
-        image: largeTreeImage,
-        size: "large"
-    })
-    tree2.createApples()
-    let trees = [tree1, tree2]
+    let trees = []
         
         // Loop through each tile
         for (let i = 0; i < 15; i++) {
-            for (let j = 9; j >= 0; j--) {
+            for (let j = 0; j < 10; j++) {
                 // Calculate the coordinates of the current tile
                 const tileX = i * 64;
                 const tileY = j * 64;

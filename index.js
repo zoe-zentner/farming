@@ -1189,6 +1189,10 @@ function startGame() {
                         player.timers['seed use'].activate();
                     }
                     break;
+                case 'n':
+                    if((background.pos.x > -1735 && background.pos.x < -1245)  && (background.pos.y < -950 && background.pos.y > -1205)){
+                        console.log("sleep")
+                    }
             }
         });
 

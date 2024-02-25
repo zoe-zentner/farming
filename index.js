@@ -878,8 +878,21 @@ function startGame() {
                     var tree
                     if (chanceOfSize <0.4) {
                         tree = new classes.Tree({pos:{x:tileX, y:tileY}, size:"large", image:largeTreeImage});
+                        const boundary = new classes.Boundary({
+                            pos: { x: tileX + 15, y: tileY +44},
+                            width: 64,
+                            height: 64
+                        });
+                        boundaries.push(boundary);
                     }
-                    else{tree = new classes.Tree({pos:{x:tileX, y:tileY}, size:"small", image:smallTreeImage})};
+                    else{
+                        tree = new classes.Tree({pos:{x:tileX, y:tileY}, size:"small", image:smallTreeImage})
+                        const boundary = new classes.Boundary({
+                            pos: { x: tileX, y: tileY + 50},
+                            width: 56,
+                            height: 50
+                        });
+                        boundaries.push(boundary);};
                     // Append the tree to the trees list
                     trees.push(tree);
                     tree.createApples()
@@ -895,6 +908,31 @@ function startGame() {
         tree.apples.forEach(function(apple){
             allApples.push(apple)
         })})
+
+
+    function doesTreeExist(x, y) {
+        for (const tree of trees) {
+            if (tree.pos.x === x && tree.pos.y === y) {
+                console.log(trees[tree])
+                return true
+            }
+        }
+        return false; // Soil tile does not exist at this position
+    }
+
+    function hitTree() {
+        const toolOffset = {'left': {x: 55, y:64},
+        'right': {x: 55, y:64},
+        'up': {x: 55, y:64},
+        'down': {x: 55, y:128}}
+        const roundedX = player.pos.x + toolOffset[player.direction].x+ background.pos.x%64
+        const roundedY = player.pos.y + toolOffset[player.direction].y + background.pos.y%64
+        console.log(roundedX, roundedY)
+        const treeExists = doesTreeExist(roundedX, roundedY)
+        if (treeExists){
+            console.log("tree exists")
+        }
+    }
 
     const keys = {
         d: {
@@ -1113,10 +1151,13 @@ function startGame() {
                         player.frameIndex = 0
                         if(player.tools[player.tool_index] == "hoe"){
                             createNewSoilTile()
-                            moveables = [...boundaries, background, chicken, ...soilTiles, merchant, foreground]};
+                            moveables = [ background, ...soilTiles, ...trees, ...allApples, chicken, merchant, foreground, ...boundaries];};
                         if(player.tools[player.tool_index] == "water"){
                             changeSoilWaterStatus()
                             waterSoilTiles()
+                        }
+                        if(player.tools[player.tool_index] == "axe"){
+                            hitTree()
                         }
                     }
                     break;
@@ -1334,6 +1375,7 @@ function startGame() {
     
         // Draw the player last
         player.draw();
+
         foreground.draw();
         // tree1.apples.forEach(function(apple) {apple.draw()})
 

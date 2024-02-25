@@ -954,6 +954,22 @@ function startGame() {
             }
         }
     }
+
+    function startNewDay(){
+        trees.forEach(tree => {
+            tree.health = 5;
+            if (tree.image == smallStumpImage){tree.image=smallTreeImage}
+            else if (tree.image == largeStumpImage){tree.image=largeTreeImage}
+            tree.apples = []
+            tree.createApples()
+        });
+        allApples = []
+        trees.forEach(function(tree){
+            tree.apples.forEach(function(apple){
+                allApples.push(apple)
+            })})
+        moveables = [...boundaries, background, ...trees, ...allApples, ...soilTiles, chicken, merchant, foreground];
+    }
     
 
     const keys = {
@@ -1191,6 +1207,7 @@ function startGame() {
                     break;
                 case 'n':
                     if((background.pos.x > -1735 && background.pos.x < -1245)  && (background.pos.y < -950 && background.pos.y > -1205)){
+                        startNewDay()
                         console.log("sleep")
                     }
             }

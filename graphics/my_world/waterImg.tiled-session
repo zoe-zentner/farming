@@ -128,10 +128,14 @@
                 "x": 2529.5961002785516,
                 "y": 1623.4331476323118
             }
+        },
+        "tree_medium.tsx": {
+            "scaleInDock": 1,
+            "scaleInEditor": 1
         }
     },
     "last.exportedFilePath": "C:/NEA",
-    "last.imagePath": "C:/NEA/graphics/environment",
+    "last.imagePath": "C:/NEA/graphics/objects",
     "map.height": 40,
     "map.lastUsedExportFilter": "JSON map files (*.tmj *.json)",
     "map.lastUsedFormat": "tmx",
@@ -143,6 +147,7 @@
     ],
     "project": "waterImg.tiled-project",
     "recentFiles": [
+        "tree_medium.tsx",
         "main map.tmx",
         "D:/NEA/graphics/my_world/main map.tmx",
         "Grass.tsx",
@@ -152,6 +157,7 @@
         "C:/NEA/graphics/water/waterImg.tmx"
     ],
     "resizeMap.removeObjects": false,
+    "tileset.lastUsedFormat": "tsx",
     "tileset.tileSize": {
         "height": 64,
         "width": 64

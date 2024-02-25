@@ -875,13 +875,39 @@ function startGame() {
     })
     tree2.createApples()
     let trees = [tree1, tree2]
+        
+        // Loop through each tile
+        for (let i = 0; i < 15; i++) {
+            for (let j = 9; j >= 0; j--) {
+                // Calculate the coordinates of the current tile
+                const tileX = i * 64;
+                const tileY = j * 64;
+                
+                // Generate a random number between 0 and 1
+                const chanceOfTree = Math.random();
+                const chanceOfSize = Math.random();
+                // Determine if a tree should be placed on this tile (10% chance)
+                if (chanceOfTree <= 0.1) {
+                    var tree
+                    if (chanceOfSize <0.4) {
+                        tree = new classes.Tree({pos:{x:tileX, y:tileY}, size:"large", image:largeTreeImage});
+                    }
+                    else{tree = new classes.Tree({pos:{x:tileX, y:tileY}, size:"small", image:smallTreeImage})};
+                    // Append the tree to the trees list
+                    trees.push(tree);
+                    tree.createApples()
+                    // Do whatever you want with the tree instance
+                    console.log("Tree planted at:", tree.pos.x, tree.pos.y);
+                }
+            }
+        }
 
+    //create a list of all apples
     let allApples = []
     trees.forEach(function(tree){
         tree.apples.forEach(function(apple){
             allApples.push(apple)
         })})
-
 
     const keys = {
         d: {
@@ -901,7 +927,7 @@ function startGame() {
         }
     };
 
-    let moveables = [...boundaries, background, ...trees, ...allApples, ...soilTiles, chicken, merchant, foreground];
+    let moveables = [ background, ...trees, ...allApples, ...soilTiles, chicken, merchant, foreground, ...boundaries];
 
     function rectangularCollision({ rectangle1, rectangle2 }) {
         return (

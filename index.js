@@ -910,26 +910,26 @@ function startGame() {
 
     function hitTree() {
         const toolOffset = {
-            'left': {x: 55, y: 64},
-            'right': {x: 55, y: 64},
-            'up': {x: 55, y: 64},
-            'down': {x: 55, y: 128}
+            'left': {x: -64, y: 32},
+            'right': {x: 64, y: 32},
+            'up': {x: 75, y: 0},
+            'down': {x: 32, y: 64}
         };
     
-        const roundedX = player.pos.x + toolOffset[player.direction].x + background.pos.x % 64;
-        const roundedY = player.pos.y + toolOffset[player.direction].y + background.pos.y % 64;
+        const roundedX = player.pos.x + toolOffset[player.direction].x ;
+        const roundedY = player.pos.y + toolOffset[player.direction].y ;
     
         // Check if the player has the axe selected
         if (player.tool_index === 1) {
             // Loop through each tree to check if the player is near it
             for (const tree of trees) {
                 // Calculate the distance between the player and the tree
-                const distanceX = Math.abs(roundedX - tree.pos.x);
-                const distanceY = Math.abs(roundedY - tree.pos.y);
+                const distanceX = Math.abs((player.pos.x+player.image.width/2)- (tree.pos.x + tree.image.width / 2));
+                const distanceY = Math.abs((player.pos.y+player.image.height/2) - (tree.pos.y + tree.image.height / 2));
                 const distance = Math.sqrt(Math.pow(distanceX, 2) + Math.pow(distanceY, 2));
     
                 // If the player is close enough to the tree, log the tree
-                if (distance < 100) {
+                if (distance < 64) {
                     tree.health -= 1
                     console.log(tree.health)
                     // remove apple if present
@@ -942,7 +942,7 @@ function startGame() {
                             tree.apples.forEach(function(apple){
                                 allApples.push(apple)
                             })})
-                        moveables = [ background, ...trees, ...allApples, ...soilTiles, chicken, merchant, foreground, ...boundaries];
+                        moveables = [...boundaries, background, ...trees, ...allApples, ...soilTiles, chicken, merchant, foreground];
                         console.log(tree.apples)
                     if (tree.health == 0){
                         player.inventory['wood'] = (player.inventory['wood'] || 0) + 1;
@@ -982,7 +982,7 @@ function startGame() {
         }
     };
 
-    let moveables = [ background, ...trees, ...allApples, ...soilTiles, chicken, merchant, foreground, ...boundaries];
+    let moveables = [...boundaries, background, ...trees, ...allApples, ...soilTiles, chicken, merchant, foreground];
 
     function rectangularCollision({ rectangle1, rectangle2 }) {
         return (
@@ -1181,7 +1181,7 @@ function startGame() {
                         player.frameIndex = 0
                         if(player.tools[player.tool_index] == "hoe"){
                             createNewSoilTile()
-                            moveables = [ background, ...soilTiles, ...trees, ...allApples, chicken, merchant, foreground, ...boundaries];};
+                            moveables = [...boundaries, background, ...soilTiles, ...trees, ...allApples, chicken, merchant, foreground];};
                         if(player.tools[player.tool_index] == "water"){
                             changeSoilWaterStatus()
                             waterSoilTiles()

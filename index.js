@@ -645,8 +645,8 @@ function startGame() {
 
     const merchant = new classes.Merchant({
         pos: {
-            x: canvas.width / 2 + 80,
-            y: canvas.height / 2
+            x: -200,
+            y: -280
         },
         image: merchantImage
     })

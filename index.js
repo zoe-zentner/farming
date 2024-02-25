@@ -1312,6 +1312,7 @@ function startGame() {
         // Draw the player last
         player.draw();
         foreground.draw();
+        tree1.apples.forEach(function(apple) {apple.draw()})
 
         //draw rain if its raining
         if(raining){updateRain()}

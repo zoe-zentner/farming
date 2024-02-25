@@ -250,20 +250,6 @@ function createMusicButton() {
     return musicButton;
 }
 
-function createEndGameButton(){
-    const endGameButton = document.createElement('button');
-    endGameButton.textContent = 'end game';
-    endGameButton.style.fontFamily = 'LycheeSoda';
-    endGameButton.style.fontSize = '20px';
-    endGameButton.style.color = '#522915';
-    endGameButton.classList.add('btn');
-    endGameButton.style.position = 'absolute';
-    endGameButton.style.bottom = '10px';
-    endGameButton.style.right = '130px';
-    endGameButton.id = "endGameButton";
-    return endGameButton;
-}
-
 function instructionsDisplay() {
     const container = this.parentElement;
     container.remove();
@@ -331,79 +317,85 @@ function settingsfunction() {
 
 }
 
-function displayScore(score) {
-    const scoreBox = document.createElement('div');
-    scoreBox.style.fontFamily = 'LycheeSoda';
-    scoreBox.style.backgroundColor = "beige"
-    scoreBox.textContent = 'Score: ' + score;
-    scoreBox.style.position = 'absolute';
-    scoreBox.style.top = '20px';
-    scoreBox.style.left = '20px';
-    scoreBox.style.color = '#522915';
-    scoreBox.style.fontSize = '24px';
-
-    document.body.appendChild(scoreBox);
-}
-
-//  need to update score when the user is the merchant
-function updateScore(newScore) {
-    score = newScore;
-    scoreBox.textContent = 'Score: ' + score;
-}
-
-let score = 0; // Declare score globally
-
-function endGame() {
-    // Access the global score variable here
-    const playerScore = score; // Use the global score variable
-
-    const container = document.createElement('div');
-    container.style.position = 'absolute';
-    container.style.top = '50%';
-    container.style.left = '50%';
-    container.style.transform = 'translate(-50%, -50%)';
-    container.style.backgroundColor = '#93cfc3'; 
-    container.style.padding = '20px';
-    container.style.opacity = '0.9';
-
-    const nameLabel = document.createElement('label');
-    nameLabel.textContent = 'Name: ';
-    nameLabel.style.fontFamily = 'LycheeSoda';
-    nameLabel.style.fontSize = '40px';
-
-    const nameInput = document.createElement('input');
-    nameInput.setAttribute('type', 'text');
-    nameInput.setAttribute('maxlength', '7');
-    nameInput.style.marginLeft = '5px';
-    nameInput.style.width = '300px'; 
-    nameInput.style.height = '40px';
-    nameInput.style.fontSize = '24px';
-    nameInput.style.fontFamily = 'LycheeSoda';
-
-    container.appendChild(nameLabel);
-    container.appendChild(nameInput);
-    document.body.appendChild(container);
-
-    nameInput.focus();
-
-    nameInput.addEventListener('keypress', function(event) {
-        if (event.key === 'Enter' && nameInput.value.trim() !== '') {
-            const name = nameInput.value.trim();
-            const score = playerScore; // Assuming playerScore is already defined
-            const existingEntries = JSON.parse(localStorage.getItem('playerEntries')) || [];
-
-            // Add the new entry to the existing entries
-            existingEntries.push({ name, score });
-
-            // Store the updated entries back in Local Storage
-            localStorage.setItem('playerEntries', JSON.stringify(existingEntries));
-            window.location.reload();
-        }
-    });
-}
-
 function startGame() {
-    let score = 0
+    function createEndGameButton(){
+        const endGameButton = document.createElement('button');
+        endGameButton.textContent = 'end game';
+        endGameButton.style.fontFamily = 'LycheeSoda';
+        endGameButton.style.fontSize = '20px';
+        endGameButton.style.color = '#522915';
+        endGameButton.classList.add('btn');
+        endGameButton.style.position = 'absolute';
+        endGameButton.style.bottom = '10px';
+        endGameButton.style.right = '130px';
+        endGameButton.id = "endGameButton";
+        return endGameButton;
+    }
+
+    function displayScore(score) {
+        const scoreBox = document.createElement('div');
+        scoreBox.style.fontFamily = 'LycheeSoda';
+        scoreBox.style.backgroundColor = "beige"
+        scoreBox.textContent = 'Score: ' + score;
+        scoreBox.style.position = 'absolute';
+        scoreBox.style.top = '20px';
+        scoreBox.style.left = '20px';
+        scoreBox.style.color = '#522915';
+        scoreBox.style.fontSize = '24px';
+    
+        document.body.appendChild(scoreBox);
+    }
+    
+    let score = 0; // Declare score globally
+    
+    function endGame() {
+        // Access the global score variable here
+        const playerScore = score; // Use the global score variable
+    
+        const container = document.createElement('div');
+        container.style.position = 'absolute';
+        container.style.top = '50%';
+        container.style.left = '50%';
+        container.style.transform = 'translate(-50%, -50%)';
+        container.style.backgroundColor = '#93cfc3'; 
+        container.style.padding = '20px';
+        container.style.opacity = '0.9';
+    
+        const nameLabel = document.createElement('label');
+        nameLabel.textContent = 'Name: ';
+        nameLabel.style.fontFamily = 'LycheeSoda';
+        nameLabel.style.fontSize = '40px';
+    
+        const nameInput = document.createElement('input');
+        nameInput.setAttribute('type', 'text');
+        nameInput.setAttribute('maxlength', '7');
+        nameInput.style.marginLeft = '5px';
+        nameInput.style.width = '300px'; 
+        nameInput.style.height = '40px';
+        nameInput.style.fontSize = '24px';
+        nameInput.style.fontFamily = 'LycheeSoda';
+    
+        container.appendChild(nameLabel);
+        container.appendChild(nameInput);
+        document.body.appendChild(container);
+    
+        nameInput.focus();
+    
+        nameInput.addEventListener('keypress', function(event) {
+            if (event.key === 'Enter' && nameInput.value.trim() !== '') {
+                const name = nameInput.value.trim();
+                const score = playerScore; // Assuming playerScore is already defined
+                const existingEntries = JSON.parse(localStorage.getItem('playerEntries')) || [];
+    
+                // Add the new entry to the existing entries
+                existingEntries.push({ name, score });
+    
+                // Store the updated entries back in Local Storage
+                localStorage.setItem('playerEntries', JSON.stringify(existingEntries));
+                window.location.reload();
+            }
+        });
+    }
     const container = this.parentElement;
     container.remove();
 
@@ -936,7 +928,7 @@ function startGame() {
                     if (tree.apples.length > 0) {
                         player.inventory['apple'] = (player.inventory['apple'] || 0) + 1;
                         const randomIndex = Math.floor(Math.random() * tree.apples.length);
-                        const removedApple = tree.apples.splice(randomIndex, 1)[0];}
+                        tree.apples.splice(randomIndex, 1)[0];}
                         allApples = []
                         trees.forEach(function(tree){
                             tree.apples.forEach(function(apple){

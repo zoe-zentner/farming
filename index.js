@@ -645,6 +645,10 @@ function startGame() {
     largeTreeImage.src = './graphics/objects/tree_medium.png'
     const smallTreeImage = new Image()
     smallTreeImage.src = './graphics/objects/tree_small.png'
+    const largeStumpImage = new Image()
+    largeStumpImage.src = './graphics/objects/stump_medium.png'
+    const smallStumpImage = new Image()
+    smallStumpImage.src = './graphics/objects/stump_small.png'
     const appleImage = new Image()
     appleImage.src = './graphics/fruit/apple.png'
 
@@ -780,9 +784,6 @@ function startGame() {
         // Re-create the inventory display
         merchantInteraction();
     }
-    
-    
-    
 
     canvas.addEventListener('click', function(event) {
         // Get the mouse position relative to the canvas
@@ -867,8 +868,8 @@ function startGame() {
         for (let i = 0; i < 15; i++) {
             for (let j = 0; j < 10; j++) {
                 // Calculate the coordinates of the current tile
-                const tileX = i * 64;
-                const tileY = j * 64;
+                const tileX = player.pos.x + background.pos.x + 64*20 + i * 64;
+                const tileY = player.pos.y + background.pos.y + 64*16 + j * 64;
                 
                 // Generate a random number between 0 and 1
                 const chanceOfTree = Math.random();
@@ -896,8 +897,6 @@ function startGame() {
                     // Append the tree to the trees list
                     trees.push(tree);
                     tree.createApples()
-                    // Do whatever you want with the tree instance
-                    console.log("Tree planted at:", tree.pos.x, tree.pos.y);
                 }
             }
         }
@@ -909,30 +908,55 @@ function startGame() {
             allApples.push(apple)
         })})
 
-
-    function doesTreeExist(x, y) {
-        for (const tree of trees) {
-            if (tree.pos.x === x && tree.pos.y === y) {
-                console.log(trees[tree])
-                return true
+    function hitTree() {
+        const toolOffset = {
+            'left': {x: 55, y: 64},
+            'right': {x: 55, y: 64},
+            'up': {x: 55, y: 64},
+            'down': {x: 55, y: 128}
+        };
+    
+        const roundedX = player.pos.x + toolOffset[player.direction].x + background.pos.x % 64;
+        const roundedY = player.pos.y + toolOffset[player.direction].y + background.pos.y % 64;
+    
+        // Check if the player has the axe selected
+        if (player.tool_index === 1) {
+            // Loop through each tree to check if the player is near it
+            for (const tree of trees) {
+                // Calculate the distance between the player and the tree
+                const distanceX = Math.abs(roundedX - tree.pos.x);
+                const distanceY = Math.abs(roundedY - tree.pos.y);
+                const distance = Math.sqrt(Math.pow(distanceX, 2) + Math.pow(distanceY, 2));
+    
+                // If the player is close enough to the tree, log the tree
+                if (distance < 100) {
+                    tree.health -= 1
+                    console.log(tree.health)
+                    // remove apple if present
+                    if (tree.apples.length > 0) {
+                        const randomIndex = Math.floor(Math.random() * tree.apples.length);
+                        const removedApple = tree.apples.splice(randomIndex, 1)[0];}
+                        allApples = []
+                        trees.forEach(function(tree){
+                            tree.apples.forEach(function(apple){
+                                allApples.push(apple)
+                            })})
+                        moveables = [ background, ...trees, ...allApples, ...soilTiles, chicken, merchant, foreground, ...boundaries];
+                        console.log(tree.apples)
+                    if (tree.health == 0){
+                        if(tree.size == "small"){
+                            tree.image = smallStumpImage
+                        }
+                        else if(tree.size == "large"){
+                            tree.image = smallStumpImage
+                        }
+                    }
+                    break; // Exit the loop after logging the tree
+                }
             }
         }
-        return false; // Soil tile does not exist at this position
     }
-
-    function hitTree() {
-        const toolOffset = {'left': {x: 55, y:64},
-        'right': {x: 55, y:64},
-        'up': {x: 55, y:64},
-        'down': {x: 55, y:128}}
-        const roundedX = player.pos.x + toolOffset[player.direction].x+ background.pos.x%64
-        const roundedY = player.pos.y + toolOffset[player.direction].y + background.pos.y%64
-        console.log(roundedX, roundedY)
-        const treeExists = doesTreeExist(roundedX, roundedY)
-        if (treeExists){
-            console.log("tree exists")
-        }
-    }
+    
 
     const keys = {
         d: {

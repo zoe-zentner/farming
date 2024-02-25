@@ -196,7 +196,7 @@ appleImage.src = './graphics/fruit/apple.png'
 export class Tree extends Sprite{
     constructor({pos, size, image}){
     super({pos, image})
-    this.health = 0
+    this.health = 5
     this.size = size
     this.applePos = APPLE_POS[size]
     this.apples = []

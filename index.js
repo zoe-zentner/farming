@@ -643,6 +643,10 @@ function startGame() {
 
     const largeTreeImage = new Image()
     largeTreeImage.src = './graphics/objects/tree_medium.png'
+    const smallTreeImage = new Image()
+    smallTreeImage.src = './graphics/objects/tree_small.png'
+    const appleImage = new Image()
+    appleImage.src = './graphics/fruit/apple.png'
 
     let soilTiles = [];
 
@@ -862,10 +866,12 @@ function startGame() {
         'Large': [(30,24), (60,65), (50,50), (16,40), (45,50), (42,70)]
     }
 
-    const tree1  = new classes.Sprite({
+    const tree1  = new classes.Tree({
         pos: {x:300, y:300},
-        image: largeTreeImage
+        image: largeTreeImage,
+        size: "large"
     })
+    tree1.createApples()
 
     const keys = {
         d: {

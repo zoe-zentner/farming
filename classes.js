@@ -186,14 +186,37 @@ export class SoilTile extends Sprite{
     }
 }
 
-export class Tree extends Sprite{
-    constructor({pos}){
-    super({pos})
-    this.health = 0
+const APPLE_POS = {
+    'small': [(18,17), (30,37), (12,50), (30,45), (20,30), (30,10)],
+    'large': [(30,24), (60,65), (50,50), (16,40), (45,50), (42,70)]
+}
+const appleImage = new Image()
+appleImage.src = './graphics/fruit/apple.png'
 
+export class Tree extends Sprite{
+    constructor({pos, size, image}){
+    super({pos, image})
+    this.health = 0
+    this.size = size
+    this.applePos = APPLE_POS[size]
+    this.apples = []
     }
+
     damage(){
         this.health -= 1
         console.log(this.health)
+    }
+
+    createApples(){
+        for (let pos of this.applePos) {
+            if (Math.floor(Math.random() * 11) < 2) {
+                let x = pos[0] + this.pos.x;
+                let y = pos[1] + this.pos.y;
+                // Do something with x and y
+                let apple = new Sprite({pos:{x,y}, image: appleImage})
+                this.apples.push(apple)
+                console.log("apple")
+            }
+        }
     }
 }

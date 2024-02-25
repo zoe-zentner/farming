@@ -1404,6 +1404,17 @@ function startGame() {
 
         foreground.draw();
         // tree1.apples.forEach(function(apple) {apple.draw()})
+        trees.forEach(tree => {
+            tree.draw();
+        });
+    
+        // Draw all apples
+        allApples.forEach(apple => {
+            apple.draw();
+        });
+        
+        // Draw the top 1/2 of the player image
+        c.drawImage(player.image, 0, 0, player.image.width, player.image.height / 2, player.pos.x, player.pos.y, player.image.width, player.image.height / 2);
 
         //draw rain if its raining
         if(raining){updateRain()}

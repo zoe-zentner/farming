@@ -54,7 +54,8 @@ export class Player extends Sprite {
             'tool use': new Timer(350),
             'tool switch': new Timer(200),
             'seed use': new Timer(350),
-            'seed switch': new Timer(200)
+            'seed switch': new Timer(200),
+            'new day': new Timer(200)
         }
         //tools
         this.tools = ['hoe', 'axe', 'water']

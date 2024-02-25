@@ -975,7 +975,7 @@ function startGame() {
         // grow any plants which have been watered
         soilTiles.forEach(function(soilTile){
             if(soilTile.status == "W" && !(soilTile.seedType == null)){
-                if(soilTile.lifeIndex<3){soilTile.lifeIndex = soilTile.lifeIndex +1}
+                if(soilTile.lifeIndex<3){soilTile.lifeIndex += 1}
             }
         })
 
@@ -1225,8 +1225,10 @@ function startGame() {
                     break;
                 case 'n':
                     if((background.pos.x > -1735 && background.pos.x < -1245)  && (background.pos.y < -950 && background.pos.y > -1205)){
-                        startNewDay()
-                        console.log("sleep")
+                        if (!player.timers['new day'].active){
+                            startNewDay()
+                            player.timers['new day'].activate();
+                    }
                     }
             }
         });

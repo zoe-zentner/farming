@@ -891,7 +891,7 @@ function startGame() {
         }
     };
 
-    let moveables = [...boundaries, background, tree1, ...soilTiles, chicken, merchant, foreground];
+    let moveables = [...boundaries, background, tree1, ...tree1.apples, ...soilTiles, chicken, merchant, foreground];
 
     function rectangularCollision({ rectangle1, rectangle2 }) {
         return (
@@ -1312,7 +1312,7 @@ function startGame() {
         // Draw the player last
         player.draw();
         foreground.draw();
-        tree1.apples.forEach(function(apple) {apple.draw()})
+        // tree1.apples.forEach(function(apple) {apple.draw()})
 
         //draw rain if its raining
         if(raining){updateRain()}

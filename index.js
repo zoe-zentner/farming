@@ -482,6 +482,7 @@ function startGame() {
     if(raining){
         createRain()
         initialSoilStatus = "W"}
+    else{initialSoilStatus = "X"}
 
     const collisionsMap = [];
     for (let i = 0; i < collisions.length; i += 90) {
@@ -956,6 +957,7 @@ function startGame() {
     }
 
     function startNewDay(){
+        // repair trees and apples
         trees.forEach(tree => {
             tree.health = 5;
             if (tree.image == smallStumpImage){tree.image=smallTreeImage}
@@ -969,6 +971,15 @@ function startGame() {
                 allApples.push(apple)
             })})
         moveables = [...boundaries, background, ...trees, ...allApples, ...soilTiles, chicken, merchant, foreground];
+
+        // chance of rain is recalculated
+        raining = chanceOfRain()
+        if(raining){
+            initialSoilStatus = "W"}
+        else{initialSoilStatus = "X"}
+        soilTiles.forEach(function(soilTile){
+            soilTile.status = initialSoilStatus
+        })
     }
     
 
@@ -1208,6 +1219,7 @@ function startGame() {
                 case 'n':
                     if((background.pos.x > -1735 && background.pos.x < -1245)  && (background.pos.y < -950 && background.pos.y > -1205)){
                         startNewDay()
+                        console.log(soilTiles)
                         console.log("sleep")
                     }
             }

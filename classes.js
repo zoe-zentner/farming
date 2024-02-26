@@ -30,6 +30,32 @@ export class Sprite {
     }
 }
 
+export class Rain {
+    constructor(x, y, l, v) {
+        this.x = x;
+        this.y = y;
+        this.vy = v;
+        this.l = l;
+    }
+    show() {
+        c.beginPath();
+        c.strokeStyle = "white";
+        c.moveTo(this.x, this.y);
+        c.lineTo(this.x, this.y + this.l);
+        c.stroke();
+    }
+
+    fall() {
+        this.y += this.vy;
+        if (this.y > canvas.height) {
+            this.x = Math.floor(Math.random() * canvas.width) + 5;
+            this.y = Math.floor(Math.random() * 100) - 100;
+            this.l = Math.floor(Math.random() * 30) + 1;
+            this.vy = Math.floor(Math.random() * 12) + 4;
+        }
+    }
+}
+
 export class Merchant extends Sprite {
     constructor({ pos, image}) {
         super({ pos, image});

@@ -318,236 +318,7 @@ function settingsfunction() {
 }
 
 function startGame() {
-    function createEndGameButton(){
-        const endGameButton = document.createElement('button');
-        endGameButton.textContent = 'end game';
-        endGameButton.style.fontFamily = 'LycheeSoda';
-        endGameButton.style.fontSize = '20px';
-        endGameButton.style.color = '#522915';
-        endGameButton.classList.add('btn');
-        endGameButton.style.position = 'relative';
-        endGameButton.style.bottom = '30px';
-        endGameButton.style.right = '130px';
-        endGameButton.id = "endGameButton";
-        return endGameButton;
-    }
-
-    function displayScore(score) {
-        const scoreBox = document.createElement('div');
-        scoreBox.style.fontFamily = 'LycheeSoda';
-        scoreBox.style.backgroundColor = "beige"
-        scoreBox.textContent = 'Score: ' + score;
-        scoreBox.style.position = 'absolute';
-        scoreBox.style.top = '20px';
-        scoreBox.style.left = '20px';
-        scoreBox.style.color = '#522915';
-        scoreBox.style.fontSize = '40px';
-    
-        document.body.appendChild(scoreBox);
-    }
-    
-    let score = 0; // Declare score globally
-    
-    function endGame() {
-        // Access the global score variable here
-        const playerScore = score; // Use the global score variable
-    
-        const container = document.createElement('div');
-        container.style.position = 'absolute';
-        container.style.top = '50%';
-        container.style.left = '50%';
-        container.style.transform = 'translate(-50%, -50%)';
-        container.style.backgroundColor = '#93cfc3'; 
-        container.style.padding = '20px';
-        container.style.opacity = '0.9';
-    
-        const nameLabel = document.createElement('label');
-        nameLabel.textContent = 'Name: ';
-        nameLabel.style.fontFamily = 'LycheeSoda';
-        nameLabel.style.fontSize = '40px';
-    
-        const nameInput = document.createElement('input');
-        nameInput.setAttribute('type', 'text');
-        nameInput.setAttribute('maxlength', '7');
-        nameInput.style.marginLeft = '5px';
-        nameInput.style.width = '300px'; 
-        nameInput.style.height = '40px';
-        nameInput.style.fontSize = '24px';
-        nameInput.style.fontFamily = 'LycheeSoda';
-    
-        container.appendChild(nameLabel);
-        container.appendChild(nameInput);
-        document.body.appendChild(container);
-    
-        nameInput.focus();
-    
-        nameInput.addEventListener('keypress', function(event) {
-            if (event.key === 'Enter' && nameInput.value.trim() !== '') {
-                const name = nameInput.value.trim();
-                const score = playerScore; // Assuming playerScore is already defined
-                const existingEntries = JSON.parse(localStorage.getItem('playerEntries')) || [];
-    
-                // Add the new entry to the existing entries
-                existingEntries.push({ name, score });
-    
-                // Store the updated entries back in Local Storage
-                localStorage.setItem('playerEntries', JSON.stringify(existingEntries));
-                window.location.reload();
-            }
-        });
-    }
-    const container = this.parentElement;
-    container.remove();
-
-    const MOVEMENT_speed = 5;
-    const FRAME_RATE = 60;
-
-    const canvas = document.querySelector('canvas');
-    const c = canvas.getContext('2d');
-
-    canvas.width = 1280;
-    canvas.height = 720;
-    let initialSoilStatus = "X"
-
-    const endGameButton = createEndGameButton();
-    document.body.appendChild(endGameButton);
-    displayScore(score)
-
-    document.getElementById('endGameButton').addEventListener('click', endGame)
-
-    // R A I N functions
-    function chanceOfRain() {
-        let raining = false;
-        let number = Math.floor(Math.random() * 100) + 1;
-        if (number >= 30) {
-            raining = true;
-        } else {
-            raining = false
-        }
-        return raining;
-    }
-
-    var vRain;
-
-    function updateRain() {
-        // c.clearRect(0, 0, canvas.width, canvas.height);
-        for (var i = 0; i < vRain.length; i++) {
-            vRain[i].show(canvas, c);
-            vRain[i].fall(canvas, c);
-        }
-    }
-
-    class Rain {
-        constructor(x, y, l, v) {
-            this.x = x;
-            this.y = y;
-            this.vy = v;
-            this.l = l;
-        }
-        show() {
-            c.beginPath();
-            c.strokeStyle = "white";
-            c.moveTo(this.x, this.y);
-            c.lineTo(this.x, this.y + this.l);
-            c.stroke();
-        }
-
-        fall() {
-            this.y += this.vy;
-            if (this.y > canvas.height) {
-                this.x = Math.floor(Math.random() * canvas.width) + 5;
-                this.y = Math.floor(Math.random() * 100) - 100;
-                this.l = Math.floor(Math.random() * 30) + 1;
-                this.vy = Math.floor(Math.random() * 12) + 4;
-            }
-        }
-    }
-
-    function createRain() {
-        vRain = [];
-        for (var i = 0; i < 60; i++) {
-            vRain[i] = new Rain(
-                Math.floor(Math.random() * canvas.width) + 5,
-                Math.floor(Math.random() * 100) - 100,
-                Math.floor(Math.random() * 30) + 1,
-                Math.floor(Math.random() * 12) + 4
-            );
-        }
-        setInterval(function() {
-            updateRain();
-        }, 10);
-    }
-    
-    let raining = chanceOfRain();
-    if(raining){
-        createRain()
-        initialSoilStatus = "W"}
-    else{initialSoilStatus = "X"}
-
-    const collisionsMap = [];
-    for (let i = 0; i < collisions.length; i += 90) {
-        collisionsMap.push(collisions.slice(i, i + 90));
-    }
-
-    const offset = {
-        x: -1800,
-        y: -1300
-    };
-
-    const boundaries = [];
-
-    collisionsMap.forEach((row, i) => {
-        row.forEach((symbol, j) => {
-            if (symbol === 267) {
-                boundaries.push(
-                    new classes.Boundary({
-                        pos: {
-                            x: j * 64 + offset.x,
-                            y: i * 64 + offset.y
-                        },
-                        width: 64,
-                        height: 64
-                    })
-                );
-            } else if (symbol === 268) {
-                boundaries.push(
-                    new classes.Boundary({
-                        pos: {
-                            x: j * 64 + offset.x + 32,
-                            y: i * 64 + offset.y
-                        },
-                        width: 32,
-                        height: 64
-                    })
-                );
-            } else if (symbol === 269) {
-                boundaries.push(
-                    new classes.Boundary({
-                        pos: {
-                            x: j * 64 + offset.x,
-                            y: i * 64 + offset.y
-                        },
-                        width: 32,
-                        height: 64
-                    })
-                );
-            } else if (symbol === 270) {
-                boundaries.push(
-                    new classes.Boundary({
-                        pos: {
-                            x: j * 64 + offset.x,
-                            y: i * 64 + offset.y + 32
-                        },
-                        width: 64,
-                        height: 32
-                    })
-                );
-            }
-        });
-    });
-
-    c.fillRect(0, 0, canvas.width, canvas.height);
-
+    // I M A G E imports
     const mapImage = new Image();
     mapImage.src = './graphics/my_world/main_map.png';
 
@@ -654,6 +425,215 @@ function startGame() {
     whiteTomatoImage.src = './graphics/fruit/whiteTomato.png'
     const whiteCornImage = new Image()
     whiteCornImage.src = './graphics/fruit/whiteCorn.png'
+
+    // end game button function
+    function createEndGameButton(){
+        const endGameButton = document.createElement('button');
+        endGameButton.textContent = 'end game';
+        endGameButton.style.fontFamily = 'LycheeSoda';
+        endGameButton.style.fontSize = '20px';
+        endGameButton.style.color = '#522915';
+        endGameButton.classList.add('btn');
+        endGameButton.style.position = 'relative';
+        endGameButton.style.bottom = '30px';
+        endGameButton.style.right = '130px';
+        endGameButton.id = "endGameButton";
+        return endGameButton;
+    }
+
+    // display score 
+    function displayScore(score) {
+        const scoreBox = document.createElement('div');
+        scoreBox.style.fontFamily = 'LycheeSoda';
+        scoreBox.style.backgroundColor = "beige"
+        scoreBox.textContent = 'Score: ' + score;
+        scoreBox.style.position = 'absolute';
+        scoreBox.style.top = '20px';
+        scoreBox.style.left = '20px';
+        scoreBox.style.color = '#522915';
+        scoreBox.style.fontSize = '40px';
+    
+        document.body.appendChild(scoreBox);
+    }
+    
+
+    // G L O B A L constants and variables
+    let score = 0;
+    const container = this.parentElement;
+    container.remove();
+
+    const MOVEMENT_speed = 5;
+
+    const canvas = document.querySelector('canvas');
+    const c = canvas.getContext('2d');
+
+    canvas.width = 1280;
+    canvas.height = 720;
+    let initialSoilStatus = "X"
+
+    var vRain;
+    
+    // END GAME protocol
+    function endGame() {
+        // Access the global score variable here
+        const playerScore = score; // Use the global score variable
+    
+        const container = document.createElement('div');
+        container.style.position = 'absolute';
+        container.style.top = '50%';
+        container.style.left = '50%';
+        container.style.transform = 'translate(-50%, -50%)';
+        container.style.backgroundColor = '#93cfc3'; 
+        container.style.padding = '20px';
+        container.style.opacity = '0.9';
+    
+        const nameLabel = document.createElement('label');
+        nameLabel.textContent = 'Name: ';
+        nameLabel.style.fontFamily = 'LycheeSoda';
+        nameLabel.style.fontSize = '40px';
+    
+        const nameInput = document.createElement('input');
+        nameInput.setAttribute('type', 'text');
+        nameInput.setAttribute('maxlength', '7');
+        nameInput.style.marginLeft = '5px';
+        nameInput.style.width = '300px'; 
+        nameInput.style.height = '40px';
+        nameInput.style.fontSize = '24px';
+        nameInput.style.fontFamily = 'LycheeSoda';
+    
+        container.appendChild(nameLabel);
+        container.appendChild(nameInput);
+        document.body.appendChild(container);
+    
+        nameInput.focus();
+    
+        nameInput.addEventListener('keypress', function(event) {
+            if (event.key === 'Enter' && nameInput.value.trim() !== '') {
+                const name = nameInput.value.trim();
+                const score = playerScore; // Assuming playerScore is already defined
+                const existingEntries = JSON.parse(localStorage.getItem('playerEntries')) || [];
+    
+                // Add the new entry to the existing entries
+                existingEntries.push({ name, score });
+    
+                // Store the updated entries back in Local Storage
+                localStorage.setItem('playerEntries', JSON.stringify(existingEntries));
+                window.location.reload();
+            }
+        });
+    }
+
+    // end game BUTTON implimentation
+    const endGameButton = createEndGameButton();
+    document.body.appendChild(endGameButton);
+
+    displayScore(score) // display score function implimentation
+
+    document.getElementById('endGameButton').addEventListener('click', endGame) //end game event listener
+
+    // R A I N functions
+    function chanceOfRain() {
+        let raining = false;
+        let number = Math.floor(Math.random() * 100) + 1;
+        if (number >= 30) {
+            raining = true;
+        } else {
+            raining = false
+        }
+        return raining;
+    }
+
+    function updateRain() {
+        for (var i = 0; i < vRain.length; i++) {
+            vRain[i].show(canvas, c);
+            vRain[i].fall(canvas, c);
+        }
+    }
+
+    function createRain() {
+        vRain = [];
+        for (var i = 0; i < 60; i++) {
+            vRain[i] = new classes.Rain(
+                Math.floor(Math.random() * canvas.width) + 5,
+                Math.floor(Math.random() * 100) - 100,
+                Math.floor(Math.random() * 30) + 1,
+                Math.floor(Math.random() * 12) + 4
+            );
+        }
+        setInterval(function() {
+            updateRain();
+        }, 10);
+    }
+    
+    let raining = chanceOfRain();
+    if(raining){
+        createRain()
+        initialSoilStatus = "W"}
+    else{initialSoilStatus = "X"}
+
+    const collisionsMap = [];
+    for (let i = 0; i < collisions.length; i += 90) {
+        collisionsMap.push(collisions.slice(i, i + 90));
+    }
+
+    const offset = {
+        x: -1800,
+        y: -1300
+    };
+
+    const boundaries = [];
+
+    collisionsMap.forEach((row, i) => {
+        row.forEach((symbol, j) => {
+            if (symbol === 267) {
+                boundaries.push(
+                    new classes.Boundary({
+                        pos: {
+                            x: j * 64 + offset.x,
+                            y: i * 64 + offset.y
+                        },
+                        width: 64,
+                        height: 64
+                    })
+                );
+            } else if (symbol === 268) {
+                boundaries.push(
+                    new classes.Boundary({
+                        pos: {
+                            x: j * 64 + offset.x + 32,
+                            y: i * 64 + offset.y
+                        },
+                        width: 32,
+                        height: 64
+                    })
+                );
+            } else if (symbol === 269) {
+                boundaries.push(
+                    new classes.Boundary({
+                        pos: {
+                            x: j * 64 + offset.x,
+                            y: i * 64 + offset.y
+                        },
+                        width: 32,
+                        height: 64
+                    })
+                );
+            } else if (symbol === 270) {
+                boundaries.push(
+                    new classes.Boundary({
+                        pos: {
+                            x: j * 64 + offset.x,
+                            y: i * 64 + offset.y + 32
+                        },
+                        width: 64,
+                        height: 32
+                    })
+                );
+            }
+        });
+    });
+
+    c.fillRect(0, 0, canvas.width, canvas.height);
 
     let soilTiles = [];
 

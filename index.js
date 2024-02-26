@@ -646,6 +646,10 @@ function startGame() {
     appleImage.src = './graphics/fruit/apple.png'
     const whiteAppleImage = new Image()
     whiteAppleImage.src = './graphics/fruit/whiteApple.png'
+    const whiteTomatoImage = new Image()
+    whiteTomatoImage.src = './graphics/fruit/whiteTomato.png'
+    const whiteCornImage = new Image()
+    whiteCornImage.src = './graphics/fruit/whiteCorn.png'
 
     let soilTiles = [];
 
@@ -897,21 +901,36 @@ function startGame() {
             }
         }
 
-    function flash(apple) {
-
-        const newApple = new classes.Sprite({
-            pos: { x: apple.pos.x, y: apple.pos.y },
-            image: whiteAppleImage
-        });
+    function flash(objectType, objectToRemove) {
+        let objectToFlash
+        if(objectType == "apple"){
+            console.log("apple flash")
+            objectToFlash = new classes.Sprite({
+                pos: { x: objectToRemove.pos.x, y: objectToRemove.pos.y },
+                image: whiteAppleImage
+        })}
+        else if(objectType == "tomato"){
+            console.log("tomato flash")
+            objectToFlash = new classes.Sprite({
+                pos: { x: objectToRemove.pos.x, y: objectToRemove.pos.y },
+                image: whiteTomatoImage
+        })}
+        else if(objectType == "corn"){
+            console.log("corn flash")
+            objectToFlash = new classes.Sprite({
+                pos: { x: objectToRemove.pos.x, y: objectToRemove.pos.y },
+                image: whiteCornImage
+        })}
     
         // Add the new apple to the list of all apples
-        flashObjects.push(newApple);
+        flashObjects.push(objectToFlash);
         setTimeout(() => {
-            const index = flashObjects.indexOf(newApple);
+            const index = flashObjects.indexOf(objectToFlash);
             if (index !== -1) {
                 flashObjects.splice(index, 1);
+                moveables = [...boundaries, background, ...trees, ...allApples, ...soilTiles, chicken, merchant, foreground, ...flashObjects];
             }
-        }, 500);
+        }, 300);
     }
         
 
@@ -941,7 +960,7 @@ function startGame() {
                         player.inventory['apple'] = (player.inventory['apple'] || 0) + 1;
                         const randomIndex = Math.floor(Math.random() * tree.apples.length);
                         const appleToRemove = tree.apples.splice(randomIndex, 1)[0];
-                        flash(appleToRemove)}
+                        flash("apple", appleToRemove)}
                         allApples = []
                         trees.forEach(function(tree){
                             tree.apples.forEach(function(apple){
@@ -1416,6 +1435,11 @@ function startGame() {
                 // Check if the soil tile has a plant with lifeIndex 3
                 if (soilTile.lifeIndex === 3) {
                     // Harvest the plant
+                    if(soilTile.seedType=="tomato"){
+                        flash("tomato", soilTile)}
+                    else if(soilTile.seedType=="corn"){
+                        flash("corn", soilTile)}
+                    moveables = [...boundaries, background, ...trees, ...allApples, ...soilTiles, chicken, merchant, foreground, ...flashObjects];
                     soilTile.lifeIndex = 0; // Reset lifeIndex
                     player.inventory[soilTile.seedType]++;
                     soilTile.seedType = null

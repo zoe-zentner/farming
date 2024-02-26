@@ -424,9 +424,24 @@ function startGame() {
     const whiteTomatoImage = new Image()
     whiteTomatoImage.src = './graphics/fruit/whiteTomato.png'
     const whiteCornImage = new Image()
-    whiteCornImage.src = './graphics/fruit/whiteCorn.png'
+    whiteCornImage.src = './graphics/fruit/whiteCorn.png'  
 
-    // end game button function
+    // G L O B A L constants and variables
+    let score = 0;
+    const MOVEMENT_speed = 5;
+    const container = this.parentElement;
+    container.remove();
+
+    const canvas = document.querySelector('canvas');
+    const c = canvas.getContext('2d');
+
+    canvas.width = 1280;
+    canvas.height = 720;
+    let initialSoilStatus = "X"
+
+    var vRain;
+
+        // end game button function
     function createEndGameButton(){
         const endGameButton = document.createElement('button');
         endGameButton.textContent = 'end game';
@@ -455,23 +470,6 @@ function startGame() {
     
         document.body.appendChild(scoreBox);
     }
-    
-
-    // G L O B A L constants and variables
-    let score = 0;
-    const container = this.parentElement;
-    container.remove();
-
-    const MOVEMENT_speed = 5;
-
-    const canvas = document.querySelector('canvas');
-    const c = canvas.getContext('2d');
-
-    canvas.width = 1280;
-    canvas.height = 720;
-    let initialSoilStatus = "X"
-
-    var vRain;
     
     // END GAME protocol
     function endGame() {

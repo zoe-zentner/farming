@@ -644,6 +644,8 @@ function startGame() {
     smallStumpImage.src = './graphics/objects/stump_small.png'
     const appleImage = new Image()
     appleImage.src = './graphics/fruit/apple.png'
+    const whiteAppleImage = new Image()
+    whiteAppleImage.src = './graphics/fruit/whiteApple.png'
 
     let soilTiles = [];
 
@@ -856,6 +858,7 @@ function startGame() {
     })
 
     let trees = []
+    let flashObjects = []
         
         // Loop through each tile
         for (let i = 0; i < 15; i++) {
@@ -894,6 +897,24 @@ function startGame() {
             }
         }
 
+    function flash(apple) {
+
+        const newApple = new classes.Sprite({
+            pos: { x: apple.pos.x, y: apple.pos.y },
+            image: whiteAppleImage
+        });
+    
+        // Add the new apple to the list of all apples
+        flashObjects.push(newApple);
+        setTimeout(() => {
+            const index = flashObjects.indexOf(newApple);
+            if (index !== -1) {
+                flashObjects.splice(index, 1);
+            }
+        }, 500);
+    }
+        
+
     //create a list of all apples
     let allApples = []
     trees.forEach(function(tree){
@@ -908,9 +929,6 @@ function startGame() {
             'up': {x: 75, y: 0},
             'down': {x: 32, y: 64}
         };
-    
-        const roundedX = player.pos.x + toolOffset[player.direction].x ;
-        const roundedY = player.pos.y + toolOffset[player.direction].y ;
     
         // Check if the player has the axe selected
         if (player.tool_index === 1) {
@@ -929,14 +947,16 @@ function startGame() {
                     if (tree.apples.length > 0) {
                         player.inventory['apple'] = (player.inventory['apple'] || 0) + 1;
                         const randomIndex = Math.floor(Math.random() * tree.apples.length);
-                        tree.apples.splice(randomIndex, 1)[0];}
+                        const appleToRemove = tree.apples.splice(randomIndex, 1)[0];
+                        flash(appleToRemove)}
                         allApples = []
                         trees.forEach(function(tree){
                             tree.apples.forEach(function(apple){
                                 allApples.push(apple)
                             })})
-                        moveables = [...boundaries, background, ...trees, ...allApples, ...soilTiles, chicken, merchant, foreground];
-                        console.log(tree.apples)
+                        console.log(flashObjects)
+                        moveables = [...boundaries, background, ...trees, ...allApples, ...soilTiles, chicken, merchant, foreground, ...flashObjects];
+                        console.log(moveables)
                     if (tree.health == 0){
                         player.inventory['wood'] = (player.inventory['wood'] || 0) + 1;
                         if(tree.size == "small"){
@@ -970,7 +990,7 @@ function startGame() {
             tree.apples.forEach(function(apple){
                 allApples.push(apple)
             })})
-        moveables = [...boundaries, background, ...trees, ...allApples, ...soilTiles, chicken, merchant, foreground];
+        moveables = [...boundaries, background, ...trees, ...allApples, ...soilTiles, chicken, merchant, foreground, ...flashObjects];
 
         // grow any plants which have been watered
         soilTiles.forEach(function(soilTile){
@@ -1008,7 +1028,7 @@ function startGame() {
         }
     };
 
-    let moveables = [...boundaries, background, ...trees, ...allApples, ...soilTiles, chicken, merchant, foreground];
+    let moveables = [...boundaries, background, ...trees, ...allApples, ...soilTiles, chicken, merchant, foreground, ...flashObjects];
 
     function rectangularCollision({ rectangle1, rectangle2 }) {
         return (
@@ -1446,6 +1466,10 @@ function startGame() {
         allApples.forEach(apple => {
             apple.draw();
         });
+
+        flashObjects.forEach(flashObject => {
+            flashObject.draw()
+        })
         
         // Draw the top 1/2 of the player image
         c.drawImage(player.image, 0, 0, player.image.width, player.image.height / 1.8, player.pos.x, player.pos.y, player.image.width, player.image.height / 1.8);

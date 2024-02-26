@@ -923,13 +923,6 @@ function startGame() {
         })})
 
     function hitTree() {
-        const toolOffset = {
-            'left': {x: -64, y: 32},
-            'right': {x: 64, y: 32},
-            'up': {x: 75, y: 0},
-            'down': {x: 32, y: 64}
-        };
-    
         // Check if the player has the axe selected
         if (player.tool_index === 1) {
             // Loop through each tree to check if the player is near it
@@ -954,9 +947,7 @@ function startGame() {
                             tree.apples.forEach(function(apple){
                                 allApples.push(apple)
                             })})
-                        console.log(flashObjects)
                         moveables = [...boundaries, background, ...trees, ...allApples, ...soilTiles, chicken, merchant, foreground, ...flashObjects];
-                        console.log(moveables)
                     if (tree.health == 0){
                         player.inventory['wood'] = (player.inventory['wood'] || 0) + 1;
                         if(tree.size == "small"){

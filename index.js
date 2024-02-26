@@ -998,38 +998,38 @@ function startGame() {
             // Increase opacity gradually for fade in
             nightImage.style.opacity = 1;
     
-            // repair trees and apples after fade in
-            trees.forEach(tree => {
-                tree.health = 5;
-                if (tree.image == smallStumpImage) {
-                    tree.image = smallTreeImage;
-                } else if (tree.image == largeStumpImage) {
-                    tree.image = largeTreeImage;
-                }
-                tree.apples = [];
-                tree.createApples();
-            });
-    
-            allApples = [];
-            trees.forEach(function(tree) {
-                tree.apples.forEach(function(apple) {
-                    allApples.push(apple);
-                });
-            });
-    
-            moveables = [...boundaries, background, ...trees, ...allApples, ...soilTiles, chicken, merchant, foreground, ...flashObjects];
-    
-            // grow any plants which have been watered
-            soilTiles.forEach(function(soilTile) {
-                if (soilTile.status == "W" && !(soilTile.seedType == null)) {
-                    if (soilTile.lifeIndex < 3) {
-                        soilTile.lifeIndex += 1;
-                    }
-                }
-            });
-    
-            // Wait for 2 seconds (fade out duration)
+            // Wait for 2 seconds (fade in duration)
             setTimeout(function() {
+                // repair trees and apples after fade in
+                trees.forEach(tree => {
+                    tree.health = 5;
+                    if (tree.image == smallStumpImage) {
+                        tree.image = smallTreeImage;
+                    } else if (tree.image == largeStumpImage) {
+                        tree.image = largeTreeImage;
+                    }
+                    tree.apples = [];
+                    tree.createApples();
+                });
+    
+                allApples = [];
+                trees.forEach(function(tree) {
+                    tree.apples.forEach(function(apple) {
+                        allApples.push(apple);
+                    });
+                });
+    
+                moveables = [...boundaries, background, ...trees, ...allApples, ...soilTiles, chicken, merchant, foreground, ...flashObjects];
+    
+                // grow any plants which have been watered
+                soilTiles.forEach(function(soilTile) {
+                    if (soilTile.status == "W" && !(soilTile.seedType == null)) {
+                        if (soilTile.lifeIndex < 3) {
+                            soilTile.lifeIndex += 1;
+                        }
+                    }
+                });
+    
                 // Fade out the image
                 nightImage.style.opacity = 0;
     
@@ -1038,9 +1038,10 @@ function startGame() {
                     // Set display to "none" once fade out is complete
                     nightImage.style.display = "none";
                 }, 2000); // 2000 milliseconds = 2 seconds for fade out
-            }, 2000); // 2000 milliseconds = 2 seconds for delay before fade out
+            }, 2000); // 2000 milliseconds = 2 seconds after fade in
         }, 0); // No delay for fade in
     }
+    
     
     
     

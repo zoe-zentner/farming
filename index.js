@@ -850,42 +850,42 @@ function startGame() {
     let trees = []
     let flashObjects = []
         
-        // // Loop through each tile
-        // for (let i = 0; i < 15; i++) {
-        //     for (let j = 0; j < 10; j++) {
-        //         // Calculate the coordinates of the current tile
-        //         const tileX = player.pos.x + background.pos.x + 64*20 + i * 64;
-        //         const tileY = player.pos.y + background.pos.y + 64*16 + j * 64;
+        // Loop through each tile
+        for (let i = 0; i < 15; i++) {
+            for (let j = 0; j < 10; j++) {
+                // Calculate the coordinates of the current tile
+                const tileX = player.pos.x + background.pos.x + 64*20 + i * 64;
+                const tileY = player.pos.y + background.pos.y + 64*16 + j * 64;
                 
-        //         // Generate a random number between 0 and 1
-        //         const chanceOfTree = Math.random();
-        //         const chanceOfSize = Math.random();
-        //         // Determine if a tree should be placed on this tile (10% chance)
-        //         if (chanceOfTree <= 0.1) {
-        //             var tree
-        //             if (chanceOfSize <0.4) {
-        //                 tree = new classes.Tree({pos:{x:tileX, y:tileY}, size:"large", image:largeTreeImage});
-        //                 const boundary = new classes.Boundary({
-        //                     pos: { x: tileX + 15, y: tileY +44},
-        //                     width: 64,
-        //                     height: 64
-        //                 });
-        //                 boundaries.push(boundary);
-        //             }
-        //             else{
-        //                 tree = new classes.Tree({pos:{x:tileX, y:tileY}, size:"small", image:smallTreeImage})
-        //                 const boundary = new classes.Boundary({
-        //                     pos: { x: tileX, y: tileY + 50},
-        //                     width: 56,
-        //                     height: 50
-        //                 });
-        //                 boundaries.push(boundary);};
-        //             // Append the tree to the trees list
-        //             trees.push(tree);
-        //             tree.createApples()
-        //         }
-        //     }
-        // }
+                // Generate a random number between 0 and 1
+                const chanceOfTree = Math.random();
+                const chanceOfSize = Math.random();
+                // Determine if a tree should be placed on this tile (10% chance)
+                if (chanceOfTree <= 0.1) {
+                    var tree
+                    if (chanceOfSize <0.4) {
+                        tree = new classes.Tree({pos:{x:tileX, y:tileY}, size:"large", image:largeTreeImage});
+                        const boundary = new classes.Boundary({
+                            pos: { x: tileX + 15, y: tileY +44},
+                            width: 64,
+                            height: 64
+                        });
+                        boundaries.push(boundary);
+                    }
+                    else{
+                        tree = new classes.Tree({pos:{x:tileX, y:tileY}, size:"small", image:smallTreeImage})
+                        const boundary = new classes.Boundary({
+                            pos: { x: tileX, y: tileY + 50},
+                            width: 56,
+                            height: 50
+                        });
+                        boundaries.push(boundary);};
+                    // Append the tree to the trees list
+                    trees.push(tree);
+                    tree.createApples()
+                }
+            }
+        }
 
     function flash(objectType, objectToRemove) {
         let objectToFlash
@@ -986,53 +986,64 @@ function startGame() {
         }
     }
 
-    function startNewDay(){
+    function startNewDay() {
         // NIGHT TRANSITION EFFECT
         nightImage.style.display = "block";
-        // Fade in the image
-        nightImage.style.opacity = 1;
-
-        // Wait for 2 seconds (fade in duration)
-        setTimeout(function() {
-        // Fade out the image
+        
+        // Set initial opacity to 0 for fade in
         nightImage.style.opacity = 0;
-
-        // Wait for 2 seconds (fade out duration)
+    
+        // Fade in the image
         setTimeout(function() {
-        }, 2000); // 2000 milliseconds = 2 seconds
-        }, 2000); // 2000 milliseconds = 2 seconds
-
-        // repair trees and apples
-        trees.forEach(tree => {
-            tree.health = 5;
-            if (tree.image == smallStumpImage){tree.image=smallTreeImage}
-            else if (tree.image == largeStumpImage){tree.image=largeTreeImage}
-            tree.apples = []
-            tree.createApples()
-        });
-        allApples = []
-        trees.forEach(function(tree){
-            tree.apples.forEach(function(apple){
-                allApples.push(apple)
-            })})
-        moveables = [...boundaries, background, ...trees, ...allApples, ...soilTiles, chicken, merchant, foreground, ...flashObjects];
-
-        // grow any plants which have been watered
-        soilTiles.forEach(function(soilTile){
-            if(soilTile.status == "W" && !(soilTile.seedType == null)){
-                if(soilTile.lifeIndex<3){soilTile.lifeIndex += 1}
-            }
-        })
-
-        // chance of rain is recalculated
-        raining = chanceOfRain()
-        if(raining){
-            initialSoilStatus = "W"}
-        else{initialSoilStatus = "X"}
-        soilTiles.forEach(function(soilTile){
-            soilTile.status = initialSoilStatus
-        })
+            // Increase opacity gradually for fade in
+            nightImage.style.opacity = 1;
+    
+            // repair trees and apples after fade in
+            trees.forEach(tree => {
+                tree.health = 5;
+                if (tree.image == smallStumpImage) {
+                    tree.image = smallTreeImage;
+                } else if (tree.image == largeStumpImage) {
+                    tree.image = largeTreeImage;
+                }
+                tree.apples = [];
+                tree.createApples();
+            });
+    
+            allApples = [];
+            trees.forEach(function(tree) {
+                tree.apples.forEach(function(apple) {
+                    allApples.push(apple);
+                });
+            });
+    
+            moveables = [...boundaries, background, ...trees, ...allApples, ...soilTiles, chicken, merchant, foreground, ...flashObjects];
+    
+            // grow any plants which have been watered
+            soilTiles.forEach(function(soilTile) {
+                if (soilTile.status == "W" && !(soilTile.seedType == null)) {
+                    if (soilTile.lifeIndex < 3) {
+                        soilTile.lifeIndex += 1;
+                    }
+                }
+            });
+    
+            // Wait for 2 seconds (fade out duration)
+            setTimeout(function() {
+                // Fade out the image
+                nightImage.style.opacity = 0;
+    
+                // Wait for 2 seconds (fade out duration)
+                setTimeout(function() {
+                    // Set display to "none" once fade out is complete
+                    nightImage.style.display = "none";
+                }, 2000); // 2000 milliseconds = 2 seconds for fade out
+            }, 2000); // 2000 milliseconds = 2 seconds for delay before fade out
+        }, 0); // No delay for fade in
     }
+    
+    
+    
     
 
     const keys = {

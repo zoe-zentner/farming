@@ -987,14 +987,14 @@ function startGame() {
                         player.inventory['wood'] = (player.inventory['wood'] || 0) + 1;
                         if(tree.size == "small"){
                             flash("smallTree", tree)
-                            tree.pos.y += 75
-                            tree.pos.x += 10
+                            tree.pos.y += 72
+                            tree.pos.x += 12
                             tree.image = smallStumpImage
                         }
                         else if(tree.size == "large"){
                             flash("largeTree", tree)
-                            tree.pos.y += 75
-                            tree.pos.x += 30
+                            tree.pos.y += 80
+                            tree.pos.x += 28
                             tree.image = largeStumpImage
                         }
                     }

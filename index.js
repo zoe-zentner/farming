@@ -642,6 +642,10 @@ function startGame() {
     largeStumpImage.src = './graphics/objects/stump_medium.png'
     const smallStumpImage = new Image()
     smallStumpImage.src = './graphics/objects/stump_small.png'
+    const whiteSmallTreeImage = new Image()
+    whiteSmallTreeImage.src = './graphics/objects/whiteSmallTree.png'
+    const whiteLargeTreeImage = new Image()
+    whiteLargeTreeImage.src = './graphics/objects/whiteMediumTree.png'
     const appleImage = new Image()
     appleImage.src = './graphics/fruit/apple.png'
     const whiteAppleImage = new Image()
@@ -921,6 +925,18 @@ function startGame() {
                 pos: { x: objectToRemove.pos.x, y: objectToRemove.pos.y },
                 image: whiteCornImage
         })}
+        else if(objectType == "smallTree"){
+            console.log("small tree flash")
+            objectToFlash = new classes.Sprite({
+                pos: { x: objectToRemove.pos.x, y: objectToRemove.pos.y },
+                image: whiteSmallTreeImage
+        })}
+        else if(objectType == "largeTree"){
+            console.log("large tree flash")
+            objectToFlash = new classes.Sprite({
+                pos: { x: objectToRemove.pos.x, y: objectToRemove.pos.y },
+                image: whiteLargeTreeImage
+        })}
     
         // Add the new apple to the list of all apples
         flashObjects.push(objectToFlash);
@@ -970,11 +986,13 @@ function startGame() {
                     if (tree.health == 0){
                         player.inventory['wood'] = (player.inventory['wood'] || 0) + 1;
                         if(tree.size == "small"){
+                            flash("smallTree", tree)
                             tree.pos.y += 75
                             tree.pos.x += 10
                             tree.image = smallStumpImage
                         }
                         else if(tree.size == "large"){
+                            flash("largeTree", tree)
                             tree.pos.y += 75
                             tree.pos.x += 30
                             tree.image = largeStumpImage

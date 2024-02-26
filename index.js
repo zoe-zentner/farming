@@ -544,9 +544,11 @@ function startGame() {
     }
 
     function updateRain() {
-        for (var i = 0; i < vRain.length; i++) {
-            vRain[i].show(canvas, c);
-            vRain[i].fall(canvas, c);
+        if(vRain){
+            for (var i = 0; i < vRain.length; i++) {
+                vRain[i].show(canvas, c);
+                vRain[i].fall(canvas, c);
+            }
         }
     }
 

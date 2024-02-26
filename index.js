@@ -266,21 +266,31 @@ function instructionsDisplay() {
     document.body.style.backgroundColor = 'beige';
 
     const playerMovementText = document.createElement('div');
-    playerMovementText.textContent = 'Player Movement';
+    playerMovementText.textContent = 
+    "controls:\n\n"+
+    "Player Movement: w a s d\n" +
+    "Use Tool: p\n" +
+    "Use Seed: o\n" +
+    "Change Tool: q\n" +
+    "Change Seed: e\n" +
+    "Sleep: n (must be in house)\n"
     playerMovementText.style.fontFamily = 'LycheeSoda';
-    playerMovementText.style.fontSize = '24px';
+    playerMovementText.style.fontSize = '32px';
     playerMovementText.style.color = '#522915';
     playerMovementText.style.position = 'fixed';
-    playerMovementText.style.top = '200px'; // Adjust top position as needed
-    playerMovementText.style.left = '550px'; // Adjust left position as needed
+    container.style.backgroundColor = 'brown';
+    playerMovementText.style.top = '120px'; 
+    playerMovementText.style.left = '540px'; 
+    playerMovementText.style.whiteSpace = 'pre-line';
+    playerMovementText.style.lineHeight = '1.7';
     document.body.appendChild(playerMovementText);
 
-    const wasdImage = document.createElement('img');
-    wasdImage.src = './graphics/buttons/wasd.png'; // Set the actual path to your image
-    wasdImage.style.position = 'fixed';
-    wasdImage.style.left = '540px';
-    wasdImage.style.top = '250px';
-    document.body.appendChild(wasdImage);
+    // const wasdImage = document.createElement('img');
+    // wasdImage.src = './graphics/buttons/wasd.png'; // Set the actual path to your image
+    // wasdImage.style.position = 'fixed';
+    // wasdImage.style.left = '540px';
+    // wasdImage.style.top = '250px';
+    // document.body.appendChild(wasdImage);
 
     const backButton = createBackButton();
     document.body.appendChild(backButton)
@@ -482,7 +492,7 @@ function startGame() {
         container.style.position = 'absolute';
         container.style.top = '50%';
         container.style.left = '50%';
-        container.style.transform = 'translate(-50%, -50%)';
+        container.style.transform = 'translate(-50%, -50%)'; 
         container.style.backgroundColor = '#93cfc3'; 
         container.style.padding = '20px';
         container.style.opacity = '0.9';
@@ -986,66 +996,61 @@ function startGame() {
         }
     }
 
-    function startNewDay() {
-        // NIGHT TRANSITION EFFECT
-        nightImage.style.display = "block";
-        
-        // Set initial opacity to 0 for fade in
-        nightImage.style.opacity = 0;
+function startNewDay() {
+    // NIGHT TRANSITION EFFECT
+    nightImage.style.display = "block";
     
-        // Fade in the image
+    // Set initial opacity to 0 for fade in
+    nightImage.style.opacity = 0;
+
+    // Fade in the image
+    setTimeout(function() {
+        // Increase opacity gradually for fade in
+        nightImage.style.opacity = 1;
+
+        // Wait for 2 seconds (fade in duration)
         setTimeout(function() {
-            // Increase opacity gradually for fade in
-            nightImage.style.opacity = 1;
-    
-            // Wait for 2 seconds (fade in duration)
+            // repair trees and apples after fade in
+            trees.forEach(tree => {
+                tree.health = 5;
+                if (tree.image == smallStumpImage) {
+                    tree.image = smallTreeImage;
+                } else if (tree.image == largeStumpImage) {
+                    tree.image = largeTreeImage;
+                }
+                tree.apples = [];
+                tree.createApples();
+            });
+
+            allApples = [];
+            trees.forEach(function(tree) {
+                tree.apples.forEach(function(apple) {
+                    allApples.push(apple);
+                });
+            });
+
+            moveables = [...boundaries, background, ...trees, ...allApples, ...soilTiles, chicken, merchant, foreground, ...flashObjects];
+
+            // grow any plants which have been watered
+            soilTiles.forEach(function(soilTile) {
+                if (soilTile.status == "W" && !(soilTile.seedType == null)) {
+                    if (soilTile.lifeIndex < 3) {
+                        soilTile.lifeIndex += 1;
+                    }
+                }
+            });
+
+            // Fade out the image
+            nightImage.style.opacity = 0;
+
+            // Wait for 2 seconds (fade out duration)
             setTimeout(function() {
-                // repair trees and apples after fade in
-                trees.forEach(tree => {
-                    tree.health = 5;
-                    if (tree.image == smallStumpImage) {
-                        tree.image = smallTreeImage;
-                    } else if (tree.image == largeStumpImage) {
-                        tree.image = largeTreeImage;
-                    }
-                    tree.apples = [];
-                    tree.createApples();
-                });
-    
-                allApples = [];
-                trees.forEach(function(tree) {
-                    tree.apples.forEach(function(apple) {
-                        allApples.push(apple);
-                    });
-                });
-    
-                moveables = [...boundaries, background, ...trees, ...allApples, ...soilTiles, chicken, merchant, foreground, ...flashObjects];
-    
-                // grow any plants which have been watered
-                soilTiles.forEach(function(soilTile) {
-                    if (soilTile.status == "W" && !(soilTile.seedType == null)) {
-                        if (soilTile.lifeIndex < 3) {
-                            soilTile.lifeIndex += 1;
-                        }
-                    }
-                });
-    
-                // Fade out the image
-                nightImage.style.opacity = 0;
-    
-                // Wait for 2 seconds (fade out duration)
-                setTimeout(function() {
-                    // Set display to "none" once fade out is complete
-                    nightImage.style.display = "none";
-                }, 2000); // 2000 milliseconds = 2 seconds for fade out
-            }, 2000); // 2000 milliseconds = 2 seconds after fade in
-        }, 0); // No delay for fade in
-    }
-    
-    
-    
-    
-    
+                // Set display to "none" once fade out is complete
+                nightImage.style.display = "none";
+            }, 2000); // 2000 milliseconds = 2 seconds for fade out
+        }, 2000); // 2000 milliseconds = 2 seconds after fade in
+    }, 0); // No delay for fade in
+}   
 
     const keys = {
         d: {

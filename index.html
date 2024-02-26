@@ -70,6 +70,17 @@
         font-size: 50px;
     }
 
+    #nightImage {
+        padding: 8;
+        position: absolute;
+        opacity: 0;
+        top: 0;
+        left: 0;
+        z-index: 9999;
+        transition: opacity 2s ease-in-out;
+        display: none
+    }
+
     .container .btn:hover {
     background-color: rgb(30, 112, 108);
 }
@@ -77,7 +88,7 @@
 </style>
 <canvas></canvas>
 <div class="container">
-    <img id="water" src="./graphics/water/waterImg.png" alt="Water">
+    <img id="waterImage" src="./graphics/water/waterImg.png" alt="WaterImage">
     <button id="playButton" class="btn">Play</button>
     <button id="scoresButton" class="btn">Scores</button>
     <button id="quitButton" class="btn">Quit</button>
@@ -86,3 +97,4 @@
 </div>
 <script src="data/collisions.js"></script>
 <script type="module" src="index.js"></script>
+<img src="./graphics/my_world/nightImage.png" id="nightImage" alt="nightImage">

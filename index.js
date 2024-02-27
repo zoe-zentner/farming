@@ -1045,7 +1045,7 @@ function startNewDay() {
 
             moveables = [...boundaries, background, ...trees, ...allApples, ...soilTiles, chicken, merchant, foreground, ...flashObjects];
 
-            // grow any plants which have been watered
+            // grow any plants which are watered
             soilTiles.forEach(function(soilTile) {
                 if (soilTile.status == "W" && !(soilTile.seedType == null)) {
                     if (soilTile.lifeIndex < 3) {
@@ -1286,7 +1286,7 @@ function startNewDay() {
                             moveables = [...boundaries, background, ...soilTiles, ...trees, ...allApples, chicken, merchant, foreground];};
                         if(player.tools[player.tool_index] == "water"){
                             changeSoilWaterStatus()
-                            waterSoilTiles()
+                            drawMud()
                         }
                         if(player.tools[player.tool_index] == "axe"){
                             hitTree()
@@ -1332,6 +1332,8 @@ function startNewDay() {
     }
 
 // S O I L functions
+
+    // check if a soil tile exists at a specific coordinate
     function doesSoilTileExist(x, y) {
         for (const soilTile of soilTiles) {
             if (soilTile.pos.x === x && soilTile.pos.y === y) {
@@ -1341,6 +1343,7 @@ function startNewDay() {
         return false; // Soil tile does not exist at this position
     }
 
+    // checks existence of soil tiles above below left and right
     function getNeighborTiles(x, y) {
         const t = doesSoilTileExist(x, y - 64);
         const r = doesSoilTileExist(x + 64, y);
@@ -1349,6 +1352,7 @@ function startNewDay() {
         return {t, r, b, l};
     }
 
+    // function which changes soil images so that soil tiles which are next to each other "join together"
     function changeSoilImage(t, b, l, r) {
             let soilTileImage = ''
             // all sides
@@ -1381,17 +1385,20 @@ function startNewDay() {
             return soilTileImage
     }
 
-    function waterSoilTiles() {
+    // function to draw the mud that appears on watered soil tiles
+    function drawMud() {
         for (const soilTile of soilTiles) {
             if(soilTile.status == "W"){c.drawImage(wateredSoil, soilTile.pos.x, soilTile.pos.y)
         }}
     }
 
+    // function to create a new soil tile
     function createNewSoilTile() {
         const toolOffset = {'left': {x: 55, y:64},
         'right': {x: 55, y:64},
         'up': {x: 55, y:64},
         'down': {x: 55, y:128}}
+        // rounded values to make sure soil lines up with tile size
         const roundedX = player.pos.x + toolOffset[player.direction].x+ background.pos.x%64
         const roundedY = player.pos.y + toolOffset[player.direction].y + background.pos.y%64
         const soilTileExists = doesSoilTileExist(roundedX, roundedY)
@@ -1411,6 +1418,7 @@ function startNewDay() {
         }
     }
 
+    // function to update the status of a soil tile
     function changeSoilWaterStatus() {
         const toolOffset = {
             'left': { x: 55, y: 64 },
@@ -1418,6 +1426,8 @@ function startNewDay() {
             'up': { x: 55, y: 64 },
             'down': { x: 55, y: 128 }
         };
+
+        // rounded values to up with tile size since soil tiles cant be anywhere else
         const roundedX = player.pos.x + toolOffset[player.direction].x + background.pos.x % 64;
         const roundedY = player.pos.y + toolOffset[player.direction].y + background.pos.y % 64;
         const soilTileExists = doesSoilTileExist(roundedX, roundedY);
@@ -1434,6 +1444,7 @@ function startNewDay() {
         }
     }
 
+    // function to plant a seed
     function plantSeed(){
         const toolOffset = {
             'left': { x: 55, y: 64 },
@@ -1441,6 +1452,8 @@ function startNewDay() {
             'up': { x: 55, y: 64 },
             'down': { x: 55, y: 128 }
         };
+
+        // rounded values to up with tile size since soil tiles cant be anywhere else
         const roundedX = player.pos.x + toolOffset[player.direction].x + background.pos.x % 64;
         const roundedY = player.pos.y + toolOffset[player.direction].y + background.pos.y % 64;
         const soilTileExists = doesSoilTileExist(roundedX, roundedY);
@@ -1461,6 +1474,7 @@ function startNewDay() {
         }
     }
     
+    // Function to display all plants
     function displayPlants() {
         for (const soilTile of soilTiles) {
             if(soilTile.seedType == "corn"){c.drawImage(cornImages[soilTile.lifeIndex], soilTile.pos.x, soilTile.pos.y)}
@@ -1468,7 +1482,9 @@ function startNewDay() {
         }
     }                                                                                                                                                  
 
+    // Funcitons to harvest a plant
     function harvestPlant() {
+        // check all soil tiles
         for (const soilTile of soilTiles) {
             // Check if the player collides with a soil tile
             if (rectangularCollision({
@@ -1479,47 +1495,54 @@ function startNewDay() {
                         height: 64
                     }
                 })) {
-                // Check if the soil tile has a plant with lifeIndex 3
+                // Check if the soil tile has a plant with lifeIndex 3 (which is the last stage of growth)
                 if (soilTile.lifeIndex === 3) {
                     // Harvest the plant
                     if(soilTile.seedType=="tomato"){
                         flash("tomato", soilTile)}
                     else if(soilTile.seedType=="corn"){
                         flash("corn", soilTile)}
+                    // Update moveables list so that the removed harvested plant is no longer drawn
                     moveables = [...boundaries, background, ...trees, ...allApples, ...soilTiles, chicken, merchant, foreground, ...flashObjects];
                     soilTile.lifeIndex = 0; // Reset lifeIndex
                     player.inventory[soilTile.seedType]++;
-                    soilTile.seedType = null
+                    soilTile.seedType = null // No seed type after harvesting
                 }
             }
         }
     }
     
 
-
+    // this loop will continually execute to make sure the screen is always up to date
     function update() {
         input();
     
         // Clear the canvas
         c.clearRect(0, 0, canvas.width, canvas.height);
     
+        //move the player
         move();
-    
+        //move the chicken as well
         chicken.update(boundaries);
         
+        // Draw all images which are moved when the player moves
         moveables.forEach(moveable => {
             moveable.draw();
         });
 
-        waterSoilTiles()
-        harvestPlant()
-        displayPlants()
+        // Functions relating to soil/plants
+        drawMud() // Draws mud on the soil tiles
+        harvestPlant() // Checks for plant being harvested
+        displayPlants() // Draws any plants on their corresponding soil tile
     
-        // Draw the player last
+        // Draw the player after the moveables so it is at the front
         player.draw();
 
+        // Draw/redraw all images which are "on top" of the player
+        // Draw foreground
         foreground.draw();
-        // tree1.apples.forEach(function(apple) {apple.draw()})
+
+        // Draw all trees
         trees.forEach(tree => {
             tree.draw();
         });
@@ -1529,15 +1552,16 @@ function startNewDay() {
             apple.draw();
         });
 
+        // Draw any "flashes" (image turning white before dissapearing)
         flashObjects.forEach(flashObject => {
             flashObject.draw()
         })
         
-        // Draw the top 1/2 of the player image
+        // Draw the top 1/2 of the player image for visual effect
         c.drawImage(player.image, 0, 0, player.image.width, player.image.height / 1.8, player.pos.x, player.pos.y, player.image.width, player.image.height / 1.8);
 
         //draw rain if its raining
-        if(raining){updateRain()}
+        if(raining){updateRain()};
     
         //overlay
         c.drawImage(toolImage, tool.pos.x, tool.pos.y);
@@ -1550,7 +1574,7 @@ function startNewDay() {
         // console.log(shortestPath)}
         // catch{}
     
-        // Check collisions inside the setTimeout callback
+        // make sure that updates are relative to how much time has passed since last update
         requestAnimationFrame((timestamp) => {
             update(timestamp);
             animatePlayer(timestamp);

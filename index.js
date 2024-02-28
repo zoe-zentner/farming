@@ -890,43 +890,43 @@ function startGame() {
     let trees = []
     let flashObjects = []
         
-        // Loop through each tile
-        for (let i = 0; i < 29; i++) {
-            for (let j = 0; j < 7; j++) {
-                // Calculate the coordinates of the current tile
-                const tileX = player.pos.x + background.pos.x + 64*40 + i * 64;
-                const tileY = player.pos.y + background.pos.y + 64*36 + j * 64;
-                
-                // Generate a random number between 0 and 1 to determine if a tree should be placed and what size
-                const chanceOfTree = Math.random();
-                const chanceOfSize = Math.random();
-                // Determine if a tree should be placed on this tile (10% chance)
-                if (chanceOfTree <= 0.1) {
-                    var tree
-                    // Determine what size tree should be placed
-                    if (chanceOfSize <0.4) {
-                        tree = new classes.Tree({pos:{x:tileX, y:tileY}, size:"large", image:largeTreeImage});
-                        const boundary = new classes.Boundary({
-                            pos: { x: tileX + 15, y: tileY +44},
-                            width: 64,
-                            height: 64
-                        });
-                        boundaries.push(boundary);
-                    }
-                    else{
-                        tree = new classes.Tree({pos:{x:tileX, y:tileY}, size:"small", image:smallTreeImage})
-                        const boundary = new classes.Boundary({
-                            pos: { x: tileX, y: tileY + 50},
-                            width: 56,
-                            height: 50
-                        });
-                        boundaries.push(boundary);};
-                    // Append the tree to the trees list and create apples for it
-                    trees.push(tree);
-                    tree.createApples()
+    // Loop through each tile
+    for (let i = 0; i < 30; i++) {
+        for (let j = 0; j < 7; j++) {
+            // Calculate the coordinates of the current tile
+            const tileX = player.pos.x + background.pos.x + 64*40 + i * 64;
+            const tileY = player.pos.y + background.pos.y + 64*36 + j * 64;
+            
+            // Generate a random number between 0 and 1 to determine if a tree should be placed and what size
+            const chanceOfTree = Math.random();
+            const chanceOfSize = Math.random();
+            // Determine if a tree should be placed on this tile (10% chance)
+            if (chanceOfTree <= 0.1) {
+                var tree
+                // Determine what size tree should be placed
+                if (chanceOfSize <0.4) {
+                    tree = new classes.Tree({pos:{x:tileX, y:tileY}, size:"large", image:largeTreeImage});
+                    const boundary = new classes.Boundary({
+                        pos: { x: tileX + 15, y: tileY +44},
+                        width: 64,
+                        height: 64
+                    });
+                    boundaries.push(boundary);
                 }
+                else{
+                    tree = new classes.Tree({pos:{x:tileX, y:tileY}, size:"small", image:smallTreeImage})
+                    const boundary = new classes.Boundary({
+                        pos: { x: tileX, y: tileY + 50},
+                        width: 56,
+                        height: 50
+                    });
+                    boundaries.push(boundary);};
+                // Append the tree to the trees list and create apples for it
+                trees.push(tree);
+                tree.createApples()
             }
         }
+    }
 
     // function to make image turn white and then dissapear
     function flash(objectType, objectToRemove) {

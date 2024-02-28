@@ -929,8 +929,9 @@ function startGame() {
     }
     
     function disapearingTrees() {
-        let treeCount = 0;
-        let boundariesToRemove = [];
+        // Store references to trees and boundaries to remove
+        const treesToRemove = [];
+        const boundariesToRemove = [];
     
         // Loop through each tile
         for (let i = 0; i < 8; i++) {
@@ -942,9 +943,9 @@ function startGame() {
                 // Generate a random number between 0 and 1 to determine if a tree should be placed and what size
                 const chanceOfTree = Math.random();
                 const chanceOfSize = Math.random();
+    
                 // Determine if a tree should be placed on this tile (10% chance)
                 if (chanceOfTree <= 0.1) {
-                    treeCount += 1;
                     let tree;
                     let boundary;
                     // Determine what size tree should be placed
@@ -963,32 +964,58 @@ function startGame() {
                             height: 50
                         });
                     }
-                    boundaries.push(boundary);
-                    // Append the tree to the trees list and create apples for it
+                    // Add trees and boundaries to their respective arrays
                     trees.push(tree);
+                    boundaries.push(boundary);
                     tree.createApples();
                     allApples = [];
                     getAllApples();
                     moveables = [...boundaries, background, ...trees, ...allApples, ...soilTiles, chicken, merchant, foreground, ...flashObjects];
-                    // Delete the tree and boundary after 1.9 seconds
+    
+                    // Schedule removal of tree and boundary after 1.9 seconds
                     setTimeout(() => {
-                        trees.splice(-treeCount);
-                        boundariesToRemove.push(boundary);
-                        // Remove boundaries after 1.9 seconds
-                        boundariesToRemove.forEach(boundary => {
-                            const index = boundaries.indexOf(boundary);
-                            if (index !== -1) {
-                                boundaries.splice(index, 1);
-                            }
-                        });
-                    }, 1900);
+                        // Remove tree
+                        const index = trees.indexOf(tree);
+                        if (index !== -1) {
+                            trees.splice(index, 1);
+                        }
+                        // Remove boundary
+                        const boundaryIndex = boundaries.indexOf(boundary);
+                        if (boundaryIndex !== -1) {
+                            boundaries.splice(boundaryIndex, 1);
+                        }
+                    }, 8000);
+    
+                    // Store references to trees and boundaries for removal
+                    treesToRemove.push(tree);
+                    boundariesToRemove.push(boundary);
                 }
             }
         }
+    
+        // Clear references after timeout
+        setTimeout(() => {
+            treesToRemove.forEach(tree => {
+                const index = trees.indexOf(tree);
+                if (index !== -1) {
+                    trees.splice(index, 1);
+                }
+            });
+            boundariesToRemove.forEach(boundary => {
+                const index = boundaries.indexOf(boundary);
+                if (index !== -1) {
+                    boundaries.splice(index, 1);
+                }
+            });
+        }, 8000);
     }
     
     // Call the function every 1.9 seconds
-    setInterval(disapearingTrees, 1900);
+    setTimeout(function repeat() {
+        disapearingTrees();
+        setTimeout(repeat, 8000);
+    }, 8000);
+    
     
     // function to make image turn white and then dissapear
     function flash(objectType, objectToRemove) {

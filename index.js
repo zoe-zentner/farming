@@ -1167,10 +1167,13 @@ function startNewDay() {
             // chance of rain is recalculated
             raining = chanceOfRain()
             if(raining){
-                initialSoilStatus = "W"}
+                createRain()
+                initialSoilStatus = "W"
+                rainAudio.play()}
             else{initialSoilStatus = "X"}
             soilTiles.forEach(function(soilTile){
                 soilTile.status = initialSoilStatus
+                rainAudio.pause()
             })
 
             // Fade out the image

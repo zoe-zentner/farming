@@ -174,25 +174,25 @@ function displayLeaderboard(container, sortedData) {
 }
 
 //audio 
-let audio = new Audio();
-audio.src = './audio/music.mp3';
+let music = new Audio();
+music.src = './audio/bg.mp3';
 // Enable looping
-audio.loop = true;
+music.loop = true;
 
 function playAudio() {
     const musicButton = document.getElementById('musicButton');
     
-    if (audio.paused) {
+    if (music.paused) {
         const playbackPosition = localStorage.getItem('playbackPosition');
         if (playbackPosition) {
-            audio.currentTime = parseFloat(playbackPosition);
+            music.currentTime = parseFloat(playbackPosition);
         }
-        audio.play();
+        music.play();
         musicButton.classList.add('active');
         localStorage.setItem('musicState', 'playing'); // Save state as playing
     } else {
-        localStorage.setItem('playbackPosition', audio.currentTime);
-        audio.pause();
+        localStorage.setItem('playbackPosition', music.currentTime);
+        music.pause();
         musicButton.classList.remove('active');
         localStorage.setItem('musicState', 'paused'); // Save state as paused
     }
@@ -200,7 +200,7 @@ function playAudio() {
 
 // Save playback position and state before unloading the page
 window.onbeforeunload = function() {
-    localStorage.setItem('playbackPosition', audio.currentTime);
+    localStorage.setItem('playbackPosition', music.currentTime);
 };
 
 // Check if music was playing before the page was reloaded and resume playback
@@ -211,9 +211,9 @@ window.onload = function() {
         if (musicState === 'playing') {
         const playbackPosition = localStorage.getItem('playbackPosition');
         if (playbackPosition) {
-            audio.currentTime = parseFloat(playbackPosition);
+            music.currentTime = parseFloat(playbackPosition);
         }
-        audio.play();
+        music.play();
         musicButton.classList.add('active')
     } else {
         musicButton.classList.remove('active');
@@ -342,6 +342,20 @@ function settingsfunction() {
 }
 
 function startGame() {
+    // A U D I O  imports
+    const axeAudio = new Audio();
+    axeAudio.src = './audio/axe.mp3';
+
+    const hoeAudio = new Audio();
+    hoeAudio.src = './audio/hoe.mp3';
+
+    const waterAudio = new Audio();
+    waterAudio.src = './audio/water.mp3';
+
+    const rainAudio = new Audio();
+    rainAudio.src = './audio/rain.mp3';
+
+
     // I M A G E imports
     const mapImage = new Image();
     mapImage.src = './graphics/my_world/main_map.png';
@@ -598,7 +612,8 @@ function startGame() {
     let raining = chanceOfRain(); // true or false
     // if its raining, create rain animation and water all soil tiles
     if(raining){
-        createRain()
+        createRain();
+        rainAudio.play()
         initialSoilStatus = "W"}
     else{initialSoilStatus = "X"}
 
@@ -948,11 +963,11 @@ function startGame() {
                 const chanceOfTree = Math.random();
                 const chanceOfSize = Math.random();
     
-                // Determine if a tree should be placed on this tile (10% chance)
+                // Decide if a tree should be placed on this tile (10% chance)
                 if (chanceOfTree <= 0.05 && !collidesWithPlayer && !collidesWithChicken) {
                     let tree;
                     let boundary;
-                    // Determine what size tree should be placed
+                    // Decide what size tree should be placed at random
                     if (chanceOfSize < 0.4) {
                         tree = new classes.Tree({ pos: { x: tileX, y: tileY }, size: "large", image: largeTreeImage });
                         boundary = new classes.Boundary({
@@ -983,7 +998,7 @@ function startGame() {
             }
         }
     
-        // remove trees after set amount of time
+        // remove trees and create more trees after 20s
         setTimeout(() => {
             treesToRemove.forEach(tree => {
                 const index = trees.indexOf(tree);
@@ -998,7 +1013,7 @@ function startGame() {
 
                 }
             });
-            // Call the function again recursively after 8 seconds
+            // Call the function again recursively
             disapearingTrees(Xtiles, Ytiles, widthInTiles, heightInTiles);
         }, 20000);
     }

@@ -928,24 +928,24 @@ function startGame() {
         }
     }
     
-    function disapearingTrees() {
+    function disapearingTrees(Xtiles, Ytiles, widthInTiles, heightInTiles) {
         // Store references to trees and boundaries to remove
         const treesToRemove = [];
         const boundariesToRemove = [];
     
         // Loop through each tile
-        for (let i = 0; i < 8; i++) {
-            for (let j = 0; j < 10; j++) {
+        for (let i = 0; i < widthInTiles; i++) {
+            for (let j = 0; j < heightInTiles; j++) {
                 // Calculate the coordinates of the current tile
-                const tileX = player.pos.x + background.pos.x + 64 * 20 + i * 64;
-                const tileY = player.pos.y + background.pos.y + 64 * 15 + j * 64;
+                const tileX = player.pos.x + background.pos.x + 64 * Xtiles + i * 64;
+                const tileY = player.pos.y + background.pos.y + 64 * Ytiles + j * 64;
     
                 // Generate a random number between 0 and 1 to determine if a tree should be placed and what size
                 const chanceOfTree = Math.random();
                 const chanceOfSize = Math.random();
     
                 // Determine if a tree should be placed on this tile (10% chance)
-                if (chanceOfTree <= 0.1) {
+                if (chanceOfTree <= 0.05) {
                     let tree;
                     let boundary;
                     // Determine what size tree should be placed
@@ -1012,7 +1012,7 @@ function startGame() {
     
     // Call the function every 1.9 seconds
     setTimeout(function repeat() {
-        disapearingTrees();
+        disapearingTrees(20, 20, 8, 5);
         setTimeout(repeat, 8000);
     }, 8000);
     
@@ -1054,6 +1054,7 @@ function startGame() {
     
         // push the object into the list of objects to flash
         flashObjects.push(objectToFlash);
+        moveables = [...boundaries, background, ...trees, ...allApples, ...soilTiles, chicken, merchant, foreground, ...flashObjects];
         // remove the object after 0.3 seconds
         setTimeout(() => {
             const index = flashObjects.indexOf(objectToFlash);

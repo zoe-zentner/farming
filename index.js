@@ -832,7 +832,7 @@ function startGame() {
             x: canvas.width / 2 - 186,
             y: canvas.height / 2 
         },
-        image: chickenImage, // Provide the image for the chicken
+        image: chickenImage,
         status: 'idle',
         player: player, // Pass the player instance to the chicken
         boundaries: boundaries
@@ -891,11 +891,11 @@ function startGame() {
     let flashObjects = []
         
         // Loop through each tile
-        for (let i = 0; i < 15; i++) {
-            for (let j = 0; j < 10; j++) {
+        for (let i = 0; i < 24; i++) {
+            for (let j = 0; j < 8; j++) {
                 // Calculate the coordinates of the current tile
-                const tileX = player.pos.x + background.pos.x + 64*20 + i * 64;
-                const tileY = player.pos.y + background.pos.y + 64*16 + j * 64;
+                const tileX = player.pos.x + background.pos.x + 64*40 + i * 64;
+                const tileY = player.pos.y + background.pos.y + 64*36 + j * 64;
                 
                 // Generate a random number between 0 and 1 to determine if a tree should be placed and what size
                 const chanceOfTree = Math.random();

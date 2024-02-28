@@ -929,6 +929,9 @@ function startGame() {
     }
     
     function generateTrees() {
+        let treeCount = 0;
+        let boundariesToRemove = [];
+    
         // Loop through each tile
         for (let i = 0; i < 8; i++) {
             for (let j = 0; j < 10; j++) {
@@ -941,43 +944,52 @@ function startGame() {
                 const chanceOfSize = Math.random();
                 // Determine if a tree should be placed on this tile (10% chance)
                 if (chanceOfTree <= 0.1) {
+                    treeCount += 1;
                     let tree;
+                    let boundary;
                     // Determine what size tree should be placed
                     if (chanceOfSize < 0.4) {
                         tree = new classes.Tree({ pos: { x: tileX, y: tileY }, size: "large", image: largeTreeImage });
-                        const boundary = new classes.Boundary({
+                        boundary = new classes.Boundary({
                             pos: { x: tileX + 15, y: tileY + 44 },
                             width: 64,
                             height: 64
                         });
-                        boundaries.push(boundary);
                     } else {
                         tree = new classes.Tree({ pos: { x: tileX, y: tileY }, size: "small", image: smallTreeImage });
-                        const boundary = new classes.Boundary({
+                        boundary = new classes.Boundary({
                             pos: { x: tileX, y: tileY + 50 },
                             width: 56,
                             height: 50
                         });
-                        boundaries.push(boundary);
                     }
+                    boundaries.push(boundary);
                     // Append the tree to the trees list and create apples for it
                     trees.push(tree);
                     tree.createApples();
+                    allApples = [];
+                    getAllApples();
                     moveables = [...boundaries, background, ...trees, ...allApples, ...soilTiles, chicken, merchant, foreground, ...flashObjects];
-                    // Delete the tree after 10 seconds
+                    // Delete the tree and boundary after 1.9 seconds
                     setTimeout(() => {
-                        const index = trees.indexOf(tree);
-                        if (index !== -1) {
-                            trees.splice(index, 1);
-                        }
-                    }, 300);
+                        trees.splice(-treeCount);
+                        boundariesToRemove.push(boundary);
+                        // Remove boundaries after 1.9 seconds
+                        boundariesToRemove.forEach(boundary => {
+                            const index = boundaries.indexOf(boundary);
+                            if (index !== -1) {
+                                boundaries.splice(index, 1);
+                            }
+                        });
+                    }, 1900);
                 }
             }
         }
     }
     
-    // Call the function every 5 seconds
-    setInterval(generateTrees, 5000);
+    // Call the function every 1.9 seconds
+    setInterval(generateTrees, 1900);
+    
     
     
     // function to make image turn white and then dissapear
@@ -1030,10 +1042,13 @@ function startGame() {
 
     //create a list of all apples
     let allApples = []
-    trees.forEach(function(tree){
-        tree.apples.forEach(function(apple){
-            allApples.push(apple)
-        })})
+    function getAllApples(){
+        trees.forEach(function(tree){
+            tree.apples.forEach(function(apple){
+                allApples.push(apple)
+            })})
+    }
+    getAllApples()
 
     function hitTree() {
         // Check if the player has the axe selected
@@ -1055,10 +1070,7 @@ function startGame() {
                         const appleToRemove = tree.apples.splice(randomIndex, 1)[0];
                         flash("apple", appleToRemove)}
                         allApples = []
-                        trees.forEach(function(tree){
-                            tree.apples.forEach(function(apple){
-                                allApples.push(apple)
-                            })})
+                        getAllApples()
                         // update moveables to reflect removed apple 
                         moveables = [...boundaries, background, ...trees, ...allApples, ...soilTiles, chicken, merchant, foreground, ...flashObjects];
                     // if a tree has died then add a wood to inventory and change the image to a stump

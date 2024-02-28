@@ -927,7 +927,59 @@ function startGame() {
             }
         }
     }
-
+    
+    function generateTrees() {
+        // Loop through each tile
+        for (let i = 0; i < 8; i++) {
+            for (let j = 0; j < 10; j++) {
+                // Calculate the coordinates of the current tile
+                const tileX = player.pos.x + background.pos.x + 64 * 20 + i * 64;
+                const tileY = player.pos.y + background.pos.y + 64 * 15 + j * 64;
+    
+                // Generate a random number between 0 and 1 to determine if a tree should be placed and what size
+                const chanceOfTree = Math.random();
+                const chanceOfSize = Math.random();
+                // Determine if a tree should be placed on this tile (10% chance)
+                if (chanceOfTree <= 0.1) {
+                    let tree;
+                    // Determine what size tree should be placed
+                    if (chanceOfSize < 0.4) {
+                        tree = new classes.Tree({ pos: { x: tileX, y: tileY }, size: "large", image: largeTreeImage });
+                        const boundary = new classes.Boundary({
+                            pos: { x: tileX + 15, y: tileY + 44 },
+                            width: 64,
+                            height: 64
+                        });
+                        boundaries.push(boundary);
+                    } else {
+                        tree = new classes.Tree({ pos: { x: tileX, y: tileY }, size: "small", image: smallTreeImage });
+                        const boundary = new classes.Boundary({
+                            pos: { x: tileX, y: tileY + 50 },
+                            width: 56,
+                            height: 50
+                        });
+                        boundaries.push(boundary);
+                    }
+                    // Append the tree to the trees list and create apples for it
+                    trees.push(tree);
+                    tree.createApples();
+                    moveables = [...boundaries, background, ...trees, ...allApples, ...soilTiles, chicken, merchant, foreground, ...flashObjects];
+                    // Delete the tree after 10 seconds
+                    setTimeout(() => {
+                        const index = trees.indexOf(tree);
+                        if (index !== -1) {
+                            trees.splice(index, 1);
+                        }
+                    }, 300);
+                }
+            }
+        }
+    }
+    
+    // Call the function every 5 seconds
+    setInterval(generateTrees, 5000);
+    
+    
     // function to make image turn white and then dissapear
     function flash(objectType, objectToRemove) {
         let objectToFlash

@@ -1000,7 +1000,7 @@ function startGame() {
             });
             // Call the function again recursively after 8 seconds
             disapearingTrees(Xtiles, Ytiles, widthInTiles, heightInTiles);
-        }, 5000);
+        }, 20000);
     }
     
     

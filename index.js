@@ -941,7 +941,7 @@ function startGame() {
                 const tileY = player.pos.y + background.pos.y + 64 * Ytiles + j * 64;
     
                 // Check if the current tile collides with the player or the chicken
-                const collidesWithPlayer = rectangularCollision({ rectangle1: { x: tileX, y: tileY, width: 64, height: 128 }, rectangle2: player });
+                const collidesWithPlayer = rectangularCollision({ rectangle1: { x: tileX, y: tileY, width: 64, height: 64 }, rectangle2: { pos: { x: 554, y: 298 }, width: 128, height: 128 } });
                 const collidesWithChicken = rectangularCollision({ rectangle1: { x: tileX, y: tileY, width: 64, height: 128 }, rectangle2: chicken });
     
                 // Generate a random number between 0 and 1 to determine if a tree should be placed and what size
@@ -949,7 +949,7 @@ function startGame() {
                 const chanceOfSize = Math.random();
     
                 // Determine if a tree should be placed on this tile (10% chance)
-                if (chanceOfTree <= 0.05 && !collidesWithPlayer && !collidesWithChicken) {
+                if (chanceOfTree <= 1 && !collidesWithPlayer && !collidesWithChicken) {
                     let tree;
                     let boundary;
                     // Determine what size tree should be placed
@@ -995,6 +995,7 @@ function startGame() {
                 const index = boundaries.indexOf(boundary);
                 if (index !== -1) {
                     boundaries.splice(index, 1);
+
                 }
             });
             // Call the function again recursively after 8 seconds
@@ -1008,31 +1009,26 @@ function startGame() {
         let objectToFlash
         // check what the object is so the right image will be flashed
         if(objectType == "apple"){
-            console.log("apple flash")
             objectToFlash = new classes.Sprite({
                 pos: { x: objectToRemove.pos.x, y: objectToRemove.pos.y },
                 image: whiteAppleImage
         })}
         else if(objectType == "tomato"){
-            console.log("tomato flash")
             objectToFlash = new classes.Sprite({
                 pos: { x: objectToRemove.pos.x, y: objectToRemove.pos.y },
                 image: whiteTomatoImage
         })}
         else if(objectType == "corn"){
-            console.log("corn flash")
             objectToFlash = new classes.Sprite({
                 pos: { x: objectToRemove.pos.x, y: objectToRemove.pos.y },
                 image: whiteCornImage
         })}
         else if(objectType == "smallTree"){
-            console.log("small tree flash")
             objectToFlash = new classes.Sprite({
                 pos: { x: objectToRemove.pos.x, y: objectToRemove.pos.y },
                 image: whiteSmallTreeImage
         })}
         else if(objectType == "largeTree"){
-            console.log("large tree flash")
             objectToFlash = new classes.Sprite({
                 pos: { x: objectToRemove.pos.x, y: objectToRemove.pos.y },
                 image: whiteLargeTreeImage
@@ -1188,11 +1184,7 @@ function startNewDay() {
     let moveables = [...boundaries, background, ...trees, ...allApples, ...soilTiles, chicken, merchant, foreground, ...flashObjects];
 
         // Call function so that it starts with trees
-    disapearingTrees(20, 20, 8, 5);
-
-
-    // Initial call to start generating trees
-    disapearingTrees(20, 20, 8, 5);
+    disapearingTrees(25, 20, 8, 5);
 
     // function which handles the collisions between 2 objects
     function rectangularCollision({ rectangle1, rectangle2 }) {

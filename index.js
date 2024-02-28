@@ -891,8 +891,8 @@ function startGame() {
     let flashObjects = []
         
         // Loop through each tile
-        for (let i = 0; i < 24; i++) {
-            for (let j = 0; j < 8; j++) {
+        for (let i = 0; i < 29; i++) {
+            for (let j = 0; j < 7; j++) {
                 // Calculate the coordinates of the current tile
                 const tileX = player.pos.x + background.pos.x + 64*40 + i * 64;
                 const tileY = player.pos.y + background.pos.y + 64*36 + j * 64;

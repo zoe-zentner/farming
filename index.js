@@ -939,13 +939,17 @@ function startGame() {
                 // Calculate the coordinates of the current tile
                 const tileX = player.pos.x + background.pos.x + 64 * Xtiles + i * 64;
                 const tileY = player.pos.y + background.pos.y + 64 * Ytiles + j * 64;
-    
+                
+                // Check if the current tile collides with the player or the chicken
+                const collidesWithPlayer = rectangularCollision({ rectangle1: { x: tileX, y: tileY, width: 64, height: 128 }, rectangle2: player });
+                const collidesWithChicken = rectangularCollision({ rectangle1: { x: tileX, y: tileY, width: 64, height: 128 }, rectangle2: chicken });
+                
                 // Generate a random number between 0 and 1 to determine if a tree should be placed and what size
                 const chanceOfTree = Math.random();
                 const chanceOfSize = Math.random();
     
                 // Determine if a tree should be placed on this tile (10% chance)
-                if (chanceOfTree <= 0.05) {
+                if (chanceOfTree <= 0.5 && !collidesWithPlayer && !collidesWithChicken) {
                     let tree;
                     let boundary;
                     // Determine what size tree should be placed
@@ -1009,12 +1013,6 @@ function startGame() {
             });
         }, 8000);
     }
-    
-    // Call the function every 1.9 seconds
-    setTimeout(function repeat() {
-        disapearingTrees(20, 20, 8, 5);
-        setTimeout(repeat, 8000);
-    }, 8000);
     
     
     // function to make image turn white and then dissapear
@@ -1200,6 +1198,15 @@ function startNewDay() {
 
     // initialisation of list of objects which should be moved when the player "moves"
     let moveables = [...boundaries, background, ...trees, ...allApples, ...soilTiles, chicken, merchant, foreground, ...flashObjects];
+
+        // Call function so that it starts with trees
+    disapearingTrees(20, 20, 8, 5);
+
+    // Call the function at fixed interval
+    setTimeout(function repeat() {
+        disapearingTrees(20, 20, 8, 5);
+        setTimeout(repeat, 8000);
+    }, 8000);
 
     // function which handles the collisions between 2 objects
     function rectangularCollision({ rectangle1, rectangle2 }) {

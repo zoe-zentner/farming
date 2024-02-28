@@ -939,17 +939,17 @@ function startGame() {
                 // Calculate the coordinates of the current tile
                 const tileX = player.pos.x + background.pos.x + 64 * Xtiles + i * 64;
                 const tileY = player.pos.y + background.pos.y + 64 * Ytiles + j * 64;
-                
+    
                 // Check if the current tile collides with the player or the chicken
                 const collidesWithPlayer = rectangularCollision({ rectangle1: { x: tileX, y: tileY, width: 64, height: 128 }, rectangle2: player });
                 const collidesWithChicken = rectangularCollision({ rectangle1: { x: tileX, y: tileY, width: 64, height: 128 }, rectangle2: chicken });
-                
+    
                 // Generate a random number between 0 and 1 to determine if a tree should be placed and what size
                 const chanceOfTree = Math.random();
                 const chanceOfSize = Math.random();
     
                 // Determine if a tree should be placed on this tile (10% chance)
-                if (chanceOfTree <= 0.5 && !collidesWithPlayer && !collidesWithChicken) {
+                if (chanceOfTree <= 0.05 && !collidesWithPlayer && !collidesWithChicken) {
                     let tree;
                     let boundary;
                     // Determine what size tree should be placed
@@ -976,20 +976,6 @@ function startGame() {
                     getAllApples();
                     moveables = [...boundaries, background, ...trees, ...allApples, ...soilTiles, chicken, merchant, foreground, ...flashObjects];
     
-                    // Schedule removal of tree and boundary after 1.9 seconds
-                    setTimeout(() => {
-                        // Remove tree
-                        const index = trees.indexOf(tree);
-                        if (index !== -1) {
-                            trees.splice(index, 1);
-                        }
-                        // Remove boundary
-                        const boundaryIndex = boundaries.indexOf(boundary);
-                        if (boundaryIndex !== -1) {
-                            boundaries.splice(boundaryIndex, 1);
-                        }
-                    }, 8000);
-    
                     // Store references to trees and boundaries for removal
                     treesToRemove.push(tree);
                     boundariesToRemove.push(boundary);
@@ -997,7 +983,7 @@ function startGame() {
             }
         }
     
-        // Clear references after timeout
+        // remove trees after set amount of time
         setTimeout(() => {
             treesToRemove.forEach(tree => {
                 const index = trees.indexOf(tree);
@@ -1011,7 +997,9 @@ function startGame() {
                     boundaries.splice(index, 1);
                 }
             });
-        }, 8000);
+            // Call the function again recursively after 8 seconds
+            disapearingTrees(Xtiles, Ytiles, widthInTiles, heightInTiles);
+        }, 5000);
     }
     
     
@@ -1202,11 +1190,9 @@ function startNewDay() {
         // Call function so that it starts with trees
     disapearingTrees(20, 20, 8, 5);
 
-    // Call the function at fixed interval
-    setTimeout(function repeat() {
-        disapearingTrees(20, 20, 8, 5);
-        setTimeout(repeat, 8000);
-    }, 8000);
+
+    // Initial call to start generating trees
+    disapearingTrees(20, 20, 8, 5);
 
     // function which handles the collisions between 2 objects
     function rectangularCollision({ rectangle1, rectangle2 }) {

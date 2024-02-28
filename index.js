@@ -928,7 +928,7 @@ function startGame() {
         }
     }
     
-    function generateTrees() {
+    function disapearingTrees() {
         let treeCount = 0;
         let boundariesToRemove = [];
     
@@ -988,9 +988,7 @@ function startGame() {
     }
     
     // Call the function every 1.9 seconds
-    setInterval(generateTrees, 1900);
-    
-    
+    setInterval(disapearingTrees, 1900);
     
     // function to make image turn white and then dissapear
     function flash(objectType, objectToRemove) {

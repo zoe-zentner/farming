@@ -497,7 +497,7 @@ function startGame() {
 
     var vRain;
     
-    // END GAME protocol
+    // END GAME function (input name and store this in json file)
     function endGame() {
         // Access the global score variable here
         const playerScore = score; // Use the global score variable
@@ -556,6 +556,7 @@ function startGame() {
     document.getElementById('endGameButton').addEventListener('click', endGame) //end game event listener
 
     // R A I N functions
+    // function for a random chance of rain. returns true or false
     function chanceOfRain() {
         let raining = false;
         let number = Math.floor(Math.random() * 100) + 1;
@@ -567,6 +568,7 @@ function startGame() {
         return raining;
     }
 
+    // function which updates all the raindrop positions so they fall
     function updateRain() {
         if(vRain){
             for (var i = 0; i < vRain.length; i++) {
@@ -576,6 +578,7 @@ function startGame() {
         }
     }
 
+    // function which creates 60 raindrops of random size and speed
     function createRain() {
         vRain = [];
         for (var i = 0; i < 60; i++) {
@@ -586,29 +589,35 @@ function startGame() {
                 Math.floor(Math.random() * 12) + 4
             );
         }
+        // update the rain every 0.01 seconds
         setInterval(function() {
             updateRain();
         }, 10);
     }
-    
-    let raining = chanceOfRain();
+
+    let raining = chanceOfRain(); // true or false
+    // if its raining, create rain animation and water all soil tiles
     if(raining){
         createRain()
         initialSoilStatus = "W"}
     else{initialSoilStatus = "X"}
 
+    // initialise collision map using collisions file
     const collisionsMap = [];
     for (let i = 0; i < collisions.length; i += 90) {
         collisionsMap.push(collisions.slice(i, i + 90));
     }
 
+    // the initial offset of all background images 
     const offset = {
         x: -1800,
         y: -1300
     };
 
+    // intitialise the boundaries list to be empty
     const boundaries = [];
 
+    // create an instance of the boundary class for each collision tile
     collisionsMap.forEach((row, i) => {
         row.forEach((symbol, j) => {
             if (symbol === 267) {
@@ -663,6 +672,7 @@ function startGame() {
 
     let soilTiles = [];
 
+    // create the merchant using the merchant class
     const merchant = new classes.Merchant({
         pos: {
             x: -200,
@@ -679,21 +689,21 @@ function startGame() {
         container.style.top = '50%';
         container.style.left = '50%';
         container.style.transform = 'translate(-50%, -50%)';
-        container.style.padding = '50px 100px'; // Adjust padding to make it less tall and wider
-        container.style.width = '400px'; // Make the box wider
+        container.style.padding = '50px 100px'; 
+        container.style.width = '400px'; 
         container.style.backgroundColor = '#f7f2d5';
         container.style.maxHeight = '80%';
         container.style.border = '2px solid black';
-        container.style.fontFamily = 'LycheeSoda'; // Apply Lychee Soda font
-        container.style.textAlign = 'center'; // Center text
-        container.style.fontSize = '24px'; // Set font size
+        container.style.fontFamily = 'LycheeSoda';
+        container.style.textAlign = 'center';
+        container.style.fontSize = '24px';
         container.style.color = '#522915';
     
         // Populate the container with text displaying the player's inventory
         const inventoryText = document.createElement('p');
         inventoryText.textContent = 'Player Inventory:';
         inventoryText.style.marginBottom = '20px'; // Add some space between inventory title and items
-        inventoryText.style.fontSize = '50px'; // Set font size for title
+        inventoryText.style.fontSize = '50px';
         inventoryText.style.marginTop = '0'; 
         container.appendChild(inventoryText);
     
@@ -730,11 +740,11 @@ function startGame() {
         // Create a "Sell All" button
         const sellAllButton = document.createElement('button');
         sellAllButton.textContent = 'Sell All';
-        sellAllButton.style.marginTop = '20px'; // Add more space between inventory items and buttons
+        sellAllButton.style.marginTop = '20px';
         sellAllButton.style.fontSize = '20px';
-        sellAllButton.style.marginRight = '40px'; // Add more space between buttons
-        sellAllButton.style.fontFamily = 'LycheeSoda'; // Apply Lychee Soda font
-        sellAllButton.style.padding = '10px 20px'; // Increase button size
+        sellAllButton.style.marginRight = '40px';
+        sellAllButton.style.fontFamily = 'LycheeSoda';
+        sellAllButton.style.padding = '10px 20px';
         sellAllButton.addEventListener('click', sellAllItems); // Add event listener to handle selling all items
         container.appendChild(sellAllButton);
     
@@ -742,9 +752,9 @@ function startGame() {
         const closeInventoryButton = document.createElement('button');
         closeInventoryButton.textContent = 'Close Inventory';
         closeInventoryButton.style.fontSize = '20px';
-        closeInventoryButton.style.marginTop = '20px'; // Add more space between inventory items and buttons
-        closeInventoryButton.style.fontFamily = 'LycheeSoda'; // Apply Lychee Soda font
-        closeInventoryButton.style.padding = '10px 20px'; // Increase button size
+        closeInventoryButton.style.marginTop = '20px';
+        closeInventoryButton.style.fontFamily = 'LycheeSoda'; 
+        closeInventoryButton.style.padding = '10px 20px'; 
         closeInventoryButton.addEventListener('click', closeInventory); // Add event listener to handle closing inventory
         container.appendChild(closeInventoryButton);
     
@@ -769,8 +779,6 @@ function startGame() {
             // Remove sold items from inventory
             player.inventory[item] = 0
         }
-        // Set player inventory to 0
-
         // Update player's score with total sale amount
         score += totalSaleAmount;
         // Update score display
@@ -784,13 +792,14 @@ function startGame() {
         document.body.removeChild(document.querySelector('.inventory-container'));
     }
     
+    // function to update the merchant display if the player inventory changes
     function updateDisplayedInventory() {
         // Remove the existing inventory container
         const existingInventoryContainer = document.querySelector('.inventory-container');
         if (existingInventoryContainer) {
             document.body.removeChild(existingInventoryContainer);
         }
-        // Re-create the inventory display
+        // Recreate the inventory display
         merchantInteraction();
     }
 
@@ -807,6 +816,7 @@ function startGame() {
         }
     });
 
+    // create the player using the player class
     const player = new classes.Player({
         pos: {
             x: canvas.width / 2 - 86,
@@ -816,6 +826,7 @@ function startGame() {
         status: 'down_idle'
     });
 
+    // create chicken which follows the player using chicken class
     const chicken = new classes.Chicken({
         pos: {
             x: canvas.width / 2 - 186,
@@ -839,6 +850,7 @@ function startGame() {
         player.hitbox = playerHitbox;
     };
 
+    // create the background using the map class
     const background = new classes.Map({
         pos: {
             x: offset.x,
@@ -847,6 +859,7 @@ function startGame() {
         image: mapImage
     });
 
+    // create the foreground using the map class
     const foreground = new classes.Map({
         pos: {
             x: offset.x,
@@ -855,6 +868,7 @@ function startGame() {
         image: foregroundImage
     });
 
+    // create the tool image (overlay) using the sprite class
     const tool = new classes.Sprite({
         pos: {
             x: 10,
@@ -863,6 +877,7 @@ function startGame() {
         image: toolImage
     })
 
+    // create the seed image (overlay) using the sprite class
     const seed = new classes.Sprite({
         pos: {
             x: 70,
@@ -871,6 +886,7 @@ function startGame() {
         image: seedImage
     })
 
+    // initialise the trees and flash objects to be empty lists
     let trees = []
     let flashObjects = []
         
@@ -881,12 +897,13 @@ function startGame() {
                 const tileX = player.pos.x + background.pos.x + 64*20 + i * 64;
                 const tileY = player.pos.y + background.pos.y + 64*16 + j * 64;
                 
-                // Generate a random number between 0 and 1
+                // Generate a random number between 0 and 1 to determine if a tree should be placed and what size
                 const chanceOfTree = Math.random();
                 const chanceOfSize = Math.random();
                 // Determine if a tree should be placed on this tile (10% chance)
                 if (chanceOfTree <= 0.1) {
                     var tree
+                    // Determine what size tree should be placed
                     if (chanceOfSize <0.4) {
                         tree = new classes.Tree({pos:{x:tileX, y:tileY}, size:"large", image:largeTreeImage});
                         const boundary = new classes.Boundary({
@@ -904,15 +921,17 @@ function startGame() {
                             height: 50
                         });
                         boundaries.push(boundary);};
-                    // Append the tree to the trees list
+                    // Append the tree to the trees list and create apples for it
                     trees.push(tree);
                     tree.createApples()
                 }
             }
         }
 
+    // function to make image turn white and then dissapear
     function flash(objectType, objectToRemove) {
         let objectToFlash
+        // check what the object is so the right image will be flashed
         if(objectType == "apple"){
             console.log("apple flash")
             objectToFlash = new classes.Sprite({
@@ -944,8 +963,9 @@ function startGame() {
                 image: whiteLargeTreeImage
         })}
     
-        // Add the new apple to the list of all apples
+        // push the object into the list of objects to flash
         flashObjects.push(objectToFlash);
+        // remove the object after 0.3 seconds
         setTimeout(() => {
             const index = flashObjects.indexOf(objectToFlash);
             if (index !== -1) {
@@ -976,7 +996,6 @@ function startGame() {
                 // If the player is close enough to the tree, log the tree
                 if (distance < 64) {
                     tree.health -= 1
-                    console.log(tree.health)
                     // remove apple if present
                     if (tree.apples.length > 0) {
                         player.inventory['apple'] = (player.inventory['apple'] || 0) + 1;
@@ -988,7 +1007,9 @@ function startGame() {
                             tree.apples.forEach(function(apple){
                                 allApples.push(apple)
                             })})
+                        // update moveables to reflect removed apple 
                         moveables = [...boundaries, background, ...trees, ...allApples, ...soilTiles, chicken, merchant, foreground, ...flashObjects];
+                    // if a tree has died then add a wood to inventory and change the image to a stump
                     if (tree.health == 0){
                         player.inventory['wood'] = (player.inventory['wood'] || 0) + 1;
                         if(tree.size == "small"){
@@ -1024,7 +1045,7 @@ function startNewDay() {
 
         // Wait for 2 seconds (fade in duration)
         setTimeout(function() {
-            // repair trees and apples after fade in
+            // repair trees after fade in
             trees.forEach(tree => {
                 tree.health = 5;
                 if (tree.image == smallStumpImage) {
@@ -1036,6 +1057,7 @@ function startNewDay() {
                 tree.createApples();
             });
 
+            // repair apples after fade in
             allApples = [];
             trees.forEach(function(tree) {
                 tree.apples.forEach(function(apple) {
@@ -1043,6 +1065,7 @@ function startNewDay() {
                 });
             });
 
+            // update moveables list to reflect the updated trees and apples
             moveables = [...boundaries, background, ...trees, ...allApples, ...soilTiles, chicken, merchant, foreground, ...flashObjects];
 
             // grow any plants which are watered
@@ -1066,6 +1089,7 @@ function startNewDay() {
     }, 0); // No delay for fade in
 }   
 
+    // dictionary of keys
     const keys = {
         d: {
             pressed: false
@@ -1084,8 +1108,10 @@ function startNewDay() {
         }
     };
 
+    // initialisation of list of objects which should be moved when the player "moves"
     let moveables = [...boundaries, background, ...trees, ...allApples, ...soilTiles, chicken, merchant, foreground, ...flashObjects];
 
+    // function which handles the collisions between 2 objects
     function rectangularCollision({ rectangle1, rectangle2 }) {
         return (
             rectangle1.x < rectangle2.pos.x + rectangle2.width &&
@@ -1096,7 +1122,7 @@ function startNewDay() {
     }
 
 
-
+    // initialise last frame time to be 0
     let lastFrameTime = 0;
     function animatePlayer(timestamp) {
         const deltaTime = timestamp - lastFrameTime;
@@ -1124,6 +1150,7 @@ function startNewDay() {
     }
     
 
+    // functions to check collisions in all directions between player and boundaries
     function checkUpCollision(boundary) {
         return (
             rectangularCollision({
@@ -1161,6 +1188,7 @@ function startNewDay() {
     }
 
     function move() {
+        // handle player movement on key inputs (wasd)
         let moving = true;
         if (keys.w.pressed) {
             player.direction = 'up';
@@ -1234,6 +1262,7 @@ function startNewDay() {
             }
         }
 
+        // if no keys are pressed make sure the status is idle
         else if (keys.w.pressed === false &&
             keys.a.pressed === false &&
             keys.s.pressed === false &&
@@ -1245,7 +1274,9 @@ function startNewDay() {
         
     }
 
+    // function to handle inputs from user
     function input() {
+        // event listeners for pressing a key down
         window.addEventListener('keydown', (e) => {
             switch (e.key) {
                 case 'd':
@@ -1310,6 +1341,7 @@ function startNewDay() {
                 }
             });
 
+        // event listeners for the release of certain keys
         window.addEventListener('keyup', (e) => {
             switch (e.key) {
                 case 'd':

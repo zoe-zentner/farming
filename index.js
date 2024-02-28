@@ -830,7 +830,7 @@ function startGame() {
     const chicken = new classes.Chicken({
         pos: {
             x: canvas.width / 2 - 186,
-            y: canvas.height / 2 - 182
+            y: canvas.height / 2 
         },
         image: chickenImage, // Provide the image for the chicken
         status: 'idle',

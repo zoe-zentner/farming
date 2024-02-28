@@ -1164,6 +1164,15 @@ function startNewDay() {
                 }
             });
 
+            // chance of rain is recalculated
+            raining = chanceOfRain()
+            if(raining){
+                initialSoilStatus = "W"}
+            else{initialSoilStatus = "X"}
+            soilTiles.forEach(function(soilTile){
+                soilTile.status = initialSoilStatus
+            })
+
             // Fade out the image
             nightImage.style.opacity = 0;
 
@@ -1427,7 +1436,6 @@ function startNewDay() {
                     if((background.pos.x > -1735 && background.pos.x < -1245)  && (background.pos.y < -950 && background.pos.y > -1205)){
                         if (!player.timers['new day'].active){
                             startNewDay()
-                            console.log("new day")
                             player.timers['new day'].activate();
                         }
                     }

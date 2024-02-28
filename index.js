@@ -949,7 +949,7 @@ function startGame() {
                 const chanceOfSize = Math.random();
     
                 // Determine if a tree should be placed on this tile (10% chance)
-                if (chanceOfTree <= 1 && !collidesWithPlayer && !collidesWithChicken) {
+                if (chanceOfTree <= 0.05 && !collidesWithPlayer && !collidesWithChicken) {
                     let tree;
                     let boundary;
                     // Determine what size tree should be placed
@@ -1183,8 +1183,11 @@ function startNewDay() {
     // initialisation of list of objects which should be moved when the player "moves"
     let moveables = [...boundaries, background, ...trees, ...allApples, ...soilTiles, chicken, merchant, foreground, ...flashObjects];
 
-        // Call function so that it starts with trees
-    disapearingTrees(25, 20, 8, 5);
+    // create dissapearing trees
+    disapearingTrees(20, 20, 9, 5);
+    disapearingTrees(29, 13, 5, 10);
+    disapearingTrees(16, 14, 3, 7);
+    disapearingTrees(18, 5, 9, 8);
 
     // function which handles the collisions between 2 objects
     function rectangularCollision({ rectangle1, rectangle2 }) {

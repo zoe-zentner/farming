@@ -1170,10 +1170,11 @@ function startNewDay() {
                 createRain()
                 initialSoilStatus = "W"
                 rainAudio.play()}
-            else{initialSoilStatus = "X"}
+            else{
+                initialSoilStatus = "X"
+                rainAudio.pause()}
             soilTiles.forEach(function(soilTile){
                 soilTile.status = initialSoilStatus
-                rainAudio.pause()
             })
 
             // Fade out the image

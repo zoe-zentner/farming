@@ -99,32 +99,12 @@ function scoresDisplay() {
     // Create "Sort by" and "Order by" text elements
     const sortByText = document.createElement('div');
     sortByText.textContent = '┍--Sort by--┑';
-    sortByText.classList.add('vertical-text');
-    sortByText.style.writingMode = 'vertical-rl';
-    sortByText.style.textOrientation = 'mixed';
-    sortByText.style.whiteSpace = 'nowrap';
-    sortByText.style.position = 'absolute';
-    sortByText.style.top = '36%';
-    sortByText.style.left = '100px'; // Set left to 100px
-    sortByText.style.transform = 'translate(50%, -50%) rotate(180deg)';
-    sortByText.style.fontSize = '35px'; // Set font size to 30px
-    sortByText.style.fontFamily = 'LycheeSoda'; // Set font family to LycheeSoda
-    sortByText.style.color = '#706031b9'; // Set text color to brown
+    sortByText.classList.add('vertical-text', 'sortByText');
     document.body.appendChild(sortByText);
 
     const orderByText = document.createElement('div');
     orderByText.textContent = '┍--Order by--┑';
-    orderByText.classList.add('vertical-text');
-    orderByText.style.writingMode = 'vertical-rl';
-    orderByText.style.textOrientation = 'mixed';
-    orderByText.style.whiteSpace = 'nowrap';
-    orderByText.style.position = 'absolute';
-    orderByText.style.top = '65%';
-    orderByText.style.left = '100px';
-    orderByText.style.transform = 'translate(50%, -50%) rotate(180deg)';
-    orderByText.style.fontSize = '35px'; // Set font size to 30px
-    orderByText.style.fontFamily = 'LycheeSoda'; // Set font family to LycheeSoda
-    orderByText.style.color = '#706031b9'; // Set text color to brown
+    orderByText.classList.add('vertical-text', 'orderByText');
     document.body.appendChild(orderByText);
 
     // Function to create a toggle button

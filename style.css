@@ -183,6 +183,28 @@
     left: 20px;
 }
 
+.vertical-text {
+    writing-mode: vertical-rl;
+    text-orientation: mixed;
+    white-space: nowrap;
+    position: absolute;
+    font-size: 35px;
+    font-family: LycheeSoda;
+    color: #706031b9; /* brown */
+}
+
+.sortByText {
+    top: 36%;
+    left: 100px;
+    transform: translate(50%, -50%) rotate(180deg);
+}
+
+.orderByText {
+    top: 65%;
+    left: 100px;
+    transform: translate(50%, -50%) rotate(180deg);
+}
+
 #canvas-container {
     background-color: beige; 
     width: 1280px; 

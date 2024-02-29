@@ -225,13 +225,8 @@ window.onload = function() {
 function createBackButton(){
     const backButton = document.createElement('button');
     backButton.textContent = '⇦';
-    backButton.style.fontFamily = 'LycheeSoda';
-    backButton.style.fontSize = '60px';
-    backButton.style.color = '#522915';
     backButton.classList.add('btn');
-    backButton.style.position = 'absolute';
-    backButton.style.top = '20px';
-    backButton.style.left = '20px';
+    backButton.classList.add('back-button'); // Add the class for styling
     backButton.id = "backButton";
     return backButton;
 }
@@ -239,13 +234,8 @@ function createBackButton(){
 function createMusicButton() {
     const musicButton = document.createElement('button');
     musicButton.textContent = 'Music';
-    musicButton.style.fontFamily = 'LycheeSoda';
-    musicButton.style.fontSize = '60px';
-    musicButton.style.color = '#522915';
     musicButton.classList.add('btn');
-    musicButton.style.position = 'absolute';
-    musicButton.style.top = '300px';
-    musicButton.style.left = '600px';
+    musicButton.classList.add('music-button'); // Add the class for styling
     musicButton.id = "musicButton";
     return musicButton;
 }
@@ -289,29 +279,24 @@ function instructionsDisplay() {
 function settingsfunction() {
     const container = this.parentElement;
     container.remove();
+    
+    // Set main background color
     document.body.style.backgroundColor = 'beige';
-    const toggleButton = document.getElementById('toggleButton');
+
     const settingsText = document.createElement('div');
     settingsText.textContent = 'settings: ';
-    settingsText.style.fontFamily = 'LycheeSoda';
-    settingsText.style.fontSize = '60px';
-    settingsText.style.color = '#522915';
-    settingsText.style.position = 'fixed';
-    settingsText.style.top = '20px';
-    settingsText.style.left = '570px';
-
+    settingsText.classList.add('settings-text');
     document.body.appendChild(settingsText);
 
     const musicButton = createMusicButton();
-    document.body.appendChild(musicButton)
-    document.getElementById('musicButton').addEventListener('click', playAudio)
+    document.body.appendChild(musicButton);
+    document.getElementById('musicButton').addEventListener('click', playAudio);
 
     const backButton = createBackButton();
-    document.body.appendChild(backButton)
+    document.body.appendChild(backButton);
     document.getElementById('backButton').addEventListener('click', function() {
         window.location.reload();
     });
-
 }
 
 function startGame() {

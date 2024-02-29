@@ -118,6 +118,33 @@
     overflow-wrap: break-word;
 }
 
+.settings-text {
+    font-family: 'LycheeSoda';
+    font-size: 60px;
+    color: #522915;
+    position: fixed;
+    top: 20px;
+    left: 570px;
+}
+
+.music-button {
+    font-family: 'LycheeSoda';
+    font-size: 60px;
+    color: #522915;
+    position: absolute;
+    top: 300px;
+    left: 600px;
+}
+
+.back-button {
+    font-family: 'LycheeSoda';
+    font-size: 60px;
+    color: #522915;
+    position: absolute;
+    top: 20px;
+    left: 20px;
+}
+
 #canvas-container {
     background-color: beige; /* Set the desired background color */
     width: 1280px; /* Adjust the width as needed */

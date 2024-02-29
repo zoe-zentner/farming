@@ -23,7 +23,7 @@ function scoresDisplay() {
     const canvasContainer = document.createElement('div');
     canvasContainer.id = 'canvas-container';
     document.body.appendChild(canvasContainer);
-    
+
     // Create container for the buttons
     const container = document.createElement('div');
     container.classList.add('container'); // Apply container class
@@ -273,6 +273,12 @@ function settingsfunction() {
 
     const musicButton = createMusicButton();
     document.body.appendChild(musicButton);
+    const musicState = localStorage.getItem('musicState');
+    if (musicState === 'playing') {
+        musicButton.classList.add('active');
+    } else {
+        musicButton.classList.remove('active');
+    }
     document.getElementById('musicButton').addEventListener('click', playAudio);
 
     const backButton = createBackButton();
@@ -281,6 +287,7 @@ function settingsfunction() {
         window.location.reload();
     });
 }
+
 
 function startGame() {
     // A U D I O  imports

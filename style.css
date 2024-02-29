@@ -37,6 +37,13 @@
     border-radius: 5px;
 }
 
+.container .toggle-button {
+    position: absolute;
+    left: 300px; /* Adjust the left position as needed */
+    /* Remove transform: translate(-50%, -50%); */
+    /* Remove left: 50%; */
+}
+
 .btn.active {
     background-color: brown;
     color: white;

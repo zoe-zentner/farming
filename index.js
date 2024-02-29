@@ -20,9 +20,10 @@ function scoresDisplay() {
     // Clear existing content on the page
     document.body.innerHTML = '';
 
-    // Set background color to beige
-    document.body.style.backgroundColor = 'beige';
-
+    const canvasContainer = document.createElement('div');
+    canvasContainer.id = 'canvas-container';
+    document.body.appendChild(canvasContainer);
+    
     // Create container for the buttons
     const container = document.createElement('div');
     container.classList.add('container'); // Apply container class
@@ -128,12 +129,7 @@ function scoresDisplay() {
     }
 }
 
-
-
 function displayLeaderboard(container, sortedData) {
-
-    // Set background color to beige
-    document.body.style.backgroundColor = 'beige';
 
     // Create container for leaderboard
     const leaderboardContainer = document.createElement('div');
@@ -269,9 +265,6 @@ function instructionsDisplay() {
 function settingsfunction() {
     const container = this.parentElement;
     container.remove();
-    
-    // Set main background color
-    document.body.style.backgroundColor = 'beige';
 
     const settingsText = document.createElement('div');
     settingsText.textContent = 'settings: ';

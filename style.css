@@ -39,7 +39,7 @@
 
 .container .toggle-button {
     position: absolute;
-    left: 300px;
+    left: 300px; 
 }
 
 .btn.active {

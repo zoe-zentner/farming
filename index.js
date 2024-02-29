@@ -211,7 +211,7 @@ window.onload = function() {
 function createBackButton(){
     const backButton = document.createElement('button');
     backButton.textContent = '⇦';
-    backButton.classList.add('btn');
+    backButton.classList.add('btn'); // Add general button styles
     backButton.classList.add('back-button'); // Add the class for styling
     backButton.id = "backButton";
     return backButton;
@@ -261,7 +261,6 @@ function instructionsDisplay() {
     });
 }
 
-
 function settingsfunction() {
     const container = this.parentElement;
     container.remove();
@@ -287,7 +286,6 @@ function settingsfunction() {
         window.location.reload();
     });
 }
-
 
 function startGame() {
     // A U D I O  imports

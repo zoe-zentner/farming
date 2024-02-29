@@ -347,13 +347,16 @@ function startGame() {
     axeAudio.src = './audio/axe.mp3';
 
     const hoeAudio = new Audio();
-    hoeAudio.src = './audio/hoe.mp3';
+    hoeAudio.src = './audio/hoe.wav';
 
     const waterAudio = new Audio();
     waterAudio.src = './audio/water.mp3';
 
     const rainAudio = new Audio();
     rainAudio.src = './audio/rain.mp3';
+
+    const plantAudio = new Audio();
+    plantAudio.src = './audio/plant.wav';
 
 
     // I M A G E imports
@@ -1419,19 +1422,23 @@ function startNewDay() {
                         player.timers['tool use'].activate();
                         player.frameIndex = 0
                         if(player.tools[player.tool_index] == "hoe"){
+                            hoeAudio.play()
                             createNewSoilTile()
                             moveables = [...boundaries, background, ...soilTiles, ...trees, ...allApples, chicken, merchant, foreground];};
                         if(player.tools[player.tool_index] == "water"){
+                            waterAudio.play()
                             changeSoilWaterStatus()
                             drawMud()
                         }
                         if(player.tools[player.tool_index] == "axe"){
+                            axeAudio.play()
                             hitTree()
                         }
                     }
                     break;
                 case 'o':
                     if (!player.timers['seed use'].active){
+                        plantAudio.play()
                         plantSeed()
                         player.timers['seed use'].activate();
                     }
@@ -1673,8 +1680,8 @@ function startNewDay() {
         displayPlants() // Draws any plants on their corresponding soil tile
     
         // Draw the player after the moveables so it is at the front
+        chicken.draw()
         player.draw();
-
         // Draw/redraw all images which are "on top" of the player
         // Draw foreground
         foreground.draw();

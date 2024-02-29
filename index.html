@@ -7,7 +7,9 @@
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
-    <canvas></canvas>
+    <div id="canvas-container">
+        <canvas id="myCanvas"></canvas>
+    </div>
     <div class="container">
         <img id="waterImage" src="./graphics/water/waterImg.png" alt="WaterImage">
         <button id="playButton" class="btn">Play</button>
@@ -16,8 +18,8 @@
         <button id="menuSettingsButton" class="btn">⚙</button>
         <button id="instructionsButton" class="btn">i</button>
     </div>
+    <img src="./graphics/my_world/nightImage.png" id="nightImage" alt="nightImage">
     <script src="data/collisions.js"></script>
     <script type="module" src="index.js"></script>
-    <img src="./graphics/my_world/nightImage.png" id="nightImage" alt="nightImage">
 </body>
 </html>

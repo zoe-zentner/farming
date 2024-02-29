@@ -253,17 +253,11 @@ function createMusicButton() {
 function instructionsDisplay() {
     const container = this.parentElement;
     container.remove();
+
     const instructionsText = document.createElement('div');
     instructionsText.textContent = 'instructions: ';
-    instructionsText.style.fontFamily = 'LycheeSoda';
-    instructionsText.style.fontSize = '60px';
-    instructionsText.style.color = '#522915';
-    instructionsText.style.position = 'fixed';
-    instructionsText.style.top = '20px';
-    instructionsText.style.left = '535px';
-
+    instructionsText.classList.add('instructions-text');
     document.body.appendChild(instructionsText);
-    document.body.style.backgroundColor = 'beige';
 
     const playerMovementText = document.createElement('div');
     playerMovementText.textContent = 
@@ -273,45 +267,24 @@ function instructionsDisplay() {
     "Use Seed: o\n" +
     "Change Tool: q\n" +
     "Change Seed: e\n" +
-    "Sleep: n (must be in house)"
-    playerMovementText.style.fontFamily = 'LycheeSoda';
-    playerMovementText.style.fontSize = '32px';
-    playerMovementText.style.color = '#522915';
-    playerMovementText.style.position = 'fixed';
-    playerMovementText.style.backgroundColor = '#e3ce8a';
-    playerMovementText.style.top = '120px'; 
-    playerMovementText.style.left = '700px'; 
-    playerMovementText.style.whiteSpace = 'pre-line';
-    playerMovementText.style.lineHeight = '1.7';
-    playerMovementText.style.padding = '20px';
-    playerMovementText.style.height = '500px';
+    "Sleep: n (must be in house)";
+    playerMovementText.classList.add('player-movement-text');
     document.body.appendChild(playerMovementText);
 
     const howToPlayText = document.createElement('div');
     howToPlayText.textContent = 
     "How To Play:\n\n" +
-    "the aim of this game is to accumalate as high of a score as you can by growing crops and cutting trees. Grow crops and regrow chopped trees by going to sleep in your house. Click on the merchant to trade your resources for points!"
-    howToPlayText.style.fontFamily = 'LycheeSoda';
-    howToPlayText.style.fontSize = '32px';
-    howToPlayText.style.color = '#522915';
-    howToPlayText.style.position = 'fixed';
-    howToPlayText.style.backgroundColor = '#e3ce8a'; // Fixing container.style.backgroundColor to howToPlayText.style.backgroundColor
-    howToPlayText.style.top = '120px'; 
-    howToPlayText.style.left = '100px'; 
-    howToPlayText.style.whiteSpace = 'pre-line';
-    howToPlayText.style.lineHeight = '1.7';
-    howToPlayText.style.padding = '20px';
-    howToPlayText.style.maxWidth = '470px'; // Setting maximum width
-    howToPlayText.style.overflowWrap = 'break-word'; // Ensuring long words are broken
-    howToPlayText.style.height = '500px';
+    "the aim of this game is to accumalate as high of a score as you can by growing crops and cutting trees. Grow crops and regrow chopped trees by going to sleep in your house. Click on the merchant to trade your resources for points!";
+    howToPlayText.classList.add('how-to-play-text');
     document.body.appendChild(howToPlayText);
 
     const backButton = createBackButton();
-    document.body.appendChild(backButton)
+    document.body.appendChild(backButton);
     document.getElementById('backButton').addEventListener('click', function() {
         window.location.reload();
     });
 }
+
 
 function settingsfunction() {
     const container = this.parentElement;

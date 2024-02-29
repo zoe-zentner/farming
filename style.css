@@ -84,3 +84,52 @@
 .container .btn:hover {
     background-color: rgb(30, 112, 108);
 }
+
+.instructions-text {
+    font-family: 'LycheeSoda';
+    font-size: 60px;
+    color: #522915;
+    position: fixed;
+    top: 20px;
+    left: 535px;
+}
+
+.player-movement-text,
+.how-to-play-text {
+    font-family: 'LycheeSoda';
+    font-size: 32px;
+    color: #522915;
+    position: fixed;
+    background-color: #e3ce8a;
+    top: 120px;
+    white-space: pre-line;
+    line-height: 1.7;
+    padding: 20px;
+    height: 500px;
+}
+
+.player-movement-text {
+    left: 700px;
+}
+
+.how-to-play-text {
+    left: 100px;
+    max-width: 470px;
+    overflow-wrap: break-word;
+}
+
+#canvas-container {
+    background-color: beige; /* Set the desired background color */
+    width: 1280px; /* Adjust the width as needed */
+    height: 720px; /* Adjust the height as needed */
+    position: absolute; /* Ensure it covers the entire viewport */
+    top: 8px;
+    left: 8px;
+    z-index: -1; /* Place it behind other elements */
+}
+
+canvas {
+    display: block; /* Make sure the canvas fills the container */
+    width: 100%;
+    height: 100%;
+}

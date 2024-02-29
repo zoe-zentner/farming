@@ -16,6 +16,54 @@ document.getElementById('instructionsButton').addEventListener('click', instruct
 
 document.getElementById('scoresButton').addEventListener('click', scoresDisplay);
 
+//audio 
+let music = new Audio();
+music.src = './audio/bg.mp3';
+// Enable looping
+music.loop = true;
+
+function playAudio() {
+    const musicButton = document.getElementById('musicButton');
+    
+    if (music.paused) {
+        const playbackPosition = localStorage.getItem('playbackPosition');
+        if (playbackPosition) {
+            music.currentTime = parseFloat(playbackPosition);
+        }
+        music.play();
+        musicButton.classList.add('active');
+        localStorage.setItem('musicState', 'playing'); // Save state as playing
+    } else {
+        localStorage.setItem('playbackPosition', music.currentTime);
+        music.pause();
+        musicButton.classList.remove('active');
+        localStorage.setItem('musicState', 'paused'); // Save state as paused
+    }
+}
+
+// Save playback position and state before unloading the page
+window.onbeforeunload = function() {
+    localStorage.setItem('playbackPosition', music.currentTime);
+};
+
+// Check if music was playing before the page was reloaded and resume playback
+window.onload = function() {
+    const musicButton = document.getElementById('musicButton');
+    const musicState = localStorage.getItem('musicState');
+    try{
+        if (musicState === 'playing') {
+        const playbackPosition = localStorage.getItem('playbackPosition');
+        if (playbackPosition) {
+            music.currentTime = parseFloat(playbackPosition);
+        }
+        music.play();
+        musicButton.classList.add('active')
+    } else {
+        musicButton.classList.remove('active');
+    }}
+    catch {}
+};
+
 function scoresDisplay() {
     // Clear existing content on the page
     document.body.innerHTML = '';
@@ -159,55 +207,6 @@ function displayLeaderboard(container, sortedData) {
 
 }
 
-//audio 
-let music = new Audio();
-music.src = './audio/bg.mp3';
-// Enable looping
-music.loop = true;
-
-function playAudio() {
-    const musicButton = document.getElementById('musicButton');
-    
-    if (music.paused) {
-        const playbackPosition = localStorage.getItem('playbackPosition');
-        if (playbackPosition) {
-            music.currentTime = parseFloat(playbackPosition);
-        }
-        music.play();
-        musicButton.classList.add('active');
-        localStorage.setItem('musicState', 'playing'); // Save state as playing
-    } else {
-        localStorage.setItem('playbackPosition', music.currentTime);
-        music.pause();
-        musicButton.classList.remove('active');
-        localStorage.setItem('musicState', 'paused'); // Save state as paused
-    }
-}
-
-// Save playback position and state before unloading the page
-window.onbeforeunload = function() {
-    localStorage.setItem('playbackPosition', music.currentTime);
-};
-
-// Check if music was playing before the page was reloaded and resume playback
-window.onload = function() {
-    const musicButton = document.getElementById('musicButton');
-    const musicState = localStorage.getItem('musicState');
-    try{
-        if (musicState === 'playing') {
-        const playbackPosition = localStorage.getItem('playbackPosition');
-        if (playbackPosition) {
-            music.currentTime = parseFloat(playbackPosition);
-        }
-        music.play();
-        musicButton.classList.add('active')
-    } else {
-        musicButton.classList.remove('active');
-    }}
-    catch {}
-};
-
-//button responses
 function createBackButton(){
     const backButton = document.createElement('button');
     backButton.textContent = '⇦';

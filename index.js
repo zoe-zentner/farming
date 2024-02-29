@@ -28,21 +28,17 @@ function scoresDisplay() {
     container.classList.add('container'); // Apply container class
     document.body.appendChild(container);
 
-    //create back button
+    // Create back button
     const backButton = createBackButton();
-    document.body.appendChild(backButton)
+    document.body.appendChild(backButton);
     document.getElementById('backButton').addEventListener('click', function() {
-        window.location.reload();})
+        window.location.reload();
+    });
 
     // Create leaderboard text
     const leaderboardText = document.createElement('div');
     leaderboardText.textContent = 'Leaderboard:';
-    leaderboardText.style.fontFamily = 'LycheeSoda';
-    leaderboardText.style.fontSize = '60px';
-    leaderboardText.style.color = '#522915';
-    leaderboardText.style.position = 'relative';
-    leaderboardText.style.top = '20px';
-    leaderboardText.style.left = '520px';
+    leaderboardText.classList.add('leaderboard-text');
     container.appendChild(leaderboardText);
 
     // Create button elements with btn class applied
@@ -56,7 +52,7 @@ function scoresDisplay() {
         const button = document.createElement('button');
         button.textContent = text;
         button.classList.add('btn'); // Apply btn class
-        button.style.left = '300'
+        button.classList.add('toggle-button'); // Apply toggle-button class
         button.style.top = `${100 + container.children.length * 100}px`; // Adjust top position based on existing buttons
         container.appendChild(button);
         return button;
@@ -75,7 +71,7 @@ function scoresDisplay() {
 
     function handleButtonClick(button) {
         const isSortingButton = [nameButton, scoreButton, ascendingButton, descendingButton].includes(button);
-    
+
         if (isSortingButton) {
             // Check if the clicked button is a sorting button
             if (button === nameButton || button === scoreButton) {
@@ -88,10 +84,10 @@ function scoresDisplay() {
                 otherSortingButton.classList.remove('active');
             }
         }
-    
+
         // Toggle the clicked button
         button.classList.toggle('active');
-    
+
         // Update the active buttons array based on the clicked button
         if (isSortingButton) {
             if (button.classList.contains('active')) {
@@ -102,7 +98,7 @@ function scoresDisplay() {
                 activeButtons = activeButtons.filter(activeButton => activeButton !== button);
             }
         }
-        
+
         const scoreIsActive = scoreButton.classList.contains('active');
         const ascendingIsActive = ascendingButton.classList.contains('active');
         const nameIsActive = nameButton.classList.contains('active');
@@ -133,12 +129,17 @@ function scoresDisplay() {
 }
 
 
+
 function displayLeaderboard(container, sortedData) {
 
     // Set background color to beige
     document.body.style.backgroundColor = 'beige';
 
-    //format the sorted data
+    // Create container for leaderboard
+    const leaderboardContainer = document.createElement('div');
+    leaderboardContainer.classList.add('leaderboard-container');
+
+    // Format the sorted data
     const formattedData = sortedData.map(entry => {
         const name = entry.name.padEnd(13); // Ensure name is at least 8 characters long
         const score = entry.score;
@@ -147,29 +148,18 @@ function displayLeaderboard(container, sortedData) {
 
     const header = 'Name:        Score:\n'; // Adjust the spacing as needed
     const dataWithHeaders = header + formattedData;
-    // Create textarea element
-    const textarea = document.createElement('textarea');
-    textarea.textContent = dataWithHeaders
-    // sortedData.forEach(entry => {
-    //     textarea.textContent += formattedData;
-    // });
-    textarea.style.fontFamily = 'joystix';
-    textarea.style.backgroundColor = '#92814d';
-    textarea.style.fontSize = '25px';
-    textarea.style.paddingLeft = '10px';
-    textarea.style.lineHeight = '2';
-    textarea.style.color = 'white';
-    textarea.style.width = '440px';
-    textarea.style.height = '400px';
-    textarea.style.maxheight = '400px';
-    textarea.style.overflowY = 'auto';
-    textarea.style.resize = 'none'; // Disable textarea resize
-    textarea.readOnly = true; // Make the textarea read-only
-    textarea.style.position = 'absolute';
-    textarea.style.top = '150px';
-    textarea.style.left = '600px';
 
-    container.appendChild(textarea);
+    // Create textarea element for leaderboard
+    const textarea = document.createElement('textarea');
+    textarea.textContent = dataWithHeaders;
+    textarea.classList.add('leaderboard-textarea'); // Add the class for styling
+    textarea.readOnly = true; // Make the textarea read-only
+
+    // Append textarea to the leaderboard container
+    leaderboardContainer.appendChild(textarea);
+
+    // Append the leaderboard container to the main container
+    container.appendChild(leaderboardContainer);
 
 }
 

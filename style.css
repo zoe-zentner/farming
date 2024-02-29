@@ -12,7 +12,6 @@
     position: absolute;
     top: 8px;
     left: 8px;
-    width: 100%;
     width: 1280px;
     height: 720px;
 }
@@ -85,12 +84,20 @@
     background-color: rgb(30, 112, 108);
 }
 
-.instructions-text {
+.instructions-text,
+.leaderboard-text {
     font-family: 'LycheeSoda';
     font-size: 60px;
     color: #522915;
     position: fixed;
     top: 20px;
+}
+
+.leaderboard-text {
+    left: 520px;
+}
+
+.instructions-text {
     left: 535px;
 }
 
@@ -143,6 +150,23 @@
     position: absolute;
     top: 20px;
     left: 20px;
+}
+
+.leaderboard-textarea {
+    font-family: joystix;
+    background-color: #92814d;
+    font-size: 25px;
+    padding-left: 10px;
+    line-height: 2;
+    color: white;
+    width: 440px;
+    height: 400px;
+    max-height: 400px;
+    overflow-y: auto;
+    resize: none;
+    position: absolute;
+    top: 150px;
+    left: 600px;
 }
 
 #canvas-container {

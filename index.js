@@ -1049,76 +1049,76 @@ function startGame() {
         }
     }
 
-function startNewDay() {
-    // NIGHT TRANSITION EFFECT
-    nightImage.style.display = "block";
-    
-    // Set initial opacity to 0 for fade in
-    nightImage.style.opacity = 0;
+    function startNewDay() {
+        // NIGHT TRANSITION EFFECT
+        nightImage.style.display = "block";
+        
+        // Set initial opacity to 0 for fade in
+        nightImage.style.opacity = 0;
 
-    // Fade in the image
-    setTimeout(function() {
-        // Increase opacity gradually for fade in
-        nightImage.style.opacity = 1;
-
-        // Wait for 2 seconds (fade in duration)
+        // Fade in the image
         setTimeout(function() {
-            // repair trees after fade in
-            trees.forEach(tree => {
-                tree.health = 5;
-                if (tree.image == smallStumpImage) {
-                    tree.image = smallTreeImage;
-                } else if (tree.image == largeStumpImage) {
-                    tree.image = largeTreeImage;
-                }
-                tree.apples = [];
-                tree.createApples();
-            });
+            // Increase opacity gradually for fade in
+            nightImage.style.opacity = 1;
 
-            // repair apples after fade in
-            allApples = [];
-            trees.forEach(function(tree) {
-                tree.apples.forEach(function(apple) {
-                    allApples.push(apple);
-                });
-            });
-
-            // update moveables list to reflect the updated trees and apples
-            moveables = [...boundaries, background, ...trees, ...allApples, ...soilTiles, chicken, cow, merchant, foreground, ...flashObjects];
-
-            // grow any plants which are watered
-            soilTiles.forEach(function(soilTile) {
-                if (soilTile.status == "W" && !(soilTile.seedType == null)) {
-                    if (soilTile.lifeIndex < 3) {
-                        soilTile.lifeIndex += 1;
-                    }
-                }
-            });
-
-            // chance of rain is recalculated
-            raining = chanceOfRain()
-            if(raining){
-                createRain()
-                initialSoilStatus = "W"
-                rainAudio.play()}
-            else{
-                initialSoilStatus = "X"
-                rainAudio.pause()}
-            soilTiles.forEach(function(soilTile){
-                soilTile.status = initialSoilStatus
-            })
-
-            // Fade out the image
-            nightImage.style.opacity = 0;
-
-            // Wait for 2 seconds (fade out duration)
+            // Wait for 2 seconds (fade in duration)
             setTimeout(function() {
-                // Set display to "none" once fade out is complete
-                nightImage.style.display = "none";
-            }, 2000); // 2000 milliseconds = 2 seconds for fade out
-        }, 2000); // 2000 milliseconds = 2 seconds after fade in
-    }, 0); // No delay for fade in
-}   
+                // repair trees after fade in
+                trees.forEach(tree => {
+                    tree.health = 5;
+                    if (tree.image == smallStumpImage) {
+                        tree.image = smallTreeImage;
+                    } else if (tree.image == largeStumpImage) {
+                        tree.image = largeTreeImage;
+                    }
+                    tree.apples = [];
+                    tree.createApples();
+                });
+
+                // repair apples after fade in
+                allApples = [];
+                trees.forEach(function(tree) {
+                    tree.apples.forEach(function(apple) {
+                        allApples.push(apple);
+                    });
+                });
+
+                // update moveables list to reflect the updated trees and apples
+                moveables = [...boundaries, background, ...trees, ...allApples, ...soilTiles, chicken, cow, merchant, foreground, ...flashObjects];
+
+                // grow any plants which are watered
+                soilTiles.forEach(function(soilTile) {
+                    if (soilTile.status == "W" && !(soilTile.seedType == null)) {
+                        if (soilTile.lifeIndex < 3) {
+                            soilTile.lifeIndex += 1;
+                        }
+                    }
+                });
+
+                // chance of rain is recalculated
+                raining = chanceOfRain()
+                if(raining){
+                    createRain()
+                    initialSoilStatus = "W"
+                    rainAudio.play()}
+                else{
+                    initialSoilStatus = "X"
+                    rainAudio.pause()}
+                soilTiles.forEach(function(soilTile){
+                    soilTile.status = initialSoilStatus
+                })
+
+                // Fade out the image
+                nightImage.style.opacity = 0;
+
+                // Wait for 2 seconds (fade out duration)
+                setTimeout(function() {
+                    // Set display to "none" once fade out is complete
+                    nightImage.style.display = "none";
+                }, 2000); // 2000 milliseconds = 2 seconds for fade out
+            }, 2000); // 2000 milliseconds = 2 seconds after fade in
+        }, 0); // No delay for fade in
+    }   
 
     // dictionary of keys
     const keys = {

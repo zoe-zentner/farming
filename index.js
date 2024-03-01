@@ -1233,8 +1233,9 @@ function startGame() {
         // Determine which images to use based on player's status and tool use timer
         let currentDirectionImages = playerImages[player.status];
 
-        playerImage.src = currentDirectionImages[player.frameIndex].src;
+        player.image = currentDirectionImages[player.frameIndex];
         
+        // Call animatePlayer recursively
         requestAnimationFrame(animatePlayer);
     }
     

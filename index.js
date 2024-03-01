@@ -338,7 +338,7 @@ function startGame() {
     seedImage.src = './graphics/overlay/corn.png';
 
     const cowImage = new Image()
-    cowImage.src = './graphics/cow/right/0.png';
+    cowImage.src = './graphics/cow/right/0.28.png';
 
     const bImage = new Image();
     bImage.src = "./graphics/soil/b.png";
@@ -798,7 +798,7 @@ function startGame() {
 
     
     const cow = new classes.Cow({
-        pos: { x: 300, y: 300 }, // Define starting position
+        pos: { x: 300, y: 1560 }, // Define starting position
         image: cowImage, // Provide cow image
         status: "normal", // Define initial status if needed
         background: background // Pass player reference if needed

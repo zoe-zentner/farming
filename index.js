@@ -432,8 +432,8 @@ function startGame() {
         endGameButton.style.color = '#522915';
         endGameButton.classList.add('btn');
         endGameButton.style.position = 'relative';
-        endGameButton.style.bottom = '30px';
-        endGameButton.style.right = '130px';
+        endGameButton.style.top = '670px';
+        endGameButton.style.left = '1160px';
         endGameButton.id = "endGameButton";
         return endGameButton;
     }

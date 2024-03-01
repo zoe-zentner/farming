@@ -1232,7 +1232,29 @@ function startGame() {
         // Call animatePlayer recursively
         requestAnimationFrame(animatePlayer);
     }
+
+    const cowImages = {
+        left: [],
+        right: []
+    };
     
+    // Load cow images 0-4 (left-facing)
+    for (let i = 0; i < 5; i++) {
+        const imgLeft = new Image();
+        imgLeft.src = `./graphics/cow/left/${i}.28.png`;
+        // Store each left-facing image in cowImages.left array
+        cowImages.left.push(imgLeft);
+    }
+    
+    // Load cow images 0-4 (right-facing)
+    for (let i = 0; i < 5; i++) {
+        const imgRight = new Image();
+        imgRight.src = `./graphics/cow/right/${i}.28.png`;
+        // Store each right-facing image in cowImages.right array
+        cowImages.right.push(imgRight);
+    }
+
+
     function animateCow(timestamp) {
         const deltaTime = timestamp - lastCowFrameTime;
         // Update the frame index based on deltaTime
@@ -1242,15 +1264,21 @@ function startGame() {
             cow.frameIndex += framesToAdvance;
     
             // Handle frame index limit
-            cow.frameIndex %= 5; 
+            cow.frameIndex %= 5;
     
             lastCowFrameTime = timestamp;
         }
     
-        // Update player image source and continue animation loop
-        cowImage.src = './graphics/cow/right/' + cow.frameIndex + '.28.png';
+        // Set the cow image based on cow speed
+        if (cow.direction === 1) {
+            cow.image = cowImages.right[cow.frameIndex];
+        } else {
+            cow.image = cowImages.left[cow.frameIndex];
+        }
+    
         requestAnimationFrame(animateCow);
     }
+    
 
     // functions to check collisions in all directions between player and boundaries
     function checkUpCollision(boundary) {

@@ -253,6 +253,20 @@
     font-size: 33px
 }
 
+.sell-all-button {
+    margin-top: 20px;
+    font-size: 20px;
+    margin-right: 40px;
+    font-family: LycheeSoda;
+    padding: 10px 20px;
+}
+
+.close-inventory-button {
+    font-size: 20px;
+    margin-top: 20px;
+    font-family: LycheeSoda;
+    padding: 10px 20px;
+}
 
 #endGameButton {
     font-family: LycheeSoda;

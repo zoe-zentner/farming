@@ -677,27 +677,18 @@ function startGame() {
             // Append the item container to the main container
             container.appendChild(itemContainer);
         }
-
-
     
         // Create a "Sell All" button
         const sellAllButton = document.createElement('button');
         sellAllButton.textContent = 'Sell All';
-        sellAllButton.style.marginTop = '20px';
-        sellAllButton.style.fontSize = '20px';
-        sellAllButton.style.marginRight = '40px';
-        sellAllButton.style.fontFamily = 'LycheeSoda';
-        sellAllButton.style.padding = '10px 20px';
+        sellAllButton.classList.add('sell-all-button'); // Add sell-all-button class
         sellAllButton.addEventListener('click', sellAllItems); // Add event listener to handle selling all items
         container.appendChild(sellAllButton);
-    
+
         // Create a "Close Inventory" button
         const closeInventoryButton = document.createElement('button');
         closeInventoryButton.textContent = 'Close Inventory';
-        closeInventoryButton.style.fontSize = '20px';
-        closeInventoryButton.style.marginTop = '20px';
-        closeInventoryButton.style.fontFamily = 'LycheeSoda'; 
-        closeInventoryButton.style.padding = '10px 20px'; 
+        closeInventoryButton.classList.add('close-inventory-button'); // Add close-inventory-button class
         closeInventoryButton.addEventListener('click', closeInventory); // Add event listener to handle closing inventory
         container.appendChild(closeInventoryButton);
     

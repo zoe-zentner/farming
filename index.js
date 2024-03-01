@@ -424,16 +424,10 @@ function startGame() {
     whiteCornImage.src = './graphics/fruit/whiteCorn.png'
 
     // end game button function
-    function createEndGameButton(){
+    function createEndGameButton() {
         const endGameButton = document.createElement('button');
         endGameButton.textContent = 'end game';
-        endGameButton.style.fontFamily = 'LycheeSoda';
-        endGameButton.style.fontSize = '20px';
-        endGameButton.style.color = '#522915';
         endGameButton.classList.add('btn');
-        endGameButton.style.position = 'relative';
-        endGameButton.style.top = '670px';
-        endGameButton.style.left = '1160px';
         endGameButton.id = "endGameButton";
         return endGameButton;
     }

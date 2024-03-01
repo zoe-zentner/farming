@@ -205,6 +205,16 @@
     transform: translate(50%, -50%) rotate(180deg);
 }
 
+
+#endGameButton {
+    font-family: LycheeSoda;
+    font-size: 20px;
+    color: #522915;
+    position: relative;
+    top: 670px;
+    left: 1160px;
+}
+
 #canvas-container {
     background-color: beige; 
     width: 1280px; 

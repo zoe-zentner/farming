@@ -160,6 +160,29 @@ export class Chicken extends Sprite {
     }
 }
 
+export class Cow extends Sprite {
+    constructor({ pos, image, status, background}) {
+        super({ pos, image, status });
+        this.background = background;
+        this.speed = 4;
+        this.direction = 1;
+    }
+
+    move() {
+        // Move the cow
+        this.pos.x += this.speed * this.direction;
+
+        // Check if the cow has reached the left or right boundary
+        if (this.pos.x <= 1800 + this.background.pos.x) {
+            // If reached left boundary, change direction to move right
+            this.direction = 1;
+        } else if (this.pos.x >= 2300 + this.background.pos.x) {
+            // If reached right boundary, change direction to move left
+            this.direction = -1;
+        }
+    }
+}
+
 export class Boundary {
     constructor({pos, width, height}) {
         this.pos = pos
@@ -199,7 +222,7 @@ class Timer {
         this.active = false;
       }
     }
-  }
+}
 
 export class SoilTile extends Sprite{
     constructor({ pos, image, status}) {

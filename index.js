@@ -1164,46 +1164,40 @@ function startGame() {
     let lastCowFrameTime = 0;
 
     // Arrays to hold images for each direction and tool
-    const playerImages = {
-        down: [new Image(), new Image(), new Image(), new Image()],
-        up: [new Image(), new Image(), new Image(), new Image()],
-        left: [new Image(), new Image(), new Image(), new Image()],
-        right: [new Image(), new Image(), new Image(), new Image()],
-        down_axe: [new Image(), new Image(), new Image(), new Image()],
-        up_axe: [new Image(), new Image(), new Image(), new Image()],
-        left_axe: [new Image(), new Image(), new Image(), new Image()],
-        right_axe: [new Image(), new Image(), new Image(), new Image()],
-        down_hoe: [new Image(), new Image(), new Image(), new Image()],
-        up_hoe: [new Image(), new Image(), new Image(), new Image()],
-        left_hoe: [new Image(), new Image(), new Image(), new Image()],
-        right_hoe: [new Image(), new Image(), new Image(), new Image()],
-        down_water: [new Image(), new Image(), new Image(), new Image()],
-        up_water: [new Image(), new Image(), new Image(), new Image()],
-        left_water: [new Image(), new Image(), new Image(), new Image()],
-        right_water: [new Image(), new Image(), new Image(), new Image()],
-        down_idle: [new Image(), new Image(), new Image(), new Image()],
-        up_idle: [new Image(), new Image(), new Image(), new Image()],
-        left_idle: [new Image(), new Image(), new Image(), new Image()],
-        right_idle: [new Image(), new Image(), new Image(), new Image()],
-    };
+    const playerImages = {};
 
-    // Load images for each direction and frame
+    const directions = ['down', 'up', 'left', 'right'];
+    const tools = ['axe', 'hoe', 'water', 'idle'];
+    
     const loadPlayerImages = () => {
-        ['down', 'up', 'left', 'right'].forEach(direction => {
+        directions.forEach(direction => {
+            playerImages[direction] = [];
             for (let i = 0; i < 4; i++) {
-                playerImages[direction][i].src = `./graphics/character/${direction}/${i}.png`;
+                const img = new Image();
+                img.src = `./graphics/character/${direction}/${i}.png`;
+                playerImages[direction].push(img);
             }
         });
-        ['axe', 'hoe', 'water'].forEach(tool => {
-            ['down', 'up', 'left', 'right'].forEach(direction => {
+    
+        tools.forEach(tool => {
+            directions.forEach(direction => {
+                const toolKey = direction + '_' + tool;
+                playerImages[toolKey] = [];
                 for (let i = 0; i < 4; i++) {
-                    playerImages[direction + '_' + tool][i].src = `./graphics/character/${direction}_${tool}/${i}.png`;
+                    const img = new Image();
+                    img.src = `./graphics/character/${direction}_${tool}/${i}.png`;
+                    playerImages[toolKey].push(img);
                 }
             });
         });
-        ['down', 'up', 'left', 'right'].forEach(direction => {
+    
+        directions.forEach(direction => {
+            const idleKey = direction + '_idle';
+            playerImages[idleKey] = [];
             for (let i = 0; i < 4; i++) {
-                playerImages[direction + '_idle'][i].src = `./graphics/character/${direction}_idle/${i}.png`;
+                const img = new Image();
+                img.src = `./graphics/character/${direction}_idle/${i}.png`;
+                playerImages[idleKey].push(img);
             }
         });
     };

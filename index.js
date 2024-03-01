@@ -644,28 +644,16 @@ function startGame() {
     function merchantInteraction() {
         // Create a container element
         const container = document.createElement('div');
-        container.className = 'inventory-container'; // Add a class name for easier reference
-        container.style.position = 'absolute';
-        container.style.top = '50%';
-        container.style.left = '50%';
-        container.style.transform = 'translate(-50%, -50%)';
-        container.style.padding = '50px 100px'; 
-        container.style.width = '400px'; 
-        container.style.backgroundColor = '#f7f2d5';
-        container.style.maxHeight = '80%';
-        container.style.border = '2px solid black';
-        container.style.fontFamily = 'LycheeSoda';
-        container.style.textAlign = 'center';
-        container.style.fontSize = '24px';
-        container.style.color = '#522915';
-    
-        // Populate the container with text displaying the player's inventory
+        container.classList.add('inventory-container');
+
+        // Text displaying the player's inventory
         const inventoryText = document.createElement('p');
         inventoryText.textContent = 'Player Inventory:';
-        inventoryText.style.marginBottom = '20px'; // Add some space between inventory title and items
-        inventoryText.style.fontSize = '50px';
-        inventoryText.style.marginTop = '0'; 
+        inventoryText.classList.add('inventory-text');
+
+        // Append inventory text to the container
         container.appendChild(inventoryText);
+
     
         // Loop through player's inventory and add items to the container
         for (const [item, quantity] of Object.entries(player.inventory)) {

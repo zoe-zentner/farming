@@ -215,6 +215,27 @@
     font-size: 40px;
 }
 
+.inventory-container {
+    position: relative;
+    top: 50%;
+    left: 22%;
+    padding: 50px 100px;
+    width: 400px;
+    background-color: #f7f2d5;
+    max-height: 80%;
+    border: 2px solid black;
+    font-family: LycheeSoda;
+    text-align: center;
+    font-size: 24px;
+    color: #522915;
+}
+
+.inventory-text {
+    margin-bottom: 20px;
+    font-size: 50px;
+    margin-top: 0;
+}
+
 #endGameButton {
     font-family: LycheeSoda;
     font-size: 20px;

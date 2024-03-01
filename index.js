@@ -435,18 +435,10 @@ function startGame() {
     // display score 
     function displayScore(score) {
         const scoreBox = document.createElement('div');
-        scoreBox.style.fontFamily = 'LycheeSoda';
-        scoreBox.style.backgroundColor = "beige"
+        scoreBox.classList.add('score-box');
         scoreBox.textContent = 'Score: ' + score;
-        scoreBox.style.position = 'absolute';
-        scoreBox.style.top = '20px';
-        scoreBox.style.left = '20px';
-        scoreBox.style.color = '#522915';
-        scoreBox.style.fontSize = '40px';
-    
         document.body.appendChild(scoreBox);
     }
-    
 
     // G L O B A L constants and variables
     let score = 0;

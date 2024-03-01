@@ -205,6 +205,15 @@
     transform: translate(50%, -50%) rotate(180deg);
 }
 
+.score-box {
+    font-family: LycheeSoda;
+    background-color: beige;
+    position: absolute;
+    top: 20px;
+    left: 20px;
+    color: #522915;
+    font-size: 40px;
+}
 
 #endGameButton {
     font-family: LycheeSoda;

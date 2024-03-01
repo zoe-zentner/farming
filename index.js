@@ -658,27 +658,22 @@ function startGame() {
         // Loop through player's inventory and add items to the container
         for (const [item, quantity] of Object.entries(player.inventory)) {
             const itemContainer = document.createElement('div');
-            itemContainer.style.display = 'flex'; // Display items in a row
-            itemContainer.style.justifyContent = 'space-between'; // Space out items and prices
-
+            itemContainer.classList.add('item-container'); // Add item container class
+        
             // Create a paragraph element for item and quantity
             const itemText = document.createElement('p');
             itemText.textContent = `${item}: ${quantity}`;
-            itemText.style.fontSize = '32px'; // Set font size for inventory items
-            itemText.style.textAlign = 'left';
-            itemText.style.paddingLeft = '25px';
-
+            itemText.classList.add('item-text'); // Add item text class
+        
             // Create a paragraph element for price
             const priceText = document.createElement('p');
             priceText.textContent = `price: ${SALE_PRICES[item]}`;
-            priceText.style.textAlign = 'right';
-            priceText.style.fontSize = '32px'; // Set font size for inventory items
-            priceText.style.paddingRight = '25px';
-
+            priceText.classList.add('price-text'); // Add price text class
+        
             // Append item and price to the item container
             itemContainer.appendChild(itemText);
             itemContainer.appendChild(priceText);
-
+        
             // Append the item container to the main container
             container.appendChild(itemContainer);
         }

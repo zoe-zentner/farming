@@ -2,7 +2,6 @@ const canvas = document.querySelector('canvas')
 const c = canvas.getContext('2d')
 
 export class Sprite {
-
     constructor({pos, image, status}) {
         this.pos = pos
         this.image = image
@@ -160,8 +159,6 @@ export class Chicken extends Sprite {
         );
     }
 }
-
-
 
 export class Boundary {
     constructor({pos, width, height}) {

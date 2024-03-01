@@ -1240,7 +1240,6 @@ function startGame() {
         if (deltaTime > frameRate) {
             const framesToAdvance = Math.floor(deltaTime / frameRate);
             cow.frameIndex += framesToAdvance;
-            console.log(framesToAdvance)
     
             // Handle frame index limit
             cow.frameIndex %= 5; 

@@ -338,7 +338,7 @@ function startGame() {
     seedImage.src = './graphics/overlay/corn.png';
 
     const cowImage = new Image()
-    cowImage.src = './graphics/cow/right/0.28.png';
+    cowImage.src = './graphics/cow/right/0.png';
 
     const bImage = new Image();
     bImage.src = "./graphics/soil/b.png";
@@ -425,6 +425,47 @@ function startGame() {
     whiteTomatoImage.src = './graphics/fruit/whiteTomato.png'
     const whiteCornImage = new Image()
     whiteCornImage.src = './graphics/fruit/whiteCorn.png'
+
+    // // For Down direction
+    // const playerDown0 = new Image();
+    // playerDown0.src = './graphics/character/down/0.png';
+    // const playerDown1 = new Image();
+    // playerDown1.src = './graphics/character/down/1.png';
+    // const playerDown2 = new Image();
+    // playerDown2.src = './graphics/character/down/2.png';
+    // const playerDown3 = new Image();
+    // playerDown3.src = './graphics/character/down/3.png';
+
+    // // For Up direction
+    // const playerUp0 = new Image();
+    // playerUp0.src = './graphics/character/up/0.png';
+    // const playerUp1 = new Image();
+    // playerUp1.src = './graphics/character/up/1.png';
+    // const playerUp2 = new Image();
+    // playerUp2.src = './graphics/character/up/2.png';
+    // const playerUp3 = new Image();
+    // playerUp3.src = './graphics/character/up/3.png';
+
+    // // For Left direction
+    // const playerLeft0 = new Image();
+    // playerLeft0.src = './graphics/character/left/0.png';
+    // const playerLeft1 = new Image();
+    // playerLeft1.src = './graphics/character/left/1.png';
+    // const playerLeft2 = new Image();
+    // playerLeft2.src = './graphics/character/left/2.png';
+    // const playerLeft3 = new Image();
+    // playerLeft3.src = './graphics/character/left/3.png';
+
+    // // For Right direction
+    // const playerRight0 = new Image();
+    // playerRight0.src = './graphics/character/right/0.png';
+    // const playerRight1 = new Image();
+    // playerRight1.src = './graphics/character/right/1.png';
+    // const playerRight2 = new Image();
+    // playerRight2.src = './graphics/character/right/2.png';
+    // const playerRight3 = new Image();
+    // playerRight3.src = './graphics/character/right/3.png';
+
 
     // end game button function
     function createEndGameButton() {
@@ -798,10 +839,11 @@ function startGame() {
 
     
     const cow = new classes.Cow({
-        pos: { x: 300, y: 1560 }, // Define starting position
-        image: cowImage, // Provide cow image
-        status: "normal", // Define initial status if needed
-        background: background // Pass player reference if needed
+        pos: { x: 300, y: 1560 },
+        image: cowImage,
+        status: "normal", 
+        background: background, 
+        frameIndex: 0
     });
 
     // create the foreground using the map class
@@ -1158,33 +1200,104 @@ function startNewDay() {
     }
 
 
-    // initialise last frame time to be 0
-    let lastFrameTime = 0;
-    function animatePlayer(timestamp) {
-        const deltaTime = timestamp - lastFrameTime;
-    
-        if (player.timers['tool use'].active) {
-            // Set the player's status to include direction and tool in use
-            player.status = player.direction + "_" + player.tools[player.tool_index];
+// initialise last frame time to be 0
+let lastPlayerFrameTime = 0;
+let lastCowFrameTime = 0;
+
+// Arrays to hold images for each direction and tool
+const playerImages = {
+    down: [new Image(), new Image(), new Image(), new Image()],
+    up: [new Image(), new Image(), new Image(), new Image()],
+    left: [new Image(), new Image(), new Image(), new Image()],
+    right: [new Image(), new Image(), new Image(), new Image()],
+    down_axe: [new Image(), new Image(), new Image(), new Image()],
+    up_axe: [new Image(), new Image(), new Image(), new Image()],
+    left_axe: [new Image(), new Image(), new Image(), new Image()],
+    right_axe: [new Image(), new Image(), new Image(), new Image()],
+    down_hoe: [new Image(), new Image(), new Image(), new Image()],
+    up_hoe: [new Image(), new Image(), new Image(), new Image()],
+    left_hoe: [new Image(), new Image(), new Image(), new Image()],
+    right_hoe: [new Image(), new Image(), new Image(), new Image()],
+    down_water: [new Image(), new Image(), new Image(), new Image()],
+    up_water: [new Image(), new Image(), new Image(), new Image()],
+    left_water: [new Image(), new Image(), new Image(), new Image()],
+    right_water: [new Image(), new Image(), new Image(), new Image()],
+    down_idle: [new Image(), new Image(), new Image(), new Image()],
+    up_idle: [new Image(), new Image(), new Image(), new Image()],
+    left_idle: [new Image(), new Image(), new Image(), new Image()],
+    right_idle: [new Image(), new Image(), new Image(), new Image()],
+};
+
+// Load images for each direction and frame
+const loadPlayerImages = () => {
+    ['down', 'up', 'left', 'right'].forEach(direction => {
+        for (let i = 0; i < 4; i++) {
+            playerImages[direction][i].src = `./graphics/character/${direction}/${i}.png`;
         }
+    });
+    ['axe', 'hoe', 'water'].forEach(tool => {
+        ['down', 'up', 'left', 'right'].forEach(direction => {
+            for (let i = 0; i < 4; i++) {
+                playerImages[direction + '_' + tool][i].src = `./graphics/character/${direction}_${tool}/${i}.png`;
+            }
+        });
+    });
+    ['down', 'up', 'left', 'right'].forEach(direction => {
+        for (let i = 0; i < 4; i++) {
+            playerImages[direction + '_idle'][i].src = `./graphics/character/${direction}_idle/${i}.png`;
+        }
+    });
+};
+
+// Call the function to load images
+loadPlayerImages();
+
+function animatePlayer(timestamp) {
+    const deltaTime = timestamp - lastPlayerFrameTime;
+
+    if (player.timers['tool use'].active) {
+        // Set the player's status to include direction and tool in use
+        player.status = player.direction + "_" + player.tools[player.tool_index];
+    }
+
+    // Update the frame index based on deltaTime
+    const frameRate = 250;
+    if (deltaTime > frameRate) {
+        const framesToAdvance = Math.floor(deltaTime / frameRate);
+        player.frameIndex += framesToAdvance;
+        // Handle frame index limit
+        player.frameIndex %= 4;
+
+        lastPlayerFrameTime = timestamp;
+    }
+
+    // Determine which images to use based on player's status and tool use timer
+    let currentDirectionImages = playerImages[player.status];
+
+    playerImage.src = currentDirectionImages[player.frameIndex].src;
     
+    requestAnimationFrame(animatePlayer);
+}
+    
+    function animateCow(timestamp) {
+        const deltaTime = timestamp - lastCowFrameTime;
         // Update the frame index based on deltaTime
-        const frameRate = 250; // Adjust frame rate as needed
+        const frameRate = 250;
         if (deltaTime > frameRate) {
             const framesToAdvance = Math.floor(deltaTime / frameRate);
-            player.frameIndex += framesToAdvance;
+            cow.frameIndex += framesToAdvance;
+            console.log(framesToAdvance)
     
             // Handle frame index limit
-        player.frameIndex %= 4; 
+            cow.frameIndex %= 5; 
     
-            lastFrameTime = timestamp;
+            lastCowFrameTime = timestamp;
         }
     
         // Update player image source and continue animation loop
-        playerImage.src = './graphics/character/' + player.status + '/' + player.frameIndex + '.png';
-        requestAnimationFrame(animatePlayer);
+        cowImage.src = './graphics/cow/right/' + cow.frameIndex + '.28.png';
+        requestAnimationFrame(animateCow);
     }
-    
 
     // functions to check collisions in all directions between player and boundaries
     function checkUpCollision(boundary) {
@@ -1649,6 +1762,7 @@ function startNewDay() {
         requestAnimationFrame((timestamp) => {
             update(timestamp);
             animatePlayer(timestamp);
+            animateCow(timestamp)
             
         });
     }

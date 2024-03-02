@@ -236,6 +236,7 @@ function createMusicButton() {
 }
 
 function instructionsDisplay() {
+    document.getElementById('loading-screen').style.display = 'none'
     const container = this.parentElement;
     container.remove();
 
@@ -271,6 +272,7 @@ function instructionsDisplay() {
 }
 
 function settingsfunction() {
+    document.getElementById('loading-screen').style.display = 'none'
     const container = this.parentElement;
     container.remove();
 
@@ -278,6 +280,11 @@ function settingsfunction() {
     settingsText.textContent = 'settings: ';
     settingsText.classList.add('settings-text');
     document.body.appendChild(settingsText);
+
+    const musicImage = new Image()
+    musicImage.src = './graphics/musicImage.png'
+    musicImage.classList.add('musicImage');
+    document.body.appendChild(musicImage);
 
     const musicButton = createMusicButton();
     document.body.appendChild(musicButton);

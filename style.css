@@ -12,8 +12,8 @@
     position: fixed;
     top: 8;
     left: 8;
-    width: 1280px; /* Match the canvas width */
-    height: 720px; /* Match the canvas height */
+    width: 1280px;
+    height: 720px;
     font: lycheeSoda;
     color: #f7f2d5;
     background-color: #1d1245;
@@ -22,6 +22,14 @@
     align-items: center;
 }
 
+.musicImage {
+    position: relative;
+    top: 0;
+    left: 0;
+    width: 1280px;
+    height: 720px;
+    z-index: 1
+}
 
 .container {
     position: absolute;
@@ -149,9 +157,10 @@
     font-family: 'LycheeSoda';
     font-size: 60px;
     color: #522915;
-    position: fixed;
+    position: absolute;
     top: 20px;
     left: 570px;
+    z-index: -1
 }
 
 .music-button {
@@ -161,6 +170,7 @@
     position: absolute;
     top: 300px;
     left: 600px;
+    z-index: 999
 }
 
 .back-button {
@@ -170,6 +180,7 @@
     position: absolute;
     top: 20px;
     left: 20px;
+    z-index: 1000
 }
 
 .leaderboard-textarea {
@@ -209,13 +220,13 @@
 }
 
 .sortByText {
-    top: 36%;
+    top: 34%;
     left: 100px;
     transform: translate(50%, -50%) rotate(180deg);
 }
 
 .orderByText {
-    top: 65%;
+    top: 60%;
     left: 100px;
     transform: translate(50%, -50%) rotate(180deg);
 }

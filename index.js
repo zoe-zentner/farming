@@ -802,7 +802,8 @@ function startGame() {
     // Create three cow instances with random x-coordinates
     for (let i = 0; i < 3; i++) {
         const randomX = Math.floor(Math.random() * (2220 - 1320 + 1)) + 1200; // Random x-coordinate between 1200 and 2300
-        const cow = new classes.Cow({ pos: { x: randomX + background.pos.x, y: 1350 + i * 100 }, image: cowImage, background: background, frameIndex: 0, direction: Math.random() < 0.5 ? 1 : -1 });
+        const randomFrameIndex = Math.floor(Math.random() * 5)
+        const cow = new classes.Cow({ pos: { x: randomX + background.pos.x, y: 1350 + i * 100 }, image: cowImage, background: background, frameIndex: randomFrameIndex, direction: Math.random() < 0.5 ? 1 : -1 });
         cows.push(cow);
     }
 
@@ -1277,7 +1278,7 @@ function startGame() {
         });
     }
 
-    function animateCow(timestamp, cow) {
+    function animateCow(timestamp) {
         const deltaTime = timestamp - lastCowFrameTime;
         // Update the frame index based on deltaTime
         const frameRate = 250;
@@ -1294,15 +1295,16 @@ function startGame() {
     
         // Set the cow image based on cow speed
         cows.forEach( cow => {
-        if (cow.direction === 1) {
-            cow.image = cowImages.right[cow.frameIndex];
-        } else {
-            cow.image = cowImages.left[cow.frameIndex];
-        }
+            if (cow.direction === 1) {
+                cow.image = cowImages.right[cow.frameIndex];
+            } else {
+                cow.image = cowImages.left[cow.frameIndex];
+            }
 
-        try{cowBoundary.pos.x = cow.pos.x;
-        cowBoundary.pos.y = cow.pos.y;}
-        catch{}})
+            try{cowBoundary.pos.x = cow.pos.x;
+            cowBoundary.pos.y = cow.pos.y;}
+            catch{}
+        })
 
         movePlayerWithCow()
     

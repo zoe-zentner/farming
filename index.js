@@ -797,12 +797,14 @@ function startGame() {
     });
 
     
-    const cow = new classes.Cow({
-        pos: { x: 300, y: 1560 },
-        image: cowImage,
-        background: background, 
-        frameIndex: 0
-    });
+    const cows = [];
+
+    // Create three cow instances with random x-coordinates
+    for (let i = 0; i < 3; i++) {
+        const randomX = Math.floor(Math.random() * (2220 - 1320 + 1)) + 1200; // Random x-coordinate between 1200 and 2300
+        const cow = new classes.Cow({ pos: { x: randomX, y: 1350 + i * 100 }, image: cowImage, background: background, frameIndex: 0, direction: Math.random() < 0.5 ? 1 : -1 });
+        cows.push(cow);
+    }
 
     // create the foreground using the map class
     const foreground = new classes.Map({
@@ -919,7 +921,7 @@ function startGame() {
                     tree.createApples();
                     allApples = [];
                     getAllApples();
-                    moveables = [...boundaries, background, ...trees, ...allApples, ...soilTiles, chicken, cow, merchant, foreground, ...flashObjects];
+                    moveables = [...boundaries, background, ...trees, ...allApples, ...soilTiles, chicken, ...cows, merchant, foreground, ...flashObjects];
     
                     // Store references to trees and boundaries for removal
                     treesToRemove.push(tree);
@@ -980,13 +982,13 @@ function startGame() {
     
         // push the object into the list of objects to flash
         flashObjects.push(objectToFlash);
-        moveables = [...boundaries, background, ...trees, ...allApples, ...soilTiles, chicken, cow, merchant, foreground, ...flashObjects];
+        moveables = [...boundaries, background, ...trees, ...allApples, ...soilTiles, chicken, ...cows, merchant, foreground, ...flashObjects];
         // remove the object after 0.3 seconds
         setTimeout(() => {
             const index = flashObjects.indexOf(objectToFlash);
             if (index !== -1) {
                 flashObjects.splice(index, 1);
-                moveables = [...boundaries, background, ...trees, ...allApples, ...soilTiles, chicken, cow, merchant, foreground, ...flashObjects];
+                moveables = [...boundaries, background, ...trees, ...allApples, ...soilTiles, chicken, ...cows, merchant, foreground, ...flashObjects];
             }
         }, 300);
     }
@@ -1023,7 +1025,7 @@ function startGame() {
                         allApples = []
                         getAllApples()
                         // update moveables to reflect removed apple 
-                        moveables = [...boundaries, background, ...trees, ...allApples, ...soilTiles, chicken, cow, merchant, foreground, ...flashObjects];
+                        moveables = [...boundaries, background, ...trees, ...allApples, ...soilTiles, chicken, ...cows, merchant, foreground, ...flashObjects];
                     // if a tree has died then add a wood to inventory and change the image to a stump
                     if (tree.health == 0){
                         player.inventory['wood'] = (player.inventory['wood'] || 0) + 1;
@@ -1081,7 +1083,7 @@ function startGame() {
                 });
 
                 // update moveables list to reflect the updated trees and apples
-                moveables = [...boundaries, background, ...trees, ...allApples, ...soilTiles, chicken, cow, merchant, foreground, ...flashObjects];
+                moveables = [...boundaries, background, ...trees, ...allApples, ...soilTiles, chicken, cows, merchant, foreground, ...flashObjects];
 
                 // grow any plants which are watered
                 soilTiles.forEach(function(soilTile) {
@@ -1137,7 +1139,7 @@ function startGame() {
     };
 
     // initialisation of list of objects which should be moved when the player "moves"
-    let moveables = [...boundaries, background, ...trees, ...allApples, ...soilTiles, chicken, cow, merchant, foreground, ...flashObjects];
+    let moveables = [...boundaries, background, ...trees, ...allApples, ...soilTiles, chicken, ...cows, merchant, foreground, ...flashObjects];
 
     // create dissapearing trees
     disapearingTrees(20, 20, 9, 5);
@@ -1253,57 +1255,62 @@ function startGame() {
     let cowBoundary
     cowImage.onload = function() {
         // Create cow boundary after cowImage has finished loading
-        cowBoundary = new classes.Boundary({
-            pos: {
-                x: cow.pos.x,
-                y: cow.pos.y
-            },
-            width: cowImage.width,
-            height: cowImage.height
-        });
-        boundaries.push(cowBoundary);
-        moveables = [...boundaries, background, ...trees, ...allApples, ...soilTiles, chicken, cow, merchant, foreground, ...flashObjects];
+        cows.forEach(cow => {
+            cowBoundary = new classes.Boundary({
+                pos: {
+                    x: cow.pos.x,
+                    y: cow.pos.y
+                },
+                width: cowImage.width,
+                height: cowImage.height
+            });
+            boundaries.push(cowBoundary);
+        })
+        moveables = [...boundaries, background, ...trees, ...allApples, ...soilTiles, chicken, ...cows, merchant, foreground, ...flashObjects];
     };
 
     function movePlayerWithCow() {
-        const cowBoundary = {
-            pos: {
-                x: cow.pos.x,
-                y: cow.pos.y
-            },
-            width: cowImage.width,
-            height: cowImage.height
-        };
-        // Check for collision between player and cow
-        if (rectangularCollision({ rectangle1: player.hitbox, rectangle2: cowBoundary })) {
-            if (cow.direction === -1) {
-                moveables.forEach(moveable => {
-                    moveable.pos.x += 4})
+        cows.forEach(cow => {
+            const cowBoundary = {
+                pos: {
+                    x: cow.pos.x,
+                    y: cow.pos.y
+                },
+                width: cowImage.width,
+                height: cowImage.height
+            };
+            // Check for collision between player and cow
+            if (rectangularCollision({ rectangle1: player.hitbox, rectangle2: cowBoundary })) {
+                if (cow.direction === -1) {
+                    moveables.forEach(moveable => {
+                        moveable.pos.x += 4;
+                    });
+                } else {
+                    moveables.forEach(moveable => {
+                        moveable.pos.x -= 4;
+                    });
+                }
             }
-            else{
-                moveables.forEach(moveable => {
-                    moveable.pos.x -= 4})
-            }
-        }
+        });
     }
-    
-    
 
-    function animateCow(timestamp) {
+    function animateCow(timestamp, cow) {
         const deltaTime = timestamp - lastCowFrameTime;
         // Update the frame index based on deltaTime
         const frameRate = 250;
         if (deltaTime > frameRate) {
             const framesToAdvance = Math.floor(deltaTime / frameRate);
-            cow.frameIndex += framesToAdvance;
+            cows.forEach( cow => {
+                cow.frameIndex += framesToAdvance;
     
-            // Handle frame index limit
-            cow.frameIndex %= 5;
+                // Handle frame index limit
+                cow.frameIndex %= 5;})
     
             lastCowFrameTime = timestamp;
         }
     
         // Set the cow image based on cow speed
+        cows.forEach( cow => {
         if (cow.direction === 1) {
             cow.image = cowImages.right[cow.frameIndex];
         } else {
@@ -1312,7 +1319,7 @@ function startGame() {
 
         try{cowBoundary.pos.x = cow.pos.x;
         cowBoundary.pos.y = cow.pos.y;}
-        catch{}
+        catch{}})
 
         movePlayerWithCow()
     
@@ -1707,7 +1714,7 @@ function startGame() {
                     else if(soilTile.seedType=="corn"){
                         flash("corn", soilTile)}
                     // Update moveables list so that the removed harvested plant is no longer drawn
-                    moveables = [...boundaries, background, ...trees, ...allApples, ...soilTiles, chicken, cow, merchant, foreground, ...flashObjects];
+                    moveables = [...boundaries, background, ...trees, ...allApples, ...soilTiles, chicken, ...cows, merchant, foreground, ...flashObjects];
                     soilTile.lifeIndex = 0; // Reset lifeIndex
                     player.inventory[soilTile.seedType]++;
                     soilTile.seedType = null // No seed type after harvesting
@@ -1728,7 +1735,9 @@ function startGame() {
         // move the chicken
         chicken.update(boundaries);
         // move the cow
-        cow.move()
+        cows.forEach(cow => {
+            cow.move()
+        })
         // Draw all images which are moved when the player moves
         moveables.forEach(moveable => {
             moveable.draw();
@@ -1741,7 +1750,9 @@ function startGame() {
     
         // Draw the player after the moveables so it is at the front
         chicken.draw();
-        cow.draw();
+        cows.forEach(cow => {
+            cow.draw()
+        })
         player.draw();
         // Draw/redraw all images which are "on top" of the player
         // Draw foreground
@@ -1787,7 +1798,9 @@ function startGame() {
         requestAnimationFrame((timestamp) => {
             update(timestamp);
             animatePlayer(timestamp);
-            animateCow(timestamp)
+            cows.forEach(cow => {
+                animateCow(timestamp, cow)
+            })
             
         });
     }

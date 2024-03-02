@@ -173,10 +173,10 @@ export class Cow extends Sprite {
         this.pos.x += this.speed * this.direction;
 
         // Check if the cow has reached the left or right boundary
-        if (this.pos.x <= 1200 + this.background.pos.x) {
+        if (this.pos.x <= 1320 + this.background.pos.x) {
             // If reached left boundary, change direction to move right
             this.direction = 1;
-        } else if (this.pos.x >= 2300 + this.background.pos.x) {
+        } else if (this.pos.x >= 2220 + this.background.pos.x) {
             // If reached right boundary, change direction to move left
             this.direction = -1;
         }

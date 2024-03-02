@@ -1,7 +1,6 @@
 //imports
 import * as classes from './classes.js';
 import * as sorting from './sorting.js';
-import * as searching from './searching.js';
 
 //menu button event listeners
 document.getElementById('playButton').addEventListener('click', startGame);
@@ -1084,7 +1083,7 @@ function startGame() {
                 });
 
                 // update moveables list to reflect the updated trees and apples
-                moveables = [...boundaries, background, ...trees, ...allApples, ...soilTiles, chicken, cows, merchant, foreground, ...flashObjects];
+                moveables = [...boundaries, background, ...trees, ...allApples, ...soilTiles, chicken, ...cows, merchant, foreground, ...flashObjects];
 
                 // grow any plants which are watered
                 soilTiles.forEach(function(soilTile) {
@@ -1477,7 +1476,7 @@ function startGame() {
                         if(player.tools[player.tool_index] == "hoe"){
                             hoeAudio.play()
                             createNewSoilTile()
-                            moveables = [...boundaries, background, ...soilTiles, ...trees, ...allApples, chicken, cow, merchant, foreground];};
+                            moveables = [...boundaries, background, ...soilTiles, ...trees, ...allApples, chicken, ...cows, merchant, foreground];};
                         if(player.tools[player.tool_index] == "water"){
                             waterAudio.play()
                             changeSoilWaterStatus()

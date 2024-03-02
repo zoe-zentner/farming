@@ -1265,6 +1265,30 @@ function startGame() {
         moveables = [...boundaries, background, ...trees, ...allApples, ...soilTiles, chicken, cow, merchant, foreground, ...flashObjects];
     };
 
+    function movePlayerWithCow() {
+        const cowBoundary = {
+            pos: {
+                x: cow.pos.x,
+                y: cow.pos.y
+            },
+            width: cowImage.width,
+            height: cowImage.height
+        };
+        // Check for collision between player and cow
+        if (rectangularCollision({ rectangle1: player.hitbox, rectangle2: cowBoundary })) {
+            if (cow.direction === -1) {
+                moveables.forEach(moveable => {
+                    moveable.pos.x += 4})
+            }
+            else{
+                moveables.forEach(moveable => {
+                    moveable.pos.x -= 4})
+            }
+        }
+    }
+    
+    
+
     function animateCow(timestamp) {
         const deltaTime = timestamp - lastCowFrameTime;
         // Update the frame index based on deltaTime
@@ -1289,6 +1313,8 @@ function startGame() {
         try{cowBoundary.pos.x = cow.pos.x;
         cowBoundary.pos.y = cow.pos.y;}
         catch{}
+
+        movePlayerWithCow()
     
         requestAnimationFrame(animateCow);
     }

@@ -8,6 +8,20 @@
     src: url(./data/font/joystix\ monospace.otf);
 }
 
+#loading-screen {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    font: lycheeSoda;
+    color:#f7f2d5;
+    background-color: #1d1245;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
 .container {
     position: absolute;
     top: 8px;

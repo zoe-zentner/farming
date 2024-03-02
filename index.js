@@ -1708,6 +1708,10 @@ function startGame() {
         }
     }
 
+    // loading display while waiting for game to load
+    background.image.onload = () => {
+        document.getElementById('loading-screen').style.display = 'none'}
+
     // this loop will continually execute to make sure the screen is always up to date
     function update() {
         input();

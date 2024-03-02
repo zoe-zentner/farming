@@ -802,7 +802,7 @@ function startGame() {
     // Create three cow instances with random x-coordinates
     for (let i = 0; i < 3; i++) {
         const randomX = Math.floor(Math.random() * (2220 - 1320 + 1)) + 1200; // Random x-coordinate between 1200 and 2300
-        const cow = new classes.Cow({ pos: { x: randomX, y: 1350 + i * 100 }, image: cowImage, background: background, frameIndex: 0, direction: Math.random() < 0.5 ? 1 : -1 });
+        const cow = new classes.Cow({ pos: { x: randomX + background.pos.x, y: 1350 + i * 100 }, image: cowImage, background: background, frameIndex: 0, direction: Math.random() < 0.5 ? 1 : -1 });
         cows.push(cow);
     }
 
@@ -1251,23 +1251,6 @@ function startGame() {
         // Store each right-facing image in cowImages.right array
         cowImages.right.push(imgRight);
     }
-
-    let cowBoundary
-    cowImage.onload = function() {
-        // Create cow boundary after cowImage has finished loading
-        cows.forEach(cow => {
-            cowBoundary = new classes.Boundary({
-                pos: {
-                    x: cow.pos.x,
-                    y: cow.pos.y
-                },
-                width: cowImage.width,
-                height: cowImage.height
-            });
-            boundaries.push(cowBoundary);
-        })
-        moveables = [...boundaries, background, ...trees, ...allApples, ...soilTiles, chicken, ...cows, merchant, foreground, ...flashObjects];
-    };
 
     function movePlayerWithCow() {
         cows.forEach(cow => {
@@ -1771,10 +1754,6 @@ function startGame() {
         // Draw any "flashes" (image turning white before dissapearing)
         flashObjects.forEach(flashObject => {
             flashObject.draw()
-        })
-
-        boundaries.forEach(boundary =>{
-            boundary.draw()
         })
         
         // Draw the top 1/2 of the player image for visual effect

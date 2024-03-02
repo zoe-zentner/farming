@@ -338,7 +338,7 @@ function startGame() {
     seedImage.src = './graphics/overlay/corn.png';
 
     const cowImage = new Image()
-    cowImage.src = './graphics/cow/right/0.png';
+    cowImage.src = './graphics/cow/right/0.28.png';
 
     const bImage = new Image();
     bImage.src = "./graphics/soil/b.png";
@@ -800,7 +800,6 @@ function startGame() {
     const cow = new classes.Cow({
         pos: { x: 300, y: 1560 },
         image: cowImage,
-        status: "normal", 
         background: background, 
         frameIndex: 0
     });
@@ -949,7 +948,6 @@ function startGame() {
         }, 20000);
     }
     
-    
     // function to make image turn white and then dissapear
     function flash(objectType, objectToRemove) {
         let objectToFlash
@@ -992,7 +990,6 @@ function startGame() {
             }
         }, 300);
     }
-        
 
     //create a list of all apples
     let allApples = []
@@ -1158,7 +1155,6 @@ function startGame() {
         );
     }
 
-
     // initialise last frame time to be 0
     let lastPlayerFrameTime = 0;
     let lastCowFrameTime = 0;
@@ -1254,6 +1250,20 @@ function startGame() {
         cowImages.right.push(imgRight);
     }
 
+    let cowBoundary
+    cowImage.onload = function() {
+        // Create cow boundary after cowImage has finished loading
+        cowBoundary = new classes.Boundary({
+            pos: {
+                x: cow.pos.x,
+                y: cow.pos.y
+            },
+            width: cowImage.width,
+            height: cowImage.height
+        });
+        boundaries.push(cowBoundary);
+        moveables = [...boundaries, background, ...trees, ...allApples, ...soilTiles, chicken, cow, merchant, foreground, ...flashObjects];
+    };
 
     function animateCow(timestamp) {
         const deltaTime = timestamp - lastCowFrameTime;
@@ -1275,6 +1285,10 @@ function startGame() {
         } else {
             cow.image = cowImages.left[cow.frameIndex];
         }
+
+        try{cowBoundary.pos.x = cow.pos.x;
+        cowBoundary.pos.y = cow.pos.y;}
+        catch{}
     
         requestAnimationFrame(animateCow);
     }
@@ -1720,6 +1734,10 @@ function startGame() {
         // Draw any "flashes" (image turning white before dissapearing)
         flashObjects.forEach(flashObject => {
             flashObject.draw()
+        })
+
+        boundaries.forEach(boundary =>{
+            boundary.draw()
         })
         
         // Draw the top 1/2 of the player image for visual effect

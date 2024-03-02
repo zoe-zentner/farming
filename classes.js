@@ -164,7 +164,7 @@ export class Cow extends Sprite {
     constructor({ pos, image, status, background}) {
         super({ pos, image, status });
         this.background = background;
-        this.speed = 4;
+        this.speed = 8;
         this.direction = 1;
     }
 

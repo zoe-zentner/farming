@@ -1266,11 +1266,11 @@ function startGame() {
             if (rectangularCollision({ rectangle1: player.hitbox, rectangle2: cowBoundary })) {
                 if (cow.direction === -1) {
                     moveables.forEach(moveable => {
-                        moveable.pos.x += 4;
+                        moveable.pos.x += cow.speed;
                     });
                 } else {
                     moveables.forEach(moveable => {
-                        moveable.pos.x -= 4;
+                        moveable.pos.x -= cow.speed;
                     });
                 }
             }

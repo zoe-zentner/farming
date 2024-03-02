@@ -1611,6 +1611,7 @@ function startGame() {
                 const {t, r, b, l} = getNeighborTiles(soilTile.pos.x, soilTile.pos.y)
                 soilTile.image = changeSoilImage(t,b,l,r)
             }
+            moveables = [...boundaries, background, ...trees, ...allApples, ...soilTiles, chicken, ...cows, merchant, foreground, ...flashObjects];
         }
     }
 

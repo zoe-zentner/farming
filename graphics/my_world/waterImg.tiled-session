@@ -122,11 +122,11 @@
             "scaleInEditor": 1
         },
         "main map.tmx": {
-            "scale": 0.5744,
-            "selectedLayer": 0,
+            "scale": 0.4357,
+            "selectedLayer": 11,
             "viewCenter": {
-                "x": 2529.5961002785516,
-                "y": 1623.4331476323118
+                "x": 3571.2646316272667,
+                "y": 2590.0849208170757
             }
         },
         "tree_medium.tsx": {
@@ -147,8 +147,8 @@
     ],
     "project": "waterImg.tiled-project",
     "recentFiles": [
-        "tree_medium.tsx",
         "main map.tmx",
+        "tree_medium.tsx",
         "D:/NEA/graphics/my_world/main map.tmx",
         "Grass.tsx",
         "House Decoration.tsx",

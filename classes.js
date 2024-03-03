@@ -228,7 +228,6 @@ export class SoilTile extends Sprite{
     constructor({ pos, image, status}) {
     super({ pos, image, status})
     this.seedType = null
-    this.seedStatus = null
     this.lifeIndex = 0
     }
 }

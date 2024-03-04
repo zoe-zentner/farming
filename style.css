@@ -220,13 +220,13 @@
 }
 
 .sortByText {
-    top: 34%;
+    top: 36%;
     left: 100px;
     transform: translate(50%, -50%) rotate(180deg);
 }
 
 .orderByText {
-    top: 60%;
+    top: 65%;
     left: 100px;
     transform: translate(50%, -50%) rotate(180deg);
 }

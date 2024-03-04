@@ -470,29 +470,20 @@ function startGame() {
         // Access the global score variable here
         const playerScore = score; // Use the global score variable
     
+
         const container = document.createElement('div');
-        container.style.position = 'absolute';
-        container.style.top = '50%';
-        container.style.left = '50%';
-        container.style.transform = 'translate(-50%, -50%)'; 
-        container.style.backgroundColor = '#93cfc3'; 
-        container.style.padding = '20px';
-        container.style.opacity = '0.9';
-    
+        container.classList.add('input-container'); // Add input-container class
+        
         const nameLabel = document.createElement('label');
         nameLabel.textContent = 'Name: ';
-        nameLabel.style.fontFamily = 'LycheeSoda';
-        nameLabel.style.fontSize = '40px';
-    
+        nameLabel.classList.add('name-label'); // Add name-label class
+        
         const nameInput = document.createElement('input');
         nameInput.setAttribute('type', 'text');
         nameInput.setAttribute('maxlength', '7');
-        nameInput.style.marginLeft = '5px';
-        nameInput.style.width = '300px'; 
-        nameInput.style.height = '40px';
-        nameInput.style.fontSize = '24px';
-        nameInput.style.fontFamily = 'LycheeSoda';
-    
+        nameInput.classList.add('name-input'); // Add name-input class
+        
+        // Append elements to the container
         container.appendChild(nameLabel);
         container.appendChild(nameInput);
         document.body.appendChild(container);

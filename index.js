@@ -468,20 +468,19 @@ function startGame() {
     // END GAME function (input name and store this in json file)
     function endGame() {
         // Access the global score variable here
-        const playerScore = score; // Use the global score variable
+        const playerScore = score; // Use the (global) score variable
     
-
         const container = document.createElement('div');
-        container.classList.add('input-container'); // Add input-container class
+        container.classList.add('input-container'); 
         
         const nameLabel = document.createElement('label');
         nameLabel.textContent = 'Name: ';
-        nameLabel.classList.add('name-label'); // Add name-label class
+        nameLabel.classList.add('name-label'); 
         
         const nameInput = document.createElement('input');
         nameInput.setAttribute('type', 'text');
         nameInput.setAttribute('maxlength', '7');
-        nameInput.classList.add('name-input'); // Add name-input class
+        nameInput.classList.add('name-input'); 
         
         // Append elements to the container
         container.appendChild(nameLabel);

@@ -1064,8 +1064,12 @@ function startGame() {
                     tree.health = 5;
                     if (tree.image == smallStumpImage) {
                         tree.image = smallTreeImage;
+                        tree.pos.y -= 72
+                        tree.pos.x -= 12
                     } else if (tree.image == largeStumpImage) {
                         tree.image = largeTreeImage;
+                        tree.pos.y -= 80
+                        tree.pos.x -= 28
                     }
                     tree.apples = [];
                     tree.createApples();

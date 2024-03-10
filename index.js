@@ -80,16 +80,16 @@ function scoresDisplay() {
     const backButton = createBackButton();
     document.body.appendChild(backButton);
     document.getElementById('backButton').addEventListener('click', function() {
-        window.location.reload();
+        window.location.reload(); // reaload page if back button is pressed
     });
 
     // Create leaderboard text
     const leaderboardText = document.createElement('div');
     leaderboardText.textContent = 'Leaderboard:';
-    leaderboardText.classList.add('leaderboard-text');
+    leaderboardText.classList.add('leaderboard-text'); // apply leaderboard text class
     container.appendChild(leaderboardText);
 
-    // Create button elements with btn class applied
+    // Create all the toggle buttons
     const nameButton = createToggleButton('Name', container);
     const scoreButton = createToggleButton('Score', container);
     const ascendingButton = createToggleButton('Ascending', container);
@@ -98,12 +98,12 @@ function scoresDisplay() {
     // Create "Sort by" and "Order by" text elements
     const sortByText = document.createElement('div');
     sortByText.textContent = '┍--Sort by--┑';
-    sortByText.classList.add('vertical-text', 'sortByText');
+    sortByText.classList.add('vertical-text', 'sortByText'); // apply text classes
     document.body.appendChild(sortByText);
 
     const orderByText = document.createElement('div');
     orderByText.textContent = '┍--Order by--┑';
-    orderByText.classList.add('vertical-text', 'orderByText');
+    orderByText.classList.add('vertical-text', 'orderByText'); // apply text classes
     document.body.appendChild(orderByText);
 
     // Function to create a toggle button
@@ -158,6 +158,7 @@ function scoresDisplay() {
             }
         }
 
+        // boolean values to check if each button is active or not
         const scoreIsActive = scoreButton.classList.contains('active');
         const ascendingIsActive = ascendingButton.classList.contains('active');
         const nameIsActive = nameButton.classList.contains('active');
@@ -167,23 +168,20 @@ function scoresDisplay() {
         if (scoreIsActive && ascendingIsActive) {
             // Call the sorting function when both buttons are active
             sortedData = sorting.sortByScoresAscending();
-            displayLeaderboard(container, sortedData);
         }
         else if (scoreIsActive && descendingIsActive) {
             // Call the sorting function when both buttons are active
             sortedData = sorting.sortByScoresDescending();
-            displayLeaderboard(container, sortedData);
         }
         else if (nameIsActive && ascendingIsActive) {
             // Call the sorting function when both buttons are active
             sortedData = sorting.sortByNamesAscending();
-            displayLeaderboard(container, sortedData);
         }
         else if (nameIsActive && descendingIsActive) {
             // Call the sorting function when both buttons are active
             sortedData = sorting.sortByNamesDescending();
-            displayLeaderboard(container, sortedData);
         }
+        displayLeaderboard(container, sortedData);
     }
 }
 
@@ -200,13 +198,13 @@ function displayLeaderboard(container, sortedData) {
         return `${name}${score}`;
     }).join('\n');
 
-    const header = 'Name:        Score:\n'; // Adjust the spacing as needed
+    const header = 'Name:        Score:\n'; // column titles
     const dataWithHeaders = header + formattedData;
 
     // Create textarea element for leaderboard
     const textarea = document.createElement('textarea');
     textarea.textContent = dataWithHeaders;
-    textarea.classList.add('leaderboard-textarea'); // Add the class for styling
+    textarea.classList.add('leaderboard-textarea'); 
     textarea.readOnly = true; // Make the textarea read-only
 
     // Append textarea to the leaderboard container
@@ -220,8 +218,7 @@ function displayLeaderboard(container, sortedData) {
 function createBackButton(){
     const backButton = document.createElement('button');
     backButton.textContent = '⇦';
-    backButton.classList.add('btn'); // Add general button styles
-    backButton.classList.add('back-button'); // Add the class for styling
+    backButton.classList.add('btn', 'back-button'); // Apply classes
     backButton.id = "backButton";
     return backButton;
 }
@@ -229,20 +226,19 @@ function createBackButton(){
 function createMusicButton() {
     const musicButton = document.createElement('button');
     musicButton.textContent = 'Music';
-    musicButton.classList.add('btn');
-    musicButton.classList.add('music-button'); // Add the class for styling
+    musicButton.classList.add('btn', 'music-button'); // apply styling classes
     musicButton.id = "musicButton";
     return musicButton;
 }
 
 function instructionsDisplay() {
-    document.getElementById('loading-screen').style.display = 'none'
+    document.getElementById('loading-screen').style.display = 'none' // hide loading screen
     const container = this.parentElement;
-    container.remove();
+    container.remove(); // remove container
 
     const instructionsText = document.createElement('div');
     instructionsText.textContent = 'instructions: ';
-    instructionsText.classList.add('instructions-text');
+    instructionsText.classList.add('instructions-text'); // apply styling class
     document.body.appendChild(instructionsText);
 
     const playerMovementText = document.createElement('div');
@@ -254,41 +250,44 @@ function instructionsDisplay() {
     "Change Tool: q\n" +
     "Change Seed: e\n" +
     "Sleep: n (must be in house)";
-    playerMovementText.classList.add('player-movement-text');
+    playerMovementText.classList.add('player-movement-text'); // apply styling class
     document.body.appendChild(playerMovementText);
 
     const howToPlayText = document.createElement('div');
     howToPlayText.textContent = 
     "How To Play:\n\n" +
     "the aim of this game is to accumalate as high of a score as you can by growing crops and cutting trees. Grow crops and regrow chopped trees by going to sleep in your house. Click on the merchant to trade your resources for points!";
-    howToPlayText.classList.add('how-to-play-text');
+    howToPlayText.classList.add('how-to-play-text'); // apply styling class
     document.body.appendChild(howToPlayText);
 
     const backButton = createBackButton();
-    document.body.appendChild(backButton);
+    document.body.appendChild(backButton); // add a back button
     document.getElementById('backButton').addEventListener('click', function() {
-        window.location.reload();
+        window.location.reload(); // reload the page if the back button is clicked
     });
 }
 
 function settingsfunction() {
-    document.getElementById('loading-screen').style.display = 'none'
+    document.getElementById('loading-screen').style.display = 'none' // hide loading screen
     const container = this.parentElement;
     container.remove();
 
+    // text which says settings
     const settingsText = document.createElement('div');
     settingsText.textContent = 'settings: ';
     settingsText.classList.add('settings-text');
     document.body.appendChild(settingsText);
 
+    // background image of music notes
     const musicImage = new Image()
     musicImage.src = './graphics/musicImage.png'
     musicImage.classList.add('musicImage');
     document.body.appendChild(musicImage);
 
-    const musicButton = createMusicButton();
+    const musicButton = createMusicButton(); // create a music button
     document.body.appendChild(musicButton);
-    const musicState = localStorage.getItem('musicState');
+    const musicState = localStorage.getItem('musicState'); // check whether music is playing or not
+    // change the button state accordingly
     if (musicState === 'playing') {
         musicButton.classList.add('active');
     } else {
@@ -296,10 +295,10 @@ function settingsfunction() {
     }
     document.getElementById('musicButton').addEventListener('click', playAudio);
 
-    const backButton = createBackButton();
+    const backButton = createBackButton(); // create a back button
     document.body.appendChild(backButton);
     document.getElementById('backButton').addEventListener('click', function() {
-        window.location.reload();
+        window.location.reload(); // reload page if button ispressed
     });
 }
 
@@ -449,7 +448,7 @@ function startGame() {
         document.body.appendChild(scoreBox);
     }
 
-    // G L O B A L constants and variables
+    // general G L O B A L constants and variables for the game
     let score = 0;
     const container = this.parentElement;
     container.remove();
@@ -471,16 +470,16 @@ function startGame() {
         const playerScore = score; // Use the (global) score variable
     
         const container = document.createElement('div');
-        container.classList.add('input-container'); 
+        container.classList.add('input-container'); // apply styling class
         
         const nameLabel = document.createElement('label');
         nameLabel.textContent = 'Name: ';
-        nameLabel.classList.add('name-label'); 
+        nameLabel.classList.add('name-label'); // apply styling class
         
         const nameInput = document.createElement('input');
         nameInput.setAttribute('type', 'text');
-        nameInput.setAttribute('maxlength', '7');
-        nameInput.classList.add('name-input'); 
+        nameInput.setAttribute('maxlength', '7'); // limit the characters in the name input
+        nameInput.classList.add('name-input'); // apply styling class
         
         // Append elements to the container
         container.appendChild(nameLabel);
@@ -1162,7 +1161,7 @@ function startGame() {
     let lastPlayerFrameTime = 0;
     let lastCowFrameTime = 0;
 
-    // Arrays to hold images for each direction and tool
+    // Create arrays which hold images for each direction and tool
     const playerImages = {};
 
     const directions = ['down', 'up', 'left', 'right'];
@@ -1219,7 +1218,6 @@ function startGame() {
             player.frameIndex += framesToAdvance;
             // Handle frame index limit
             player.frameIndex %= 4;
-
             lastPlayerFrameTime = timestamp;
         }
 
@@ -1253,6 +1251,7 @@ function startGame() {
         cowImages.right.push(imgRight);
     }
 
+    // function which moves the player along with the cow
     function movePlayerWithCow() {
         cows.forEach(cow => {
             const cowBoundary = {
@@ -1278,6 +1277,7 @@ function startGame() {
         });
     }
 
+    // cow walking animation
     function animateCow(timestamp) {
         const deltaTime = timestamp - lastCowFrameTime;
         // Update the frame index based on deltaTime
@@ -1307,7 +1307,7 @@ function startGame() {
         })
 
         movePlayerWithCow()
-    
+        // call recursively for a loop
         requestAnimationFrame(animateCow);
     }
     
@@ -1597,8 +1597,8 @@ function startGame() {
         // rounded values to make sure soil lines up with tile size
         const roundedX = player.pos.x + toolOffset[player.direction].x+ background.pos.x%64
         const roundedY = player.pos.y + toolOffset[player.direction].y + background.pos.y%64
-        const soilTileExists = doesSoilTileExist(roundedX, roundedY)
-        if (!soilTileExists){
+        const soilTileExists = doesSoilTileExist(roundedX, roundedY) //check for a soil tile in that position
+        if (!soilTileExists){ // if there's no soil tile there, create one
             soilTiles.push(new classes.SoilTile({
                 pos: {
                     x: roundedX,
@@ -1609,7 +1609,7 @@ function startGame() {
             }));
             for (const soilTile of soilTiles) {
                 const {t, r, b, l} = getNeighborTiles(soilTile.pos.x, soilTile.pos.y)
-                soilTile.image = changeSoilImage(t,b,l,r)
+                soilTile.image = changeSoilImage(t,b,l,r) // change the image so that soil tiles join up
             }
             moveables = [...boundaries, background, ...trees, ...allApples, ...soilTiles, chicken, ...cows, merchant, foreground, ...flashObjects];
         }
@@ -1622,7 +1622,7 @@ function startGame() {
             'right': { x: 55, y: 64 },
             'up': { x: 55, y: 64 },
             'down': { x: 55, y: 128 }
-        };
+        }; // dictionary to offset the tool from the player's position
 
         // rounded values to up with tile size since soil tiles cant be anywhere else
         const roundedX = player.pos.x + toolOffset[player.direction].x + background.pos.x % 64;
@@ -1772,13 +1772,6 @@ function startGame() {
         //overlay
         c.drawImage(toolImage, tool.pos.x, tool.pos.y);
         c.drawImage(seedImage, seed.pos.x, seed.pos.y);
-    
-        // Find the shortest path using A* algorithm
-        // let chickenPos = { x: Math.floor(chicken.pos.x / 64), y: Math.floor(chicken.pos.y / 64) };
-        // let playerPos = { x: Math.floor(player.pos.x / 64), y: Math.floor(player.pos.y / 64) };
-        // // try{let shortestPath = searching.search(chickenPos, playerPos);
-        // console.log(shortestPath)}
-        // catch{}
     
         // make sure that updates are relative to how much time has passed since last update
         requestAnimationFrame((timestamp) => {

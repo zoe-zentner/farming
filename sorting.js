@@ -59,9 +59,6 @@ function insertionSortByScoreDescending(arr) {
 export function sortByNamesAscending() {
     const storedEntries = getStoredEntries();
     const sortedEntries = insertionSortByNameAscending(storedEntries.slice());
-    // sortedEntries.forEach(entry => {
-    //     console.log(`Name: ${entry.name}, Score: ${entry.score}`);
-    // });
     return sortedEntries
 }
 
@@ -69,9 +66,6 @@ export function sortByNamesAscending() {
 export function sortByNamesDescending() {
     const storedEntries = getStoredEntries();
     const sortedEntries = insertionSortByNameDescending(storedEntries.slice());
-    // sortedEntries.forEach(entry => {
-    //     console.log(`Name: ${entry.name}, Score: ${entry.score}`);
-    // });
     return sortedEntries
 }
 
@@ -79,9 +73,6 @@ export function sortByNamesDescending() {
 export function sortByScoresAscending() {
     const storedEntries = getStoredEntries();
     const sortedEntries = insertionSortByScoreAscending(storedEntries.slice());
-    // sortedEntries.forEach(entry => {
-    //     console.log(`Name: ${entry.name}, Score: ${entry.score}`);
-    // });
     return sortedEntries
 }
 
@@ -89,8 +80,5 @@ export function sortByScoresAscending() {
 export function sortByScoresDescending() {
     const storedEntries = getStoredEntries();
     const sortedEntries = insertionSortByScoreDescending(storedEntries.slice());
-    // sortedEntries.forEach(entry => {
-    //     console.log(`Name: ${entry.name}, Score: ${entry.score}`);
-    // });
     return sortedEntries
 }

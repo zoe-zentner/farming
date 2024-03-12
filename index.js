@@ -471,6 +471,7 @@ function startGame() {
     const container = this.parentElement;
     container.remove();
 
+    const TILE_SIZE = 64
     const MOVEMENT_speed = 5;
 
     const canvas = document.querySelector('canvas');
@@ -605,43 +606,43 @@ function startGame() {
                 boundaries.push(
                     new classes.Boundary({
                         pos: {
-                            x: j * 64 + offset.x,
-                            y: i * 64 + offset.y
+                            x: j * TILE_SIZE + offset.x,
+                            y: i * TILE_SIZE + offset.y
                         },
-                        width: 64,
-                        height: 64
+                        width: TILE_SIZE,
+                        height: TILE_SIZE
                     })
                 );
             } else if (symbol === 268) {
                 boundaries.push(
                     new classes.Boundary({
                         pos: {
-                            x: j * 64 + offset.x + 32,
-                            y: i * 64 + offset.y
+                            x: j * TILE_SIZE + offset.x + 32,
+                            y: i * TILE_SIZE + offset.y
                         },
                         width: 32,
-                        height: 64
+                        height: TILE_SIZE
                     })
                 );
             } else if (symbol === 269) {
                 boundaries.push(
                     new classes.Boundary({
                         pos: {
-                            x: j * 64 + offset.x,
-                            y: i * 64 + offset.y
+                            x: j * TILE_SIZE + offset.x,
+                            y: i * TILE_SIZE + offset.y
                         },
                         width: 32,
-                        height: 64
+                        height: TILE_SIZE
                     })
                 );
             } else if (symbol === 270) {
                 boundaries.push(
                     new classes.Boundary({
                         pos: {
-                            x: j * 64 + offset.x,
-                            y: i * 64 + offset.y + 32
+                            x: j * TILE_SIZE + offset.x,
+                            y: i * TILE_SIZE + offset.y + 32
                         },
-                        width: 64,
+                        width: TILE_SIZE,
                         height: 32
                     })
                 );
@@ -862,8 +863,8 @@ function startGame() {
     for (let i = 0; i < 30; i++) {
         for (let j = 0; j < 7; j++) {
             // Calculate the coordinates of the current tile
-            const tileX = player.pos.x + background.pos.x + 64*40 + i * 64;
-            const tileY = player.pos.y + background.pos.y + 64*36 + j * 64;
+            const tileX = player.pos.x + background.pos.x + TILE_SIZE*40 + i * TILE_SIZE;
+            const tileY = player.pos.y + background.pos.y + TILE_SIZE*36 + j * TILE_SIZE;
             
             // Generate a random number between 0 and 1 to determine if a tree should be placed and what size
             const chanceOfTree = Math.random();
@@ -876,8 +877,8 @@ function startGame() {
                     tree = new classes.Tree({pos:{x:tileX, y:tileY}, size:"large", image:largeTreeImage});
                     const boundary = new classes.Boundary({
                         pos: { x: tileX + 15, y: tileY +44},
-                        width: 64,
-                        height: 64
+                        width: TILE_SIZE,
+                        height: TILE_SIZE
                     });
                     boundaries.push(boundary);
                 }
@@ -905,12 +906,12 @@ function startGame() {
         for (let i = 0; i < widthInTiles; i++) {
             for (let j = 0; j < heightInTiles; j++) {
                 // Calculate the coordinates of the current tile
-                const tileX = player.pos.x + background.pos.x + 64 * Xtiles + i * 64;
-                const tileY = player.pos.y + background.pos.y + 64 * Ytiles + j * 64;
+                const tileX = player.pos.x + background.pos.x + TILE_SIZE * Xtiles + i * TILE_SIZE;
+                const tileY = player.pos.y + background.pos.y + TILE_SIZE * Ytiles + j * TILE_SIZE;
     
                 // Check if the current tile collides with the player or the chicken
-                const collidesWithPlayer = rectangularCollision({ rectangle1: { x: tileX, y: tileY, width: 64, height: 64 }, rectangle2: { pos: { x: 554, y: 298 }, width: 128, height: 128 } });
-                const collidesWithChicken = rectangularCollision({ rectangle1: { x: tileX, y: tileY, width: 64, height: 128 }, rectangle2: chicken });
+                const collidesWithPlayer = rectangularCollision({ rectangle1: { x: tileX, y: tileY, width: TILE_SIZE, height: TILE_SIZE }, rectangle2: { pos: { x: 554, y: 298 }, width: 128, height: 128 } });
+                const collidesWithChicken = rectangularCollision({ rectangle1: { x: tileX, y: tileY, width: TILE_SIZE, height: 128 }, rectangle2: chicken });
     
                 // Generate a random number between 0 and 1 to determine if a tree should be placed and what size
                 const chanceOfTree = Math.random();
@@ -925,8 +926,8 @@ function startGame() {
                         tree = new classes.Tree({ pos: { x: tileX, y: tileY }, size: "large", image: largeTreeImage });
                         boundary = new classes.Boundary({
                             pos: { x: tileX + 15, y: tileY + 44 },
-                            width: 64,
-                            height: 64
+                            width: TILE_SIZE,
+                            height: TILE_SIZE
                         });
                     } else {
                         tree = new classes.Tree({ pos: { x: tileX, y: tileY }, size: "small", image: smallTreeImage });
@@ -1035,7 +1036,7 @@ function startGame() {
                 const distance = Math.sqrt(Math.pow(distanceX, 2) + Math.pow(distanceY, 2));
     
                 // If the player is close enough to the tree, log the tree
-                if (distance < 64) {
+                if (distance < TILE_SIZE) {
                     tree.health -= 1
                     // remove apple if present
                     if (tree.apples.length > 0) {
@@ -1559,10 +1560,10 @@ function startGame() {
 
     // checks existence of soil tiles above below left and right
     function getNeighborTiles(x, y) {
-        const t = doesSoilTileExist(x, y - 64);
-        const r = doesSoilTileExist(x + 64, y);
-        const b = doesSoilTileExist(x, y + 64);
-        const l = doesSoilTileExist(x - 64, y);
+        const t = doesSoilTileExist(x, y - TILE_SIZE);
+        const r = doesSoilTileExist(x + TILE_SIZE, y);
+        const b = doesSoilTileExist(x, y + TILE_SIZE);
+        const l = doesSoilTileExist(x - TILE_SIZE, y);
         return {t, r, b, l};
     }
 
@@ -1608,13 +1609,13 @@ function startGame() {
 
     // function to create a new soil tile
     function createNewSoilTile() {
-        const toolOffset = {'left': {x: 55, y:64},
-        'right': {x: 55, y:64},
-        'up': {x: 55, y:64},
+        const toolOffset = {'left': {x: 55, y:TILE_SIZE},
+        'right': {x: 55, y:TILE_SIZE},
+        'up': {x: 55, y:TILE_SIZE},
         'down': {x: 55, y:128}}
         // rounded values to make sure soil lines up with tile size
-        const roundedX = player.pos.x + toolOffset[player.direction].x+ background.pos.x%64
-        const roundedY = player.pos.y + toolOffset[player.direction].y + background.pos.y%64
+        const roundedX = player.pos.x + toolOffset[player.direction].x+ background.pos.x%TILE_SIZE
+        const roundedY = player.pos.y + toolOffset[player.direction].y + background.pos.y%TILE_SIZE
         const soilTileExists = doesSoilTileExist(roundedX, roundedY) //check for a soil tile in that position
         if (!soilTileExists){ // if there's no soil tile there, create one
             soilTiles.push(new classes.SoilTile({
@@ -1636,15 +1637,15 @@ function startGame() {
     // function to update the status of a soil tile
     function changeSoilWaterStatus() {
         const toolOffset = {
-            'left': { x: 55, y: 64 },
-            'right': { x: 55, y: 64 },
-            'up': { x: 55, y: 64 },
+            'left': { x: 55, y: TILE_SIZE },
+            'right': { x: 55, y: TILE_SIZE },
+            'up': { x: 55, y: TILE_SIZE },
             'down': { x: 55, y: 128 }
         }; // dictionary to offset the tool from the player's position
 
         // rounded values to up with tile size since soil tiles cant be anywhere else
-        const roundedX = player.pos.x + toolOffset[player.direction].x + background.pos.x % 64;
-        const roundedY = player.pos.y + toolOffset[player.direction].y + background.pos.y % 64;
+        const roundedX = player.pos.x + toolOffset[player.direction].x + background.pos.x % TILE_SIZE;
+        const roundedY = player.pos.y + toolOffset[player.direction].y + background.pos.y % TILE_SIZE;
         const soilTileExists = doesSoilTileExist(roundedX, roundedY);
     
         // Check if a soil tile exists at the calculated position
@@ -1662,15 +1663,15 @@ function startGame() {
     // function to plant a seed
     function plantSeed(){
         const toolOffset = {
-            'left': { x: 55, y: 64 },
-            'right': { x: 55, y: 64 },
-            'up': { x: 55, y: 64 },
+            'left': { x: 55, y: TILE_SIZE },
+            'right': { x: 55, y: TILE_SIZE },
+            'up': { x: 55, y: TILE_SIZE },
             'down': { x: 55, y: 128 }
         };
 
         // rounded values to up with tile size since soil tiles cant be anywhere else
-        const roundedX = player.pos.x + toolOffset[player.direction].x + background.pos.x % 64;
-        const roundedY = player.pos.y + toolOffset[player.direction].y + background.pos.y % 64;
+        const roundedX = player.pos.x + toolOffset[player.direction].x + background.pos.x % TILE_SIZE;
+        const roundedY = player.pos.y + toolOffset[player.direction].y + background.pos.y % TILE_SIZE;
         const soilTileExists = doesSoilTileExist(roundedX, roundedY);
     
         // Check if a soil tile exists at the calculated position
@@ -1706,8 +1707,8 @@ function startGame() {
                     rectangle1: player.hitbox,
                     rectangle2: {
                         pos: soilTile.pos,
-                        width: 64,
-                        height: 64
+                        width: TILE_SIZE,
+                        height: TILE_SIZE
                     }
                 })) {
                 // Check if the soil tile has a plant with lifeIndex 3 (which is the last stage of growth)

@@ -303,6 +303,23 @@ function settingsfunction() {
 }
 
 function startGame() {
+
+    // Remove event listeners from each element
+    const playButton = document.getElementById('playButton');
+    playButton.removeEventListener('click', startGame);
+    
+    const quitButton = document.getElementById('quitButton');
+    quitButton.removeEventListener('click', () => window.close());
+    
+    const menuSettingsButton = document.getElementById('menuSettingsButton');
+    menuSettingsButton.removeEventListener('click', settingsfunction);
+    
+    const instructionsButton = document.getElementById('instructionsButton');
+    instructionsButton.removeEventListener('click', instructionsDisplay);
+    
+    const scoresButton = document.getElementById('scoresButton');
+    scoresButton.removeEventListener('click', scoresDisplay);
+    
     // A U D I O  imports
     const axeAudio = new Audio();
     axeAudio.src = './audio/axe.mp3';
@@ -450,6 +467,7 @@ function startGame() {
 
     // general G L O B A L constants and variables for the game
     let score = 0;
+    
     const container = this.parentElement;
     container.remove();
 
@@ -466,6 +484,11 @@ function startGame() {
     
     // END GAME function (input name and store this in json file)
     function endGame() {
+        endGameButton.removeEventListener('click', endGame);
+        canvas.removeEventListener('click', canvasClickListener);
+        window.removeEventListener('keydown', keydownListener);
+        window.removeEventListener('keyup', keyupListener);
+
         // Access the global score variable here
         const playerScore = score; // Use the (global) score variable
     
@@ -517,7 +540,7 @@ function startGame() {
     function chanceOfRain() {
         let raining = false;
         let number = Math.floor(Math.random() * 100) + 1;
-        if (number >= 30) {
+        if (number >= 70) {
             raining = true;
         } else {
             raining = false
@@ -735,18 +758,20 @@ function startGame() {
         merchantInteraction();
     }
 
-    canvas.addEventListener('click', function(event) {
+    // Define the click event listener function
+    function canvasClickListener(event) {
         // Get the mouse position relative to the canvas
         const rect = canvas.getBoundingClientRect();
         const mouseX = event.clientX - rect.left;
         const mouseY = event.clientY - rect.top;
-    
+
         // Check if the mouse click occurred within the bounding box of the merchant
         if (mouseX >= merchant.pos.x && mouseX <= merchant.pos.x + merchantImage.width &&
             mouseY >= merchant.pos.y && mouseY <= merchant.pos.y + merchantImage.height) {
             merchantInteraction();
         }
-    });
+    }
+    canvas.addEventListener('click', canvasClickListener);
 
     // create the player using the player class
     const player = new classes.Player({
@@ -1436,97 +1461,90 @@ function startGame() {
         
     }
 
-    // function to handle inputs from user
-    function input() {
-        // event listeners for pressing a key down
-        window.addEventListener('keydown', (e) => {
-            switch (e.key) {
-                case 'd':
-                    keys.d.pressed = true;
-                    break;
-
-                case 'a':
-                    keys.a.pressed = true;
-                    break;
-
-                case 'w':
-                    keys.w.pressed = true;
-                    break;
-
-                case 's':
-                    keys.s.pressed = true;
-                    break;
-                case 'q':
-                    if (!player.timers['tool switch'].active) {
-                        player.tool_index = (player.tool_index + 1) % player.tools.length;
-                        toolImage.src = './graphics/overlay/' + player.tools[player.tool_index] + '.png'
-                        player.timers['tool switch'].activate();
+    function keydownListener(e) {
+        switch (e.key) {
+            case 'd':
+                keys.d.pressed = true;
+                break;
+            case 'a':
+                keys.a.pressed = true;
+                break;
+            case 'w':
+                keys.w.pressed = true;
+                break;
+            case 's':
+                keys.s.pressed = true;
+                break;
+            case 'q':
+                if (!player.timers['tool switch'].active) {
+                    player.tool_index = (player.tool_index + 1) % player.tools.length;
+                    toolImage.src = './graphics/overlay/' + player.tools[player.tool_index] + '.png';
+                    player.timers['tool switch'].activate();
+                }
+                break;
+            case 'e':
+                if (!player.timers['seed switch'].active) {
+                    player.seed_index = (player.seed_index + 1) % player.seeds.length;
+                    seedImage.src = './graphics/overlay/' + player.seeds[player.seed_index] + '.png';
+                    player.timers['seed switch'].activate();
+                }
+                break;
+            case 'p':
+                if (!player.timers['tool use'].active) {
+                    player.timers['tool use'].activate();
+                    player.frameIndex = 0;
+                    if (player.tools[player.tool_index] === "hoe") {
+                        hoeAudio.play();
+                        createNewSoilTile();
+                        moveables = [...boundaries, background, ...soilTiles, ...trees, ...allApples, chicken, ...cows, merchant, foreground];
                     }
-                    break;
-                case 'e':
-                    if (!player.timers['seed switch'].active) {
-                        player.seed_index = (player.seed_index + 1) % player.seeds.length;
-                        seedImage.src = './graphics/overlay/' + player.seeds[player.seed_index] + '.png';
-                        player.timers['seed switch'].activate();
+                    if (player.tools[player.tool_index] === "water") {
+                        waterAudio.play();
+                        changeSoilWaterStatus();
+                        drawMud();
                     }
-                    break
-                case 'p':
-                    if (!player.timers['tool use'].active){
-                        player.timers['tool use'].activate();
-                        player.frameIndex = 0
-                        if(player.tools[player.tool_index] == "hoe"){
-                            hoeAudio.play()
-                            createNewSoilTile()
-                            moveables = [...boundaries, background, ...soilTiles, ...trees, ...allApples, chicken, ...cows, merchant, foreground];};
-                        if(player.tools[player.tool_index] == "water"){
-                            waterAudio.play()
-                            changeSoilWaterStatus()
-                            drawMud()
-                        }
-                        if(player.tools[player.tool_index] == "axe"){
-                            axeAudio.play()
-                            hitTree()
-                        }
-                    }
-                    break;
-                case 'o':
-                    if (!player.timers['seed use'].active){
-                        plantAudio.play()
-                        plantSeed()
-                        player.timers['seed use'].activate();
-                    }
-                    break;
-                case 'n':
-                    if((background.pos.x > -1735 && background.pos.x < -1245)  && (background.pos.y < -950 && background.pos.y > -1205)){
-                        if (!player.timers['new day'].active){
-                            startNewDay()
-                            player.timers['new day'].activate();
-                        }
+                    if (player.tools[player.tool_index] === "axe") {
+                        axeAudio.play();
+                        hitTree();
                     }
                 }
-            });
-
-        // event listeners for the release of certain keys
-        window.addEventListener('keyup', (e) => {
-            switch (e.key) {
-                case 'd':
-                    keys.d.pressed = false;
-                    break;
-
-                case 'a':
-                    keys.a.pressed = false;
-                    break;
-
-                case 'w':
-                    keys.w.pressed = false;
-                    break;
-
-                case 's':
-                    keys.s.pressed = false;
-                    break;
-            }
-        });
+                break;
+            case 'o':
+                if (!player.timers['seed use'].active) {
+                    plantAudio.play();
+                    plantSeed();
+                    player.timers['seed use'].activate();
+                }
+                break;
+            case 'n':
+                if (!player.timers['new day'].active) {
+                    startNewDay();
+                    player.timers['new day'].activate();
+                }
+                break;
+        }
     }
+
+    // Define the keyup event listener function
+    function keyupListener(e) {
+        switch (e.key) {
+            case 'd':
+                keys.d.pressed = false;
+                break;
+            case 'a':
+                keys.a.pressed = false;
+                break;
+            case 'w':
+                keys.w.pressed = false;
+                break;
+            case 's':
+                keys.s.pressed = false;
+                break;
+        }
+    }
+
+    window.addEventListener('keydown', keydownListener);
+    window.addEventListener('keyup', keyupListener);
 
 // S O I L functions
     // check if a soil tile exists at a specific coordinate
@@ -1715,7 +1733,6 @@ function startGame() {
 
     // this loop will continually execute to make sure the screen is always up to date
     function update() {
-        input();
     
         // Clear the canvas
         c.clearRect(0, 0, canvas.width, canvas.height);
